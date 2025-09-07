@@ -55,7 +55,7 @@ public class Resource : IResource
 public class ResourcesManager : MonoBehaviour
 {
     // 인터페이스 타입 리스트로 자원을 관리하여 유연성을 확보합니다.
-    [SerializeField] private List<Resource> resources = new List<Resource>();
+    [SerializeField] public List<Resource> resources = new List<Resource>();
 
     /// <summary>
     /// 초기 자원 설정

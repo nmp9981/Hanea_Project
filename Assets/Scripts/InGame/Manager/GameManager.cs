@@ -26,5 +26,4 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public ResourcesManager resourcesManager;
 }
