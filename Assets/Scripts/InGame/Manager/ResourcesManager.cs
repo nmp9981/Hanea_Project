@@ -19,6 +19,9 @@ public interface IResource
 [System.Serializable]
 public class Resource : IResource
 {
+    // 자원 변경 시 호출될 이벤트
+    public event System.Action OnChanged;
+
     //속성 정의
     [SerializeField] private string _name;
     [SerializeField] private int _curCount;
@@ -34,18 +37,53 @@ public class Resource : IResource
     //자원 획득
     public void Gain(int amount)
     {
+        int prevCount = _curCount;
         _curCount = Mathf.Min(_curCount + amount, _maxCount);
+
+        //값 변경
+        if (_curCount != prevCount)
+        {
+            OnChanged?.Invoke();
+        }
     }
 
     //자원 소비
     public void Consume(int amount)
     {
+        int prevCount = _curCount;
         _curCount = Mathf.Max(_curCount - amount, 0);
+
+        //값 변경
+        if (_curCount != prevCount)
+        {
+            OnChanged?.Invoke();
+        }
     }
     //자원 수입
     public void Import()
     {
+        int prevCount = _curCount;
         Gain(_importAmount);
+
+        //값 변경
+        if (_curCount != prevCount)
+        {
+            OnChanged?.Invoke();
+        }
+    }
+    //자원 수입량 증감
+    public void ImportAmount_Change(int amount)
+    {
+        int prevCount = _curCount;
+        _importAmount += amount;
+        //수입량이 0미만으로 떨어지지 않음
+        _importAmount = Mathf.Max(_importAmount + amount, 0);
+
+        //값 변경
+        if (_curCount != prevCount)
+        {
+            OnChanged?.Invoke();
+        }
     }
 }
 
@@ -79,5 +117,12 @@ public class ResourcesManager : MonoBehaviour
         {
             resource.Import();
         }
+    }
+
+    //자원 수입량 증감
+    public void ImportResourceAmount_UpDown(string resourceName, int increaseAmount)
+    {
+        Resource res = resources.Find(r=>r.Name == resourceName);
+        if (res != null) res.ImportAmount_Change(increaseAmount);
     }
 }

@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// 플레이어의 액션 관리
+/// </summary>
 public class PlayerManager : MonoBehaviour
 {
     // 플레이어는 자원 관리자를 가지고 있다 (has-a)
@@ -10,9 +13,7 @@ public class PlayerManager : MonoBehaviour
 
     public void OnClickTradeButton()
     {
-        // 버튼 클릭 시, 자원 교환 로직 호출
-        // 나무 50개를 소모하여 골드 10개로 교환
-        resourceExchanger.Exchange_AToB("Wood", 50, "Gold", 10);
+        
     }
     private void Awake()
     {
@@ -24,4 +25,52 @@ public class PlayerManager : MonoBehaviour
         //자원 수입
         resourcesManager.ImportAllResources();
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            OnClick_Exchange_OreToMoney();
+        }
+    }
+
+
+    #region 자원 변환 - Free Action
+    /// <summary>
+    /// 광석 -> 돈
+    /// </summary>
+    public void OnClick_Exchange_OreToMoney()
+    {
+        resourceExchanger.Exchange_AToB("Ore", 1, "Money", 2);
+    }
+    /// <summary>
+    /// 에너지 -> 돈
+    /// </summary>
+    public void OnClick_Exchange_EnergyToMoney()
+    {
+        resourceExchanger.Exchange_AToB("Energy", 1, "Money", 1);
+    }
+    /// <summary>
+    /// 에너지 -> 광석
+    /// </summary>
+    public void OnClick_Exchange_EnergyToOre()
+    {
+        resourceExchanger.Exchange_AToB("Energy", 3, "Ore", 1);
+    }
+    /// <summary>
+    /// 에너지 -> 지식
+    /// </summary>
+    public void OnClick_Exchange_EnergyToKnowledge()
+    {
+        resourceExchanger.Exchange_AToB("Energy", 4, "Knowledge", 1);
+    }
+    /// <summary>
+    /// 에너지 -> 돈
+    /// </summary>
+    public void OnClick_Exchange_EnergyToQuantumIntelligenceCube()
+    {
+        resourceExchanger.Exchange_AToB("Energy", 4, "Quantum Intelligence Cube", 1);
+    }
+
+    #endregion
 }
