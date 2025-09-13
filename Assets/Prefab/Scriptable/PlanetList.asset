@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: PlanetList
+  m_EditorClassIdentifier: Assembly-CSharp::PlanetList
+  allPlanets:
+  - {fileID: 11400000, guid: a00e623c0343f394cb13b895c1162c52, type: 2}
+  - {fileID: 11400000, guid: e754ec1a6bdf3814987d08ba6e433eb3, type: 2}
+  - {fileID: 11400000, guid: 9bd9664a3adb02a45b9540d3518227fe, type: 2}
+  - {fileID: 11400000, guid: 384dab8e84ca6cc4483135a52d0622b0, type: 2}
+  - {fileID: 11400000, guid: f69e2445c9f786a439392ed1304f0b27, type: 2}
+  - {fileID: 11400000, guid: fef2aa205b4b20b43a651cd7041ac62c, type: 2}
+  - {fileID: 11400000, guid: 3c9be0da42b09574ea80ffa3a0bc7742, type: 2}
+  - {fileID: 11400000, guid: 0ad49b9eb4dd83945b5b05a710001a8e, type: 2}
+  - {fileID: 11400000, guid: 9d860084a4728ab4080595cedc94fc38, type: 2}
+  - {fileID: 11400000, guid: e15b44b3e5676344ebbcdbd9dbbe5b6c, type: 2}
