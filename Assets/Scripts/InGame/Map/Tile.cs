@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum Planet
@@ -75,7 +76,16 @@ public class Tile : MonoBehaviour
     /// </summary>
     private void ApplyPlanetColor()
     {
-        PlanetData currentPlanetData = _planetList.allPlanets.Find(data => data.planetType == _planetType);
+        Array enumValues = Enum.GetValues(typeof(Planet));
+
+        // 배열의 길이 내에서 무작위 인덱스를 생성합니다.
+        // UnityEngine.Random.Range(min, max)에서 정수형은 max가 exclusive(포함되지 않음)입니다.
+        int randomIndex = UnityEngine.Random.Range(0, enumValues.Length-1);
+
+        // 무작위 인덱스에 해당하는 값을 가져와 열거형 타입으로 캐스팅하여 반환합니다.
+        Planet ranType = (Planet)enumValues.GetValue(randomIndex);
+
+        PlanetData currentPlanetData = _planetList.allPlanets.Find(data => data.planetType == ranType);
 
         if (currentPlanetData != null)
         {
