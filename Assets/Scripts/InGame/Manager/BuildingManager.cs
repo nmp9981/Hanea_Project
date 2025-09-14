@@ -3,9 +3,25 @@ using UnityEngine;
 
 public class BuildingManager : MonoBehaviour
 {
-    [SerializeField]
-    public static List<Sprite> _buildingSpriteList = new();
+    // 싱글톤 인스턴스
+    public static BuildingManager Instance { get; private set; }
 
+    [SerializeField]
+    private List<Sprite> _buildingSpriteList;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // 필요시 주석 해제
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+   
     /// <summary>
     /// 건물 짓기
     /// 어느 타일에 해당 건물을 짓는다.
@@ -13,5 +29,13 @@ public class BuildingManager : MonoBehaviour
     public void InstallBuiling(Tile tile, Building buildingType)
     {
 
+    }
+    /// <summary>
+    /// 건물 스프라이트 리스트 반환
+    /// </summary>
+    public Sprite GetBuildingSprite(Building buildingType)
+    {
+        // buildingType에 해당하는 스프라이트 반환
+        return _buildingSpriteList[(int)buildingType];
     }
 }

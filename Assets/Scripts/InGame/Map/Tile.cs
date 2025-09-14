@@ -65,11 +65,31 @@ public class Tile : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 건설한 건물로 이미지 변경
+    /// 현재 건설한 건물로 이미지 및 파워 변경
     /// </summary>
-    public void ChangeBuildingImage(Building buildingType)
+    public void ChangeBuildingImageAndPower(Building buildingType)
     {
-        //_installBuildingImage = BuildingManager._buildingSpriteList[(int)buildingType-1];
+        //이미지 변경
+        _installBuildingImage.sprite = BuildingManager.Instance.GetBuildingSprite(buildingType);
+
+        //파워값 변경
+        switch (buildingType)
+        {
+            case Building.Mine:
+                _tilePower = 1;
+                break;
+            case Building.TradingStation:
+            case Building.ResearchLab:
+                _tilePower = 2;
+                break;
+            case Building.Academy:
+            case Building.PlanetaryInstitute:
+                _tilePower = 3;
+                break;
+            default:
+                _tilePower = 0;
+                break;
+        }
     }
     /// <summary>
     /// 행성 타입에 따라 이미지 색상 변경
