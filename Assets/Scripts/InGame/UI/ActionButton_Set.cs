@@ -49,13 +49,27 @@ public class ActionButton_Set : MonoBehaviour
     }
 
     /// <summary>
+    /// 클릭한 타일 가져오기
+    /// </summary>
+    /// <returns></returns>
+    private Tile GetClickedTile()
+    {
+        Tile clickedTile = PlayerManager.Instance.ClickedTile();
+        if (clickedTile == null)
+        {
+            Debug.LogWarning("클릭된 타일이 없습니다.");
+        }
+        return clickedTile;
+    }
+
+    /// <summary>
     /// 광산 설치
     /// </summary>
     /// <param name="cilckTile"></param>
     public void Action_InstallMine()
     {
         //클릭한 타일 가져오기
-        Tile clickTile = PlayerManager.Instance.ClickedTile();
+        Tile clickTile = GetClickedTile();
         //클릭한 타일이 존재해야함
         if (clickTile == null) return;
 
@@ -108,7 +122,7 @@ public class ActionButton_Set : MonoBehaviour
     private void Action_Upgrade_ResearchLab()
     {
         //클릭한 타일 가져오기
-        Tile clickTile = PlayerManager.Instance.ClickedTile();
+        Tile clickTile = GetClickedTile();
         //클릭한 타일이 존재해야함
         if (clickTile == null) return;
 
@@ -124,7 +138,7 @@ public class ActionButton_Set : MonoBehaviour
     private void Action_Upgrade_PlanetaryInstitute()
     {
         //클릭한 타일 가져오기
-        Tile clickTile = PlayerManager.Instance.ClickedTile();
+        Tile clickTile = GetClickedTile();
         //클릭한 타일이 존재해야함
         if (clickTile == null) return;
 
