@@ -35,6 +35,8 @@ public class Tile : MonoBehaviour
     private Planet _planetType;//행성 타입
     [SerializeField]
     private SpriteRenderer _installBuildingImage;//설치한 건물 이미지
+
+    private Building _installBuilding;//설치한 건물
     private TilePosition _tilePos;//타일 위치
     private int _tilePower = 0;//타일 파워
     private bool _isUnion;//연방 여부
@@ -44,6 +46,7 @@ public class Tile : MonoBehaviour
     //읽기 전용
     public Planet PlanetType => _planetType;
     public SpriteRenderer InstallBuildingImage => _installBuildingImage;
+    public Building InstallBuilding => _installBuilding;
     public TilePosition TilePos => _tilePos;
     public int TilePower => _tilePower;
     public bool isUnion => _isUnion;
@@ -71,6 +74,9 @@ public class Tile : MonoBehaviour
     {
         //이미지 변경
         _installBuildingImage.sprite = BuildingManager.Instance.GetBuildingSprite(buildingType);
+
+        //설치한 건물
+        _installBuilding = buildingType;
 
         //파워값 변경
         switch (buildingType)

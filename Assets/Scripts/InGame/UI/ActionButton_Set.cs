@@ -6,6 +6,9 @@ public class ActionButton_Set : MonoBehaviour
     // 플레이어는 자원 관리자를 가지고 있다 (has-a)
     public ResourcesManager resourcesManager;
 
+    //건물 업그레이드 UI(무역 스테이션)
+    public GameObject detailInstallBuildingButtonSetObj;
+
     private void Awake()
     {
         BindingActionButtons();
@@ -16,7 +19,7 @@ public class ActionButton_Set : MonoBehaviour
     /// </summary>
     void BindingActionButtons()
     {
-        foreach (Button btn in gameObject.GetComponentsInChildren<Button>())
+        foreach (Button btn in gameObject.GetComponentsInChildren<Button>(true))
         {
             string buttonName = btn.gameObject.name;
             switch (buttonName)
@@ -32,6 +35,12 @@ public class ActionButton_Set : MonoBehaviour
                 case "Pass":
                     break;
                 case "Knowledge UP":
+                    break;
+                case "ResearchLab":
+                    btn.onClick.AddListener(delegate { Action_Upgrade_ResearchLab(); });
+                    break;
+                case "PlanetaryInstitute":
+                    btn.onClick.AddListener(delegate { Action_Upgrade_PlanetaryInstitute(); });
                     break;
                 default:
                     break;
@@ -74,14 +83,53 @@ public class ActionButton_Set : MonoBehaviour
         if (clickTile.TilePower >= 3) return;
 
         //건물 종류에 따라 업그레이드가 다름
-        if(clickTile.TilePower == 1)//교역소 업그레이드
+        switch (clickTile.InstallBuilding)
         {
-            clickTile.ChangeBuildingImageAndPower(Building.TradingStation);
-            resourcesManager.ImportResourceAmount_UpDown("Money",3);
+            case Building.Mine://광산 -> 무역 스테이션
+                clickTile.ChangeBuildingImageAndPower(Building.TradingStation);
+                resourcesManager.ImportResourceAmount_UpDown("Money", 3);
+                break;
+            case Building.TradingStation://무역 스테이션 -> 행성 의회 or 연구소
+                detailInstallBuildingButtonSetObj.SetActive(true);
+                break;
+            case Building.ResearchLab://연구소 -> 아카데미
+                clickTile.ChangeBuildingImageAndPower(Building.Academy);
+                resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
+                break;
+            default:
+                break;
         }
-        else if (clickTile.TilePower == 2)
-        {
-            clickTile.ChangeBuildingImageAndPower(Building.ResearchLab);
-        }
+    }
+
+    /// <summary>
+    /// 무역 스테이션 -> 연구소
+    /// </summary>
+    /// <param name="clickTile"></param>
+    private void Action_Upgrade_ResearchLab()
+    {
+        //클릭한 타일 가져오기
+        Tile clickTile = PlayerManager.Instance.ClickedTile();
+        //클릭한 타일이 존재해야함
+        if (clickTile == null) return;
+
+        clickTile.ChangeBuildingImageAndPower(Building.ResearchLab);
+        resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
+        detailInstallBuildingButtonSetObj.SetActive(false);
+    }
+
+    /// <summary>
+    /// 무역 스테이션 -> 행성 의회
+    /// </summary>
+    /// <param name="clickTile"></param>
+    private void Action_Upgrade_PlanetaryInstitute()
+    {
+        //클릭한 타일 가져오기
+        Tile clickTile = PlayerManager.Instance.ClickedTile();
+        //클릭한 타일이 존재해야함
+        if (clickTile == null) return;
+
+        clickTile.ChangeBuildingImageAndPower(Building.PlanetaryInstitute);
+        resourcesManager.ImportResourceAmount_UpDown("Energy", 5);
+        detailInstallBuildingButtonSetObj.SetActive(false);
     }
 }
