@@ -78,6 +78,9 @@ public class ActionButton_Set : MonoBehaviour
       
         //광산 설치
         clickTile.ChangeBuildingImageAndPower(Building.Mine);
+
+        //광석 수입 증가
+        resourcesManager.ImportResourceAmount_UpDown("Ore", 1);
     }
 
     /// <summary>
@@ -102,6 +105,7 @@ public class ActionButton_Set : MonoBehaviour
             case Building.Mine://광산 -> 무역 스테이션
                 clickTile.ChangeBuildingImageAndPower(Building.TradingStation);
                 resourcesManager.ImportResourceAmount_UpDown("Money", 3);
+                resourcesManager.ImportResourceAmount_UpDown("Ore", -1);
                 break;
             case Building.TradingStation://무역 스테이션 -> 행성 의회 or 연구소
                 detailInstallBuildingButtonSetObj.SetActive(true);
@@ -128,6 +132,7 @@ public class ActionButton_Set : MonoBehaviour
 
         clickTile.ChangeBuildingImageAndPower(Building.ResearchLab);
         resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
+        resourcesManager.ImportResourceAmount_UpDown("Money", -3);
         detailInstallBuildingButtonSetObj.SetActive(false);
     }
 
@@ -144,6 +149,7 @@ public class ActionButton_Set : MonoBehaviour
 
         clickTile.ChangeBuildingImageAndPower(Building.PlanetaryInstitute);
         resourcesManager.ImportResourceAmount_UpDown("Energy", 5);
+        resourcesManager.ImportResourceAmount_UpDown("Money", -3);
         detailInstallBuildingButtonSetObj.SetActive(false);
     }
 }

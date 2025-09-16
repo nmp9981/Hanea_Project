@@ -75,7 +75,6 @@ public class Resource : IResource
     public void ImportAmount_Change(int amount)
     {
         int prevCount = _curCount;
-        _importAmount += amount;
         //수입량이 0미만으로 떨어지지 않음
         _importAmount = Mathf.Max(_importAmount + amount, 0);
 

@@ -71,7 +71,7 @@ public class PlayerResourceUI : MonoBehaviour
     /// <summary>
     /// 플레이어가 가진 자원 현황 보이기
     /// </summary>
-    private void ShowPlayerCurResource(Resource res)
+    public void ShowPlayerCurResource(Resource res)
     {
         if (resourceTextMap.ContainsKey(res.Name))
         {
@@ -81,7 +81,7 @@ public class PlayerResourceUI : MonoBehaviour
     /// <summary>
     /// 플레이어가 가진 수입 자원 현황 보이기
     /// </summary>
-    private void ShowPlayerCurImportResource(Resource res)
+    public void ShowPlayerCurImportResource(Resource res)
     {
         if (importTextMap.ContainsKey(res.Name))
         {
