@@ -74,12 +74,12 @@ public class Resource : IResource
     //자원 수입량 증감
     public void ImportAmount_Change(int amount)
     {
-        int prevCount = _curCount;
+        int prevCount = _importAmount;
         //수입량이 0미만으로 떨어지지 않음
         _importAmount = Mathf.Max(_importAmount + amount, 0);
 
         //값 변경
-        if (_curCount != prevCount)
+        if (_importAmount != prevCount)
         {
             OnChanged?.Invoke();
         }
@@ -93,7 +93,7 @@ public class ResourcesManager : MonoBehaviour
 {
     // 인터페이스 타입 리스트로 자원을 관리하여 유연성을 확보합니다.
     [SerializeField] public List<Resource> resources = new List<Resource>();
-
+   
     /// <summary>
     /// 초기 자원 설정
     /// </summary>
@@ -122,6 +122,9 @@ public class ResourcesManager : MonoBehaviour
     public void ImportResourceAmount_UpDown(string resourceName, int increaseAmount)
     {
         Resource res = resources.Find(r=>r.Name == resourceName);
-        if (res != null) res.ImportAmount_Change(increaseAmount);
+        if (res != null)
+        {
+            res.ImportAmount_Change(increaseAmount);
+        }
     }
 }
