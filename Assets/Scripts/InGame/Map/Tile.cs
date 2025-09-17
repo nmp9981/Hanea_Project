@@ -98,6 +98,9 @@ public class Tile : MonoBehaviour
                 _tilePower = 0;
                 break;
         }
+
+        //클릭표시 제거
+        ShowClickedTile();
     }
     /// <summary>
     /// 행성 타입에 따라 이미지 색상 변경
@@ -129,5 +132,13 @@ public class Tile : MonoBehaviour
     {
         if(_clickImage.activeSelf) _clickImage.SetActive(false);
         else _clickImage.SetActive(true);
+    }
+    /// <summary>
+    /// 클릭한 타일 표시 지우기
+    /// </summary>
+    /// <returns></returns>
+    public void HideClickedTile()
+    {
+        _clickImage.SetActive(false);
     }
 }

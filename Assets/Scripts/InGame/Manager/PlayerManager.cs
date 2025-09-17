@@ -98,16 +98,16 @@ public class PlayerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 클릭한 타일들 초기화
+    /// 클릭한 타일들 초기화(클릭 표시 모두 숨기기)
     /// </summary>
     private void AllClear_ClickTile()
     {
-        _clickTile = null;
-        _clickTileList.Clear();
         foreach (var tile in _clickTileList)
         {
-            tile.ShowClickedTile();
+            tile.HideClickedTile();
         }
+        _clickTile = null;
+        _clickTileList.Clear();
     }
 
     /// <summary>
