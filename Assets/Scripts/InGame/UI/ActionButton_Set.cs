@@ -48,6 +48,9 @@ public class ActionButton_Set : MonoBehaviour
                 case "PlanetaryInstitute":
                     btn.onClick.AddListener(delegate { Action_Upgrade_PlanetaryInstitute(); });
                     break;
+                case "InstallCancel":
+                    btn.onClick.AddListener(delegate { Action_Upgrade_Cancel(); });
+                    break;
                 case "PassOK":
                     btn.onClick.AddListener(delegate { Action_Pass_OK(); });
                     break;
@@ -212,6 +215,14 @@ public class ActionButton_Set : MonoBehaviour
         clickTile.ChangeBuildingImageAndPower(Building.PlanetaryInstitute);
         resourcesManager.ImportResourceAmount_UpDown("Energy", 5);
         resourcesManager.ImportResourceAmount_UpDown("Money", -3);
+        detailInstallBuildingButtonSetObj.SetActive(false);
+    }
+    /// <summary>
+    /// 公开 胶抛捞记 -> 青己 狼雀
+    /// </summary>
+    /// <param name="clickTile"></param>
+    private void Action_Upgrade_Cancel()
+    {
         detailInstallBuildingButtonSetObj.SetActive(false);
     }
 
