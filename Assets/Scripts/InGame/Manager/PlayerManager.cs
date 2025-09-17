@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -18,6 +19,7 @@ public class PlayerManager : MonoBehaviour
     //클릭한 타일
     private Tile _clickTile { get; set; }
     private string _tileTag = "Tile";
+    private HashSet<Tile> _clickTileList = new();
 
     public void OnClickTradeButton()
     {
@@ -80,15 +82,31 @@ public class PlayerManager : MonoBehaviour
             {
                 // 충돌한 오브젝트에서 Tile 컴포넌트를 가져옴
                 _clickTile = hit.collider.GetComponent<Tile>();
+                _clickTileList.Add(_clickTile);
+                //클릭 표시
+                _clickTile.ShowClickedTile();
             }
             else
             {
-                _clickTile = null;
+                AllClear_ClickTile();
             }
         }
         else
         {
-            _clickTile = null;
+            AllClear_ClickTile();
+        }
+    }
+
+    /// <summary>
+    /// 클릭한 타일들 초기화
+    /// </summary>
+    private void AllClear_ClickTile()
+    {
+        _clickTile = null;
+        _clickTileList.Clear();
+        foreach (var tile in _clickTileList)
+        {
+            tile.ShowClickedTile();
         }
     }
 
@@ -100,6 +118,17 @@ public class PlayerManager : MonoBehaviour
     {
         return _clickTile;
     }
+
+    /// <summary>
+    /// 클릭한 타일 리스트 가져오기
+    /// </summary>
+    /// <returns></returns>
+    public HashSet<Tile> ClickedTileList()
+    {
+        return _clickTileList;
+    }
+
+
 
     #region 자원 변환 - Free Action
     /// <summary>
@@ -137,6 +166,7 @@ public class PlayerManager : MonoBehaviour
     {
         resourceExchanger.Exchange_AToB("Energy", 4, "Quantum Intelligence Cube", 1);
     }
-
     #endregion
+
+
 }

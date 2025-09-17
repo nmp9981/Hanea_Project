@@ -35,6 +35,8 @@ public class Tile : MonoBehaviour
     private Planet _planetType;//행성 타입
     [SerializeField]
     private SpriteRenderer _installBuildingImage;//설치한 건물 이미지
+    [SerializeField]
+    private GameObject _clickImage;//타일 클릭 이미지
 
     private Building _installBuilding;//설치한 건물
     private TilePosition _tilePos;//타일 위치
@@ -117,5 +119,15 @@ public class Tile : MonoBehaviour
         {
             _spriteRenderer.color = currentPlanetData.planetColor;
         }
+    }
+
+    /// <summary>
+    /// 클릭한 타일 표시
+    /// </summary>
+    /// <returns></returns>
+    public void ShowClickedTile()
+    {
+        if(_clickImage.activeSelf) _clickImage.SetActive(false);
+        else _clickImage.SetActive(true);
     }
 }
