@@ -9,6 +9,10 @@ public class BuildingManager : MonoBehaviour
     [SerializeField]
     private List<Sprite> _buildingSpriteList;
 
+    //건물 데이터
+    [SerializeField]
+    public List<BuildingData> buildingDataList = new();
+
     private void Awake()
     {
         if (Instance == null)

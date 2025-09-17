@@ -127,4 +127,34 @@ public class ResourcesManager : MonoBehaviour
             res.ImportAmount_Change(increaseAmount);
         }
     }
+
+    /// <summary>
+    /// 자원이 충분한가
+    /// </summary>
+    /// <param name="resourceName">자원 명</param>
+    /// <param name="amount">요구량</param>
+    /// <returns></returns>
+    public bool HasEnoughResources(string resourceName, int amount)
+    {
+        Resource res = resources.Find(r => r.Name == resourceName);
+
+        if (res == null) return false;//자원이 없음
+        if (res.CurCount < amount) return false;//자원이 모자람
+
+        return true;
+    }
+
+    /// <summary>
+    /// 자원 소비
+    /// </summary>
+    /// <param name="resourceName">자원 명</param>
+    /// <param name="amount">소비량</param>
+    public void ConsumeResource(string resourceName, int amount)
+    {
+        Resource res = resources.Find(r => r.Name == resourceName);
+        if (res != null)
+        {
+            res.Consume(amount);
+        }
+    }
 }

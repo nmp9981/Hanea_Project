@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class ActionButton_Set : MonoBehaviour
@@ -8,6 +10,8 @@ public class ActionButton_Set : MonoBehaviour
 
     //건물 업그레이드 UI(무역 스테이션)
     public GameObject detailInstallBuildingButtonSetObj;
+    //패스 UI
+    public GameObject passUIObj;
 
     private void Awake()
     {
@@ -33,14 +37,22 @@ public class ActionButton_Set : MonoBehaviour
                 case "Union":
                     break;
                 case "Pass":
+                    btn.onClick.AddListener(delegate { Action_Pass_Question(); });
                     break;
-                case "Knowledge UP":
+                case "Research"://연구 행동
+                    btn.onClick.AddListener(delegate { Action_Research(); });
                     break;
                 case "ResearchLab":
                     btn.onClick.AddListener(delegate { Action_Upgrade_ResearchLab(); });
                     break;
                 case "PlanetaryInstitute":
                     btn.onClick.AddListener(delegate { Action_Upgrade_PlanetaryInstitute(); });
+                    break;
+                case "PassOK":
+                    btn.onClick.AddListener(delegate { Action_Pass_OK(); });
+                    break;
+                case "PassNO":
+                    btn.onClick.AddListener(delegate { Action_Pass_Cancel(); });
                     break;
                 default:
                     break;
@@ -75,7 +87,13 @@ public class ActionButton_Set : MonoBehaviour
 
         //설치된 건물이 없어야함
         if (clickTile.InstallBuildingImage.sprite != null) return;
-      
+
+        //비용 검사
+        if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[0])) return;
+
+        //비용 지불
+        PayForBuilding(BuildingManager.Instance.buildingDataList[0]);
+
         //광산 설치
         clickTile.ChangeBuildingImageAndPower(Building.Mine);
 
@@ -103,6 +121,8 @@ public class ActionButton_Set : MonoBehaviour
         switch (clickTile.InstallBuilding)
         {
             case Building.Mine://광산 -> 무역 스테이션
+                if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[1])) return;
+                PayForBuilding(BuildingManager.Instance.buildingDataList[1]);
                 clickTile.ChangeBuildingImageAndPower(Building.TradingStation);
                 resourcesManager.ImportResourceAmount_UpDown("Money", 3);
                 resourcesManager.ImportResourceAmount_UpDown("Ore", -1);
@@ -111,11 +131,45 @@ public class ActionButton_Set : MonoBehaviour
                 detailInstallBuildingButtonSetObj.SetActive(true);
                 break;
             case Building.ResearchLab://연구소 -> 아카데미
+                if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[3])) return;
+                PayForBuilding(BuildingManager.Instance.buildingDataList[3]);
                 clickTile.ChangeBuildingImageAndPower(Building.Academy);
                 resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
                 break;
             default:
                 break;
+        }
+    }
+    /// <summary>
+    /// 건물 설치 비용 지불 가능 여부 체크
+    /// </summary>
+    /// <param name="buildingData">확인할 건물 데이터</param>
+    /// <returns>비용 지불 가능 여부</returns>
+    private bool CanAffordBuilding(BuildingData buildingData)
+    {
+        if (buildingData == null) return false;
+
+        foreach (var cost in buildingData.costs)
+        {
+            if (resourcesManager.HasEnoughResources(cost.resourceName, cost.amount) == false)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// 건물 설치 비용 지불
+    /// </summary>
+    /// <param name="buildingData">비용을 지불할 건물 데이터</param>
+    private void PayForBuilding(BuildingData buildingData)
+    {
+        if (buildingData == null) return;
+
+        foreach (var cost in buildingData.costs)
+        {
+            resourcesManager.ConsumeResource(cost.resourceName, cost.amount);
         }
     }
 
@@ -130,6 +184,10 @@ public class ActionButton_Set : MonoBehaviour
         //클릭한 타일이 존재해야함
         if (clickTile == null) return;
 
+        //비용 지불이 되는가?
+        if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[2])) return;
+        
+        PayForBuilding(BuildingManager.Instance.buildingDataList[2]);
         clickTile.ChangeBuildingImageAndPower(Building.ResearchLab);
         resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
         resourcesManager.ImportResourceAmount_UpDown("Money", -3);
@@ -147,9 +205,48 @@ public class ActionButton_Set : MonoBehaviour
         //클릭한 타일이 존재해야함
         if (clickTile == null) return;
 
+        //비용 지불이 되는가?
+        if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[4])) return;
+
+        PayForBuilding(BuildingManager.Instance.buildingDataList[4]);
         clickTile.ChangeBuildingImageAndPower(Building.PlanetaryInstitute);
         resourcesManager.ImportResourceAmount_UpDown("Energy", 5);
         resourcesManager.ImportResourceAmount_UpDown("Money", -3);
         detailInstallBuildingButtonSetObj.SetActive(false);
     }
+
+    /// <summary>
+    /// 연구 행동 
+    /// 지식 트랙 한칸 전진
+    /// </summary>
+    private void Action_Research()
+    {
+
+    }
+
+    #region Pass
+    /// <summary>
+    /// 패스 여부
+    /// </summary>
+    private void Action_Pass_Question()
+    {
+        //UI를 띄운다.
+        passUIObj.SetActive(true);
+    }
+    /// <summary>
+    /// 패스
+    /// </summary>
+    private void Action_Pass_OK()
+    {
+        resourcesManager.ImportAllResources();//수입
+        passUIObj.SetActive(false);
+    }
+    /// <summary>
+    /// 패스 취소
+    /// </summary>
+    private void Action_Pass_Cancel()
+    {
+        passUIObj.SetActive(false);
+    }
+    #endregion
 }
