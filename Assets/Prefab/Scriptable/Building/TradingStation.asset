@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d21d08ab78dc34741a4833a804f3a350, type: 3}
+  m_Name: TradingStation
+  m_EditorClassIdentifier: 
+  type: 2
+  costs:
+  - resourceName: Money
+    amount: 3
+  - resourceName: Ore
+    amount: 2
+  powerValue: 2
+  buildingImage: {fileID: 21300000, guid: 6f84b669a39dbcf458592c6695cd2c29, type: 3}
