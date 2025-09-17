@@ -63,6 +63,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    #region 타일 클릭 관련 함수 - 연방 관련 함수 포함
     /// <summary>
     /// 클릭한 타일 설정
     /// </summary>
@@ -128,7 +129,22 @@ public class PlayerManager : MonoBehaviour
         return _clickTileList;
     }
 
-
+    /// <summary>
+    /// 클릭한 타일의 파워 값 합, 최소 파워 검사
+    /// </summary>
+    /// <returns></returns>
+    public (int, bool) SumPower_ClickedTiles()
+    {
+        int sumPower = 0;
+        bool isMinPower = true;
+        foreach(var tile in _clickTileList)
+        {
+            if(sumPower>=7) isMinPower = false;//이미 합 7이상인데도 계산할 건물이 남아있음
+            sumPower += tile.TilePower;
+        }
+        return (sumPower, isMinPower);
+    }
+    #endregion
 
     #region 자원 변환 - Free Action
     /// <summary>
