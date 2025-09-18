@@ -8,6 +8,7 @@ public enum Building
     ResearchLab,
     Academy,
     PlanetaryInstitute,
+    Satellite,
     Count
 }
 

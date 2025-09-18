@@ -37,11 +37,11 @@ public class Tile : MonoBehaviour
     private SpriteRenderer _installBuildingImage;//설치한 건물 이미지
     [SerializeField]
     private GameObject _clickImage;//타일 클릭 이미지
-
-    private Building _installBuilding;//설치한 건물
+   
+    private Building _installBuilding = Building.None;//설치한 건물
     private TilePosition _tilePos;//타일 위치
     private int _tilePower = 0;//타일 파워
-    private bool _isUnion;//연방 여부
+    private bool _isUnion = false;//연방 여부
     [SerializeField]
     private SpriteRenderer _spriteRenderer;//행성 적용 색상
 
@@ -140,5 +140,15 @@ public class Tile : MonoBehaviour
     public void HideClickedTile()
     {
         _clickImage.SetActive(false);
+    }
+
+    /// <summary>
+    /// 연방 표시
+    /// </summary>
+    public void ShowUnion()
+    {
+        _isUnion = true;
+        //빈타일이면 위성 설치
+        if (_planetType == Planet.None) ChangeBuildingImageAndPower(Building.Satellite);
     }
 }

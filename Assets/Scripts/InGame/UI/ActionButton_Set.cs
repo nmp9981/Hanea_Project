@@ -241,27 +241,13 @@ public class ActionButton_Set : MonoBehaviour
     /// </summary>
     private void Action_Union()
     {
-        //파워값 합 계산
-        (int sumPower, bool isMinPower) powerCheck = PlayerManager.Instance.SumPower_ClickedTiles();
-
-        //파워 조건(7이상, 최소 파워)
-        if (powerCheck.sumPower<7)
-        {
-            Debug.Log("파워값이 모자릅니다");
-            return;
-        }
-        if (!powerCheck.isMinPower)
-        {
-            Debug.Log("최소 파워값으로 연방 구성해야합니다.");
-            return;
-        }
-
-        //최소 위성 개수
-
-
+        //연방 불가
+        if (!PlayerManager.Instance.Check_AbleUnion(PlayerManager.Instance.ClickedTileList())) return;
+        
         //연방 등록
         //건물있는지 검사하고 없으면 위성을 놓는다.(위성은 개당 에너지 1개)
-
+        PlayerManager.Instance.EnrollUnion();
+        
     }
 
     #region Pass

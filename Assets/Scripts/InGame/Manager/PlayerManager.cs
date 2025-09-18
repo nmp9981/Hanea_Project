@@ -129,22 +129,66 @@ public class PlayerManager : MonoBehaviour
         return _clickTileList;
     }
 
+    #endregion
+
     /// <summary>
-    /// 클릭한 타일의 파워 값 합, 최소 파워 검사
+    /// 연방 가능한지 검사
     /// </summary>
     /// <returns></returns>
-    public (int, bool) SumPower_ClickedTiles()
+    public bool Check_AbleUnion(HashSet<Tile> _clickTileList)
     {
-        int sumPower = 0;
-        bool isMinPower = true;
-        foreach(var tile in _clickTileList)
+        //파워값 합 계산
+        (int sumPower, bool isMinPower) powerCheck = TileSystem.SumPower(_clickTileList);
+
+        //파워 조건(7이상, 최소 파워)
+        if (powerCheck.sumPower < 7)
         {
-            if(sumPower>=7) isMinPower = false;//이미 합 7이상인데도 계산할 건물이 남아있음
-            sumPower += tile.TilePower;
+            Debug.Log("파워값이 모자릅니다");
+            return false;
         }
-        return (sumPower, isMinPower);
+        if (!powerCheck.isMinPower)
+        {
+            Debug.Log("최소 파워값으로 연방 구성해야합니다.");
+            return false;
+        }
+
+        //이미 연방에 등록된 타일이 있는지 검사
+        foreach (var tile in _clickTileList)
+        {
+            //이미 등록된 타일은 사용할 수 없음
+            if (tile.isUnion)
+            {
+                return false;
+            }
+            //빈행성은 연방 대상이 아님
+            if(tile.PlanetType!=Planet.None && tile.InstallBuilding == Building.None)
+            {
+                return false;
+            }
+        }
+
+        //전부 붙어있어야함
+
+        //최소 위성 수
+
+
+        return true;
     }
-    #endregion
+
+    /// <summary>
+    /// 연방 등록
+    /// </summary>
+    public void EnrollUnion()
+    {
+        foreach (var tile in _clickTileList)
+        {
+            //이미 등록된 타일은 사용할 수 없음
+            if (!tile.isUnion)
+            {
+                tile.ShowUnion();
+            }
+        }
+    }
 
     #region 자원 변환 - Free Action
     /// <summary>

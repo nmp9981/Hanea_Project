@@ -20,14 +20,16 @@ public static class TileSystem
     /// 파워값 총합 구하기
     /// </summary>
     /// <returns></returns>
-    public static int SumPower(List<Tile> tileList)
+    public static (int,bool) SumPower(HashSet<Tile> tileList)
     {
-        int sum = 0;
-        foreach (Tile tile in tileList)
+        int sumPower = 0;
+        bool isMinPower = true;
+        foreach (var tile in tileList)
         {
-            sum += tile.TilePower;
+            if (sumPower >= 7) isMinPower = false;//이미 합 7이상인데도 계산할 건물이 남아있음
+            sumPower += tile.TilePower;
         }
-        return sum;
+        return (sumPower, isMinPower);
     }
 
 }
