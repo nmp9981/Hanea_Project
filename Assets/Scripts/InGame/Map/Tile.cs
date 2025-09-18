@@ -20,10 +20,10 @@ public enum Planet
 /// <summary>
 /// 타일 위치
 /// </summary>
+[System.Serializable]
 public struct TilePosition
 {
-    public int areaNum;//구역 번호
-    public float x, y, z;//큐브 좌표계
+    public int x, y, z;//큐브 좌표계
 };
 
 
@@ -37,8 +37,9 @@ public class Tile : MonoBehaviour
     private SpriteRenderer _installBuildingImage;//설치한 건물 이미지
     [SerializeField]
     private GameObject _clickImage;//타일 클릭 이미지
-   
+    [SerializeField]
     private Building _installBuilding = Building.None;//설치한 건물
+    [SerializeField]    
     private TilePosition _tilePos;//타일 위치
     private int _tilePower = 0;//타일 파워
     private bool _isUnion = false;//연방 여부
@@ -55,8 +56,12 @@ public class Tile : MonoBehaviour
 
     private void Awake()
     {
-        Change_CubeCoordinateSystem();
         ApplyPlanetColor();
+    }
+
+    private void OnEnable()
+    {
+        Change_CubeCoordinateSystem();
     }
 
     /// <summary>
@@ -64,9 +69,9 @@ public class Tile : MonoBehaviour
     /// </summary>
     void Change_CubeCoordinateSystem()
     {
-        _tilePos.x = transform.position.x;
-        _tilePos.z = transform.position.y;
-        _tilePos.y = -TilePos.x-TilePos.z;
+        _tilePos.x = (int)((TileSystem.root3 *transform.position.x-transform.position.y)*0.3333f);
+        _tilePos.z = (int)(transform.position.y*0.6667f);
+        _tilePos.y = (int)-TilePos.x-TilePos.z;
     }
 
     /// <summary>

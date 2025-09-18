@@ -1,8 +1,11 @@
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 
 public static class TileSystem
 {
+    public static float root3 = 1.732f;
+
     /// <summary>
     /// 두 타일간 거리
     /// </summary>
@@ -32,4 +35,25 @@ public static class TileSystem
         return (sumPower, isMinPower);
     }
 
+    /// <summary>
+    /// 모두 연결된 타일인지?
+    /// </summary>
+    /// <param name="tileList">클릭한 타일 리스트</param>
+    /// <returns></returns>
+    public static bool IsConnect_AllFactor(HashSet<Tile> tileList)
+    {
+        return false;
+    }
+
+    /// <summary>
+    /// 최소 위성수 규칙을 만족 하는지
+    /// </summary>
+    /// <param name="tileList">클릭한 타일 리스트</param>
+    /// <param name="curSatelliteCount">현재 위성 개수</param>
+    /// <returns></returns>
+    public static bool IsMin_Satellite_AllFactor(HashSet<Tile> tileList, int curSatelliteCount)
+    {
+
+        return false;
+    }
 }
