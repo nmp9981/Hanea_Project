@@ -152,7 +152,7 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("최소 파워값으로 연방 구성해야합니다.");
             return false;
         }
-        Debug.Log("총 파워값 : "+powerCheck.sumPower +" 클릭한 타일 개수 "+ _clickTileList.Count);
+        
         //이미 연방에 등록된 타일이 있는지 검사
         foreach (var tile in _clickTileList)
         {
@@ -172,10 +172,10 @@ public class PlayerManager : MonoBehaviour
                 return false;
             }
         }
-        Debug.Log("등록 타일 없음");
+       
         //전부 붙어있어야함
         if (!TileSystem.IsConnect_AllFactor(_clickTileList)) return false;
-        Debug.Log("전부 붙어있음");
+
         //최소 위성 수
         if (!TileSystem.IsMin_Satellite_AllFactor(_clickTileList)) return false;
         return true;

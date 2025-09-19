@@ -13,7 +13,7 @@ public static class TileSystem
     private static int[] dz = { 1, 0, -1, -1, 0, 1 };
 
     //타일 방문을 위한 자료구조
-    struct TileVisit
+    class TileVisit//참조 타입
     {
         public Tile tile;
         public bool isVisit;
@@ -72,16 +72,16 @@ public static class TileSystem
 
         //시작 타일 지정
         TileVisit startTile = visitTileList.First();
-        
+        startTile.isVisit = true;
+
         Queue<TileVisit> queue = new Queue<TileVisit>();
         queue.Enqueue(startTile);
-
+    
         //BFS로 검사
         while (queue.Count > 0)
         {
             TileVisit curTile = queue.Dequeue();
-            curTile.isVisit = true;
-
+     
             for (int i = 0; i < 6; i++)
             {
                 //다음 지점
@@ -89,17 +89,21 @@ public static class TileSystem
                 int ny = curTile.tile.TilePos.y + dy[i];
                 int nz = curTile.tile.TilePos.z + dz[i];
 
-                //해당 지점에 있는타일 찾기
+                //해당 지점에 있는 타일 찾기
                 foreach(TileVisit nextTile in visitTileList)
                 {
-                    if (nextTile.isVisit) continue;//이미 방문한 타일
-
                     //다음 타일을 찾음
                     if (nextTile.tile.TilePos.x == nx
                         && nextTile.tile.TilePos.y == ny
                         && nextTile.tile.TilePos.z == nz)
                     {
-                        queue.Enqueue(nextTile);
+                        //방문하지 않은 타일만 추가
+                        if (!nextTile.isVisit)
+                        {
+                            nextTile.isVisit = true;//참조 타입으로 바꿔야함
+                            queue.Enqueue(nextTile);
+                        }
+                        break;
                     }
                 }
             }

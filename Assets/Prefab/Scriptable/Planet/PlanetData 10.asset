@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: PlanetData 10
   m_EditorClassIdentifier: 
   planetType: 10
-  planetColor: {r: 0, g: 0, b: 0, a: 0}
+  planetColor: {r: 0.033641864, g: 0.054131612, b: 0.26415092, a: 1}
