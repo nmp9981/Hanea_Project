@@ -192,7 +192,9 @@ public class PlayerManager : MonoBehaviour
             //이미 등록된 타일은 사용할 수 없음
             if (!tile.isUnion)
             {
-                countSatellite += 1;
+                //빈공간이면 에너지 비용 추가
+                if (tile.PlanetType == Planet.None) countSatellite += 1;
+                //연방 표시
                 tile.ShowUnion();
             }
         }

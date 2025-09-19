@@ -92,6 +92,9 @@ public class ActionButton_Set : MonoBehaviour
         //설치된 건물이 없어야함
         if (clickTile.InstallBuildingImage.sprite != null) return;
 
+        //행성이 존재해야함
+        if (clickTile.PlanetType == Planet.None) return;
+
         //비용 검사
         if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[0])) return;
 
