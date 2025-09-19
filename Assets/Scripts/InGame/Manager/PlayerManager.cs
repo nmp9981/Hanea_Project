@@ -19,6 +19,7 @@ public class PlayerManager : MonoBehaviour
     //클릭한 타일
     private Tile _clickTile { get; set; }
     private string _tileTag = "Tile";
+    [SerializeField]
     private HashSet<Tile> _clickTileList = new();
 
     public void OnClickTradeButton()
@@ -151,43 +152,53 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("최소 파워값으로 연방 구성해야합니다.");
             return false;
         }
-
+        Debug.Log("총 파워값 : "+powerCheck.sumPower +" 클릭한 타일 개수 "+ _clickTileList.Count);
         //이미 연방에 등록된 타일이 있는지 검사
         foreach (var tile in _clickTileList)
         {
+            //빈 타일은 연방 겨쳐도 무관
+            if (tile.PlanetType == Planet.None) continue;
+
             //이미 등록된 타일은 사용할 수 없음
             if (tile.isUnion)
             {
+                Debug.Log("이미 연방에 등록된 타일");
                 return false;
             }
-            //빈행성은 연방 대상이 아님
+            //빈행성은 연방 불가능
             if(tile.PlanetType!=Planet.None && tile.InstallBuilding == Building.None)
             {
+                Debug.Log("빈행성 존재");
                 return false;
             }
         }
-
+        Debug.Log("등록 타일 없음");
         //전부 붙어있어야함
-
+        if (!TileSystem.IsConnect_AllFactor(_clickTileList)) return false;
+        Debug.Log("전부 붙어있음");
         //최소 위성 수
-
-
+        if (!TileSystem.IsMin_Satellite_AllFactor(_clickTileList)) return false;
         return true;
     }
 
     /// <summary>
-    /// 연방 등록
+    /// 연방 등록 및 위성 개수 반환
     /// </summary>
-    public void EnrollUnion()
+    public int EnrollUnion_ReturnCountSatellite()
     {
+        int countSatellite = 0;
         foreach (var tile in _clickTileList)
         {
             //이미 등록된 타일은 사용할 수 없음
             if (!tile.isUnion)
             {
+                countSatellite += 1;
                 tile.ShowUnion();
             }
         }
+        //클릭한 타일 초기화
+        AllClear_ClickTile();
+        return countSatellite;
     }
 
     #region 자원 변환 - Free Action

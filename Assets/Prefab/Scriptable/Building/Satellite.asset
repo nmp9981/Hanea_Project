@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d21d08ab78dc34741a4833a804f3a350, type: 3}
   m_Name: Satellite
   m_EditorClassIdentifier: 
-  type: 2
+  type: 6
   costs:
-  - resourceName: Money
-    amount: 0
+  - resourceName: Energy
+    amount: 1
   - resourceName: Ore
     amount: 0
   powerValue: 0

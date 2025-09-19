@@ -246,8 +246,12 @@ public class ActionButton_Set : MonoBehaviour
         
         //연방 등록
         //건물있는지 검사하고 없으면 위성을 놓는다.(위성은 개당 에너지 1개)
-        PlayerManager.Instance.EnrollUnion();
-        
+        int pay = PlayerManager.Instance.EnrollUnion_ReturnCountSatellite();
+        //비용 지불
+        for (int i = 0; i < pay; i++)
+        {
+            PayForBuilding(BuildingManager.Instance.buildingDataList[5]);
+        }
     }
 
     #region Pass
