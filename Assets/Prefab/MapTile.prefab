@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4192868440203546308}
@@ -109,6 +109,11 @@ MonoBehaviour:
   _planetType: 7
   _installBuildingImage: {fileID: 708130002220575885}
   _clickImage: {fileID: 2282153703474638109}
+  _installBuilding: 0
+  _tilePos:
+    x: 0
+    y: 0
+    z: 0
   _spriteRenderer: {fileID: 1016415603940706747}
 --- !u!60 &7132319465752401873
 PolygonCollider2D:

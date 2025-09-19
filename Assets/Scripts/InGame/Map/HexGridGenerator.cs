@@ -20,8 +20,8 @@ public class HexGridGenerator : MonoBehaviour
     /// </summary>
     void GenerateHexGrid()
     {
-        float hexWidth = 0.866f; // sqrt(3)
-        float hexHeight = 1.0f;
+        float hexWidth = 1.732f; // sqrt(3)
+        float hexHeight = 2.0f;
 
         for (int y = startYPos; y < height+startYPos; y++)
         {

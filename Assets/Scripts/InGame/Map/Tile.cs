@@ -71,7 +71,7 @@ public class Tile : MonoBehaviour
     {
         _tilePos.x = (int)((TileSystem.root3 *transform.position.x-transform.position.y)*0.3333f);
         _tilePos.z = (int)(transform.position.y*0.6667f);
-        _tilePos.y = (int)-TilePos.x-TilePos.z;
+        _tilePos.y = -TilePos.x-TilePos.z;
     }
 
     /// <summary>
