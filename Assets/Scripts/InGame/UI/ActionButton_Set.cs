@@ -236,7 +236,13 @@ public class ActionButton_Set : MonoBehaviour
     /// </summary>
     private void Action_Research()
     {
+        //비용 지불이 가능한가?
+        if (!resourcesManager.HasEnoughResources("Knowledge", 4)) return;
 
+        //지식 4소모
+        resourcesManager.ConsumeResource("Knowledge", 4);
+
+        //지식 트랙 한칸 전진
     }
 
     /// <summary>
