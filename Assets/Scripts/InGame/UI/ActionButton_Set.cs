@@ -7,6 +7,8 @@ public class ActionButton_Set : MonoBehaviour
 {
     // 플레이어는 자원 관리자를 가지고 있다 (has-a)
     public ResourcesManager resourcesManager;
+    // 지식 타일 관리
+    public KnowledgeBoard_Manager knowledgeBoardManager;
 
     //건물 업그레이드 UI(무역 스테이션)
     public GameObject detailInstallBuildingButtonSetObj;
@@ -239,10 +241,14 @@ public class ActionButton_Set : MonoBehaviour
         //비용 지불이 가능한가?
         if (!resourcesManager.HasEnoughResources("Knowledge", 4)) return;
 
+        //어떤 지식타일을 선택할 것인가?
+        knowledgeBoardManager.ActivateKnowledgeTile();
+
         //지식 4소모
         resourcesManager.ConsumeResource("Knowledge", 4);
 
         //지식 트랙 한칸 전진
+
     }
 
     /// <summary>
