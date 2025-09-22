@@ -47,6 +47,9 @@ public class KnowledgeBoard_Manager : MonoBehaviour
     //선택 가능한 지식타일들
     [SerializeField]
     List<KnowledgeTile> ableKnowledgeTile = new();
+    //선택한 지식 타일
+    [SerializeField]
+    public KnowledgeTile _selectKnoeledgeTile;
     
     private void Awake()
     {
@@ -67,7 +70,8 @@ public class KnowledgeBoard_Manager : MonoBehaviour
                 if (tile.Level == 0)
                 {
                     GameObject state = Instantiate(statePrefab);
-                    state.transform.position = tile.RectTransform.position;
+                    //타일의 자식 오브젝트로 설정하면 좋다.
+                    state.GetComponent<RectTransform>().position = tile.RectTransform.position;
                 }
             }
         }
@@ -136,5 +140,13 @@ public class KnowledgeBoard_Manager : MonoBehaviour
             }
         }
         return null; // 해당하는 타일을 찾지 못하면 null 반환
+    }
+
+    /// <summary>
+    /// 지식 타일 이동
+    /// </summary>
+    public void Move_KnoeledgeTile()
+    {
+        
     }
 }

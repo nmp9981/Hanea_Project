@@ -56,7 +56,7 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
     void Awake()
     {
         InitTile();
-        LoadCostsFromData();
+        //LoadCostsFromData();
     }
 
     /// <summary>

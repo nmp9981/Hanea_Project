@@ -245,10 +245,11 @@ public class ActionButton_Set : MonoBehaviour
         knowledgeBoardManager.ActivateKnowledgeTile();
 
         //지식 4소모
-        resourcesManager.ConsumeResource("Knowledge", 4);
+        if(resourcesManager.HasEnoughResources("Knowledge", 4))
+            resourcesManager.ConsumeResource("Knowledge", 4);
 
-        //지식 트랙 한칸 전진
-
+        //지식 타일 이동
+        knowledgeBoardManager.Move_KnoeledgeTile();
     }
 
     /// <summary>
