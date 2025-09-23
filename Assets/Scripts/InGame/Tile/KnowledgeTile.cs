@@ -1,5 +1,6 @@
 using Mono.Cecil;
 using System.Collections.Generic;
+using System.Resources;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -71,6 +72,8 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
         _rectTransform = this.RectTransform;
         _button = this.Button;
         _button.interactable = false;//버튼 비활성화
+
+        _button.onClick.AddListener(ClickKnowLedgeTile);
     }
 
     /// <summary>
@@ -116,5 +119,23 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
             OnChanged?.Invoke();
         }
     }
+    /// <summary>
+    /// 지식 타일을 누름
+    /// </summary>
+    public void ClickKnowLedgeTile()
+    {
+        //지식 4소모
+        if (ResourcesManager.Instance.HasEnoughResources("Knowledge", 4))
+            ResourcesManager.Instance.ConsumeResource("Knowledge", 4);
 
+        //연구 트랙 이동
+        KnowledgeBoard_Manager.Instance.stateObjDic[this.TileData.researchType].GetComponent<RectTransform>().position = this.RectTransform.position;
+
+        //플레이어의 지식 레벨 변화
+        KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType] += 1;
+        //2점 획득
+
+        //다시 원래대로
+        _button.interactable = false;//버튼 비활성화
+    }
 }

@@ -243,13 +243,6 @@ public class ActionButton_Set : MonoBehaviour
 
         //어떤 지식타일을 선택할 것인가?
         knowledgeBoardManager.ActivateKnowledgeTile();
-
-        //지식 4소모
-        if(resourcesManager.HasEnoughResources("Knowledge", 4))
-            resourcesManager.ConsumeResource("Knowledge", 4);
-
-        //지식 타일 이동
-        knowledgeBoardManager.Move_KnoeledgeTile();
     }
 
     /// <summary>

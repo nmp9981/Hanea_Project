@@ -33,16 +33,24 @@ public class SerializableList<T>
 
 public class KnowledgeBoard_Manager : MonoBehaviour
 {
+    //싱글톤
+    public static KnowledgeBoard_Manager Instance { get; private set; }
+
     //각 지식타일 등록
     [SerializeField]
     List<SerializableList<KnowledgeTile>> knowledgeTileList = new();
 
+    //상태 말
     [SerializeField]
-    GameObject statePrefab;//상태 말
+    GameObject statePrefab;
+
+    //상태말 관리
+    [SerializeField]
+    public Dictionary<ResearchType, GameObject> stateObjDic = new();
 
     //현재 플레이어의 지식 레벨
     [SerializeField]
-    Dictionary<ResearchType, int> playerKnowledgeLevel = new();
+    public Dictionary<ResearchType, int> playerKnowledgeLevel = new();
 
     //선택 가능한 지식타일들
     [SerializeField]
@@ -53,7 +61,22 @@ public class KnowledgeBoard_Manager : MonoBehaviour
     
     private void Awake()
     {
+        Set_Sington();
         InitKnowledgeState();
+    }
+
+    //싱글톤 설정
+    void Set_Sington()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // 필요시 주석 해제
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     /// <summary>
@@ -71,6 +94,8 @@ public class KnowledgeBoard_Manager : MonoBehaviour
                 {
                     GameObject state = Instantiate(statePrefab);
                     //타일의 자식 오브젝트로 설정하면 좋다.
+                    if (!stateObjDic.ContainsKey(tile.TileData.researchType))
+                        stateObjDic.Add(tile.TileData.researchType,state);
                     state.GetComponent<RectTransform>().position = tile.RectTransform.position;
                 }
             }
@@ -147,6 +172,12 @@ public class KnowledgeBoard_Manager : MonoBehaviour
     /// </summary>
     public void Move_KnoeledgeTile()
     {
-        
+        //최종 선택한 타일 찾기
+        KnowledgeTile selectTile = null;
+        //다음 트랙으로 이동
+        stateObjDic[selectTile.TileData.researchType].GetComponent<RectTransform>().position = selectTile.RectTransform.position;
+        //플레이어의 지식 레벨 변화
+        playerKnowledgeLevel[selectTile.TileData.researchType] += 1;
+        //2점 획득
     }
 }

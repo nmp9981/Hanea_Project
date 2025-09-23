@@ -91,9 +91,31 @@ public class Resource : IResource
 /// </summary>
 public class ResourcesManager : MonoBehaviour
 {
+    //싱글톤
+    public static ResourcesManager Instance { get; private set; }
+
     // 인터페이스 타입 리스트로 자원을 관리하여 유연성을 확보합니다.
     [SerializeField] public List<Resource> resources = new List<Resource>();
-   
+
+    private void Awake()
+    {
+        Set_Sington();
+    }
+
+    //싱글톤 설정
+    void Set_Sington()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // 필요시 주석 해제
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     /// <summary>
     /// 초기 자원 설정
     /// </summary>
