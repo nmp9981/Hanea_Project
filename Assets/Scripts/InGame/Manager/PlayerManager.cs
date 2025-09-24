@@ -22,6 +22,9 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private HashSet<Tile> _clickTileList = new();
 
+    //Á¡¼ö
+    private int _score { get; set; }
+
     public void OnClickTradeButton()
     {
         
@@ -241,5 +244,13 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
-
+    /// <summary>
+    /// Á¡¼ö È¹µæ
+    /// </summary>
+    /// <param name="amount"></param>
+    public void GetScore(int amount)
+    {
+        _score += amount;
+        Debug.Log(_score);
+    }
 }

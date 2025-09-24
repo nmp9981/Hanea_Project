@@ -42,7 +42,7 @@ public class KnowledgeBoard_Manager : MonoBehaviour
 
     //상태 말
     [SerializeField]
-    GameObject statePrefab;
+    List<GameObject> statePrefabList = new();
 
     //상태말 관리
     [SerializeField]
@@ -92,11 +92,11 @@ public class KnowledgeBoard_Manager : MonoBehaviour
                 //처음엔 0단계
                 if (tile.Level == 0)
                 {
-                    GameObject state = Instantiate(statePrefab);
+                    GameObject curState = statePrefabList[(int)tile.TileData.researchType];
                     //타일의 자식 오브젝트로 설정하면 좋다.
                     if (!stateObjDic.ContainsKey(tile.TileData.researchType))
-                        stateObjDic.Add(tile.TileData.researchType,state);
-                    state.GetComponent<RectTransform>().position = tile.RectTransform.position;
+                        stateObjDic.Add(tile.TileData.researchType,curState);
+                    
                 }
             }
         }
@@ -132,7 +132,7 @@ public class KnowledgeBoard_Manager : MonoBehaviour
         {
             ResearchType researchType = researchs[i];
             int nextLevel = playerKnowledgeLevel[researchType] + 1;
-
+            
             // 다음 레벨이 5를 초과하면 건너뜁니다.
             if (nextLevel > 5)
             {
@@ -168,16 +168,15 @@ public class KnowledgeBoard_Manager : MonoBehaviour
     }
 
     /// <summary>
-    /// 지식 타일 이동
+    /// 지식타일 비활성화
     /// </summary>
-    public void Move_KnoeledgeTile()
+    public void UnActivateKnowledgeTile()
     {
-        //최종 선택한 타일 찾기
-        KnowledgeTile selectTile = null;
-        //다음 트랙으로 이동
-        stateObjDic[selectTile.TileData.researchType].GetComponent<RectTransform>().position = selectTile.RectTransform.position;
-        //플레이어의 지식 레벨 변화
-        playerKnowledgeLevel[selectTile.TileData.researchType] += 1;
-        //2점 획득
+        if (ableKnowledgeTile.Count == 0) return;
+
+        foreach(var tile in ableKnowledgeTile)
+        {
+            tile.Button.interactable = false;
+        }
     }
 }

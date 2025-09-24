@@ -129,13 +129,14 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
             ResourcesManager.Instance.ConsumeResource("Knowledge", 4);
 
         //연구 트랙 이동
-        KnowledgeBoard_Manager.Instance.stateObjDic[this.TileData.researchType].GetComponent<RectTransform>().position = this.RectTransform.position;
+        KnowledgeBoard_Manager.Instance.stateObjDic[this.TileData.researchType].GetComponent<RectTransform>().position 
+            += this.RectTransform.sizeDelta.y*Vector3.up*0.5f;
 
         //플레이어의 지식 레벨 변화
         KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType] += 1;
         //2점 획득
-
+        PlayerManager.Instance.GetScore(2);
         //다시 원래대로
-        _button.interactable = false;//버튼 비활성화
+        KnowledgeBoard_Manager.Instance.UnActivateKnowledgeTile();
     }
 }
