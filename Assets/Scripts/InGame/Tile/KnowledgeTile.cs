@@ -56,7 +56,6 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
 
     void Awake()
     {
-        InitTile();
         //LoadCostsFromData();
     }
 
@@ -125,13 +124,12 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
     public void ClickKnowLedgeTile()
     {
         //지식 4소모
-        if (ResourcesManager.Instance.HasEnoughResources("Knowledge", 4))
-            ResourcesManager.Instance.ConsumeResource("Knowledge", 4);
+        ResourcesManager.Instance.ConsumeResource("Knowledge", 4);
 
         //연구 트랙 이동
         KnowledgeBoard_Manager.Instance.stateObjDic[this.TileData.researchType].GetComponent<RectTransform>().position 
-            += this.RectTransform.sizeDelta.y*Vector3.up*0.5f;
-
+            = this._rectTransform.position+ this.RectTransform.sizeDelta.y * Vector3.up;
+        
         //플레이어의 지식 레벨 변화
         KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType] += 1;
         //2점 획득
