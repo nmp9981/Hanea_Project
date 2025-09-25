@@ -1,6 +1,4 @@
-using Mono.Cecil;
 using System.Collections.Generic;
-using System.Resources;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,9 +25,19 @@ public interface TileInterface
 
     bool IsGet { get; }//습득 여부
 
+    RewardResource RewardResources { get; }//자원 보상
+
     //보상
-    void Reward();
+    void GetReward();
 }
+
+public class RewardResource
+{
+    public RewardResourcesType RewardResourcesType;//자원 습득 유형
+    public string ResourceName;//습득 자원명
+    public int RewardAmount;//보상량
+}
+
 public class KnowledgeTile : MonoBehaviour, TileInterface
 {
     // 타일 습득 시 호출될 이벤트
@@ -38,6 +46,8 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
     //속성 정의
     [SerializeField] private TileType _type;
     [SerializeField] private bool _isGet;
+    [SerializeField] private RewardResource _rewardResource;
+
     [SerializeField] private int _level;
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private Button _button;
@@ -46,6 +56,7 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
     //읽기 전용
     public TileType Type => _type;
     public bool IsGet => _isGet;
+    public RewardResource RewardResources => _rewardResource;
     public int Level => _level;
     public RectTransform RectTransform => GetComponent<RectTransform>();
     public Button Button => GetComponent<Button>();
@@ -90,8 +101,30 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
     /// <summary>
     /// 보상
     /// </summary>
-    public void Reward()
+    public void GetReward()
     {
+        //2->3 파워 증가
+        if (KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType] == 3)
+        {
+            ResourcesManager.Instance.GainResource("Energy", 3);
+        }
+
+        //각 유형에 따른 보상 획득
+        switch (_rewardResource.RewardResourcesType)
+        {
+            case RewardResourcesType.Import://수입 증가
+                ResourcesManager.Instance.ImportResourceAmount_UpDown(_rewardResource.ResourceName, _rewardResource.RewardAmount);
+                break;
+            case RewardResourcesType.SingleUse://자원 획득
+                ResourcesManager.Instance.GainResource(_rewardResource.ResourceName, _rewardResource.RewardAmount);
+                break;
+            case RewardResourcesType.Etc://기타 효과
+                break;
+            default:
+                break;
+        }
+
+
         switch (_tileData.researchType)
         {
             case ResearchType.Terraforming:
@@ -132,6 +165,10 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
         
         //플레이어의 지식 레벨 변화
         KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType] += 1;
+
+        //보상 자원 획득
+        GetReward();
+        
         //2점 획득
         PlayerManager.Instance.GetScore(2);
         //다시 원래대로

@@ -179,4 +179,18 @@ public class ResourcesManager : MonoBehaviour
             res.Consume(amount);
         }
     }
+
+    /// <summary>
+    /// ÀÚ¿ø È¹µæ
+    /// </summary>
+    /// <param name="resourceName">ÀÚ¿ø ¸í</param>
+    /// <param name="amount">È¹µæ·®</param>
+    public void GainResource(string resourceName, int amount)
+    {
+        Resource res = resources.Find(r => r.Name == resourceName);
+        if (res != null)
+        {
+            res.Gain(amount);
+        }
+    }
 }
