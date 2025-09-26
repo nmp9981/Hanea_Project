@@ -25,12 +25,13 @@ public interface TileInterface
 
     bool IsGet { get; }//습득 여부
 
-    RewardResource RewardResources { get; }//자원 보상
+    List<RewardResource> RewardResourcesList { get; }//자원 보상
 
     //보상
     void GetReward();
 }
 
+[System.Serializable]
 public class RewardResource
 {
     public RewardResourcesType RewardResourcesType;//자원 습득 유형
@@ -46,7 +47,7 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
     //속성 정의
     [SerializeField] private TileType _type;
     [SerializeField] private bool _isGet;
-    [SerializeField] private RewardResource _rewardResource;
+    [SerializeField] private List<RewardResource> _rewardResourceList = new();
 
     [SerializeField] private int _level;
     [SerializeField] private RectTransform _rectTransform;
@@ -56,7 +57,7 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
     //읽기 전용
     public TileType Type => _type;
     public bool IsGet => _isGet;
-    public RewardResource RewardResources => _rewardResource;
+    public List<RewardResource> RewardResourcesList => _rewardResourceList;
     public int Level => _level;
     public RectTransform RectTransform => GetComponent<RectTransform>();
     public Button Button => GetComponent<Button>();
@@ -110,20 +111,23 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
         }
 
         //각 유형에 따른 보상 획득
-        switch (_rewardResource.RewardResourcesType)
+        if (_rewardResourceList.Count == 0) return;
+        foreach(var reward in _rewardResourceList)
         {
-            case RewardResourcesType.Import://수입 증가
-                ResourcesManager.Instance.ImportResourceAmount_UpDown(_rewardResource.ResourceName, _rewardResource.RewardAmount);
-                break;
-            case RewardResourcesType.SingleUse://자원 획득
-                ResourcesManager.Instance.GainResource(_rewardResource.ResourceName, _rewardResource.RewardAmount);
-                break;
-            case RewardResourcesType.Etc://기타 효과
-                break;
-            default:
-                break;
+            switch (reward.RewardResourcesType)
+            {
+                case RewardResourcesType.Import://수입 증가
+                    ResourcesManager.Instance.ImportResourceAmount_UpDown(reward.ResourceName, reward.RewardAmount);
+                    break;
+                case RewardResourcesType.SingleUse://자원 획득
+                    ResourcesManager.Instance.GainResource(reward.ResourceName, reward.RewardAmount);
+                    break;
+                case RewardResourcesType.Etc://기타 효과
+                    break;
+                default:
+                    break;
+            }
         }
-
 
         switch (_tileData.researchType)
         {
