@@ -63,14 +63,6 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
     public Button Button => GetComponent<Button>();
     public TileData TileData => _tileData;
 
-    // 인터페이스 구현을 위한 Dictionary
-    public Dictionary<Resource, int> Costs { get; private set; }
-
-    void Awake()
-    {
-        //LoadCostsFromData();
-    }
-
     /// <summary>
     /// 타일 초기화
     /// </summary>
@@ -85,18 +77,6 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
         _button.interactable = false;//버튼 비활성화
 
         _button.onClick.AddListener(ClickKnowLedgeTile);
-    }
-
-    /// <summary>
-    /// 타일 자원 데이터 로드
-    /// </summary>
-    private void LoadCostsFromData()
-    {
-        Costs = new Dictionary<Resource, int>();
-        foreach (var costAmount in _tileData.costs)
-        {
-            Costs[costAmount.type] = costAmount.amount;
-        }
     }
 
     /// <summary>
