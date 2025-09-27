@@ -123,31 +123,14 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
                     ResourcesManager.Instance.GainResource(reward.ResourceName, reward.RewardAmount);
                     break;
                 case RewardResourcesType.Etc://기타 효과
+
+                    EtcRewardEffect(_tileData.researchType);
+
                     break;
                 default:
                     break;
             }
         }
-
-        switch (_tileData.researchType)
-        {
-            case ResearchType.Terraforming:
-                Debug.Log("삽비용 할인");
-                break;
-            case ResearchType.Navigation:
-                Debug.Log("허용거리 증가");
-                break;
-            case ResearchType.AI:
-                Debug.Log("삽비용 할인");
-                break;
-            case ResearchType.Economy:
-                break;
-            case ResearchType.Science:
-                break;
-            default:
-                break;
-        }
-
 
         //값 변경
         if (_isGet==true)
@@ -155,6 +138,25 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
             OnChanged?.Invoke();
         }
     }
+
+    /// <summary>
+    /// 기타 보상 효과
+    /// </summary>
+    private void EtcRewardEffect(ResearchType tileType)
+    {
+        switch (tileType)
+        {
+            case ResearchType.Terraforming:
+                PlayerManager.Instance.AddOrePrice -= 1;
+                break;
+            case ResearchType.Navigation:
+                PlayerManager.Instance.DistanceLimit += 1;
+                break;
+            default:
+                break;
+        }
+    }
+
     /// <summary>
     /// 지식 타일을 누름
     /// </summary>

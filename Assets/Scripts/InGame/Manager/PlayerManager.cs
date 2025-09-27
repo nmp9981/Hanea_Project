@@ -22,8 +22,14 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private HashSet<Tile> _clickTileList = new();
 
-    //점수
+    #region 플레이어 정보
+    //플레이어 정보
     private int _score { get; set; }
+    private int _distanceLimit = 1;
+    private int _addOrePrice = 3;
+    public int DistanceLimit { get { return _distanceLimit; } set { _distanceLimit = value; } }
+    public int AddOrePrice { get { return _addOrePrice; } set { _addOrePrice = value; } }
+    #endregion
 
     public void OnClickTradeButton()
     {
