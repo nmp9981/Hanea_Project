@@ -96,12 +96,20 @@ public class ActionButton_Set : MonoBehaviour
 
         //행성이 존재해야함
         if (clickTile.PlanetType == Planet.None) return;
+        
+        //추가 삽비용
+        int addSabCost = TileSystem.RequireSabCount(clickTile.PlanetType);
 
+        //사거리 검사
+
+        
         //비용 검사
         if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[0])) return;
+        if (resourcesManager.HasEnoughResources("Ore", addSabCost) == false) return;
 
         //비용 지불
         PayForBuilding(BuildingManager.Instance.buildingDataList[0]);
+        resourcesManager.ConsumeResource("Ore", addSabCost);
 
         //광산 설치
         clickTile.ChangeBuildingImageAndPower(Building.Mine);
@@ -165,6 +173,15 @@ public class ActionButton_Set : MonoBehaviour
                 return false;
             }
         }
+
+        //광산 추가 비용
+        if (buildingData.type == Building.Mine)
+        {
+            if (resourcesManager.HasEnoughResources("Ore", 0) == false)
+            {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -179,6 +196,12 @@ public class ActionButton_Set : MonoBehaviour
         foreach (var cost in buildingData.costs)
         {
             resourcesManager.ConsumeResource(cost.resourceName, cost.amount);
+        }
+
+        //광산 추가 비용
+        if (buildingData.type == Building.Mine)
+        {
+            resourcesManager.ConsumeResource("Ore", 0);
         }
     }
 

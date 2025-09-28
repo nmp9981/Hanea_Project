@@ -87,7 +87,7 @@ public class ActionTile : MonoBehaviour, TileInterface
                     ResourcesManager.Instance.GainResource(reward.ResourceName, reward.RewardAmount);
                     break;
                 case RewardResourcesType.Etc://기타 효과
-
+                    //놓을 수 있는곳 표시
                     break;
                 default:
                     break;

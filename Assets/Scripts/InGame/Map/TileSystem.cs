@@ -129,4 +129,37 @@ public static class TileSystem
 
         return true;
     }
+
+    /// <summary>
+    /// 추가 삽비용
+    /// </summary>
+    /// <param name="planet">행성</param>
+    /// <returns></returns>
+    public static int RequireSabCount(Planet planet)
+    {
+        if (planet == Planet.None) return 1000;//설치 불가
+
+        int sabCount = 0;
+        //모행성과의 관계
+        switch (planet)
+        {
+            case Planet.Titanum:
+            case Planet.Swamp:
+                sabCount = 3;
+                break;
+            case Planet.Ice:
+            case Planet.Desert:
+                sabCount = 2;
+                break;
+            case Planet.Earth:
+            case Planet.Volcano:
+                sabCount = 1;
+                break;
+            default:
+                break;
+        }
+
+        int sabCost = PlayerManager.Instance.AddOrePrice * sabCount;
+        return sabCost;
+    }
 }

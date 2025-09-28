@@ -27,8 +27,8 @@ public class PlayerManager : MonoBehaviour
     private int _score { get; set; }
     private int _distanceLimit = 1;
     private int _addOrePrice = 3;
-    public int DistanceLimit { get { return _distanceLimit; } set { _distanceLimit = value; } }
-    public int AddOrePrice { get { return _addOrePrice; } set { _addOrePrice = value; } }
+    public int DistanceLimit { get { return _distanceLimit; } set { _distanceLimit = value; } }//사거리
+    public int AddOrePrice { get { return _addOrePrice; } set { _addOrePrice = value; } }//추가 삽비용
     #endregion
 
     public void OnClickTradeButton()
