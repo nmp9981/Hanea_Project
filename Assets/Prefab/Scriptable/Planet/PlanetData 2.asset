@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetType: 2
   planetColor: {r: 0.96420634, g: 1, b: 0, a: 1}
+  planetImage: {fileID: 21300000, guid: c2b833097695c0f478530a7334eb8a8a, type: 3}
