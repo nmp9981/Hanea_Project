@@ -74,20 +74,38 @@ public class ActionTile : MonoBehaviour, TileInterface
     /// </summary>
     public void GetReward()
     {
-        //각 유형에 따른 보상 획득
-        if (_rewardResourceList.Count == 0) return;
-        foreach (var reward in _rewardResourceList)
+        //정보큐브 액션인지 에너지 액션인지에 따라 구분
+        if (_type == TileType.Energy)
         {
-            switch (reward.RewardResourcesType)
+            //각 유형에 따른 보상 획득
+            if (_rewardResourceList.Count == 0) return;
+            foreach (var reward in _rewardResourceList)
             {
-                case RewardResourcesType.Import://수입 증가
-                    ResourcesManager.Instance.ImportResourceAmount_UpDown(reward.ResourceName, reward.RewardAmount);
+                switch (reward.RewardResourcesType)
+                {
+                    case RewardResourcesType.Import://수입 증가
+                        ResourcesManager.Instance.ImportResourceAmount_UpDown(reward.ResourceName, reward.RewardAmount);
+                        break;
+                    case RewardResourcesType.SingleUse://자원 획득
+                        ResourcesManager.Instance.GainResource(reward.ResourceName, reward.RewardAmount);
+                        break;
+                    case RewardResourcesType.Etc://기타 효과
+                                                 //놓을 수 있는곳 표시
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        else if (_type == TileType.Information)//정보큐브 액션
+        {
+            switch(_costAmount)
+            {
+                case 4://타일 가져오기
                     break;
-                case RewardResourcesType.SingleUse://자원 획득
-                    ResourcesManager.Instance.GainResource(reward.ResourceName, reward.RewardAmount);
+                case 3://연방 효과 재사용
                     break;
-                case RewardResourcesType.Etc://기타 효과
-                    //놓을 수 있는곳 표시
+                case 2://점수
                     break;
                 default:
                     break;

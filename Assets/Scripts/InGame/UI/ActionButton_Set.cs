@@ -301,6 +301,7 @@ public class ActionButton_Set : MonoBehaviour
     private void Action_Pass_OK()
     {
         resourcesManager.ImportAllResources();//수입
+        TileManager.Instance.ActivateAllTiles();//타일 활성화
         passUIObj.SetActive(false);
     }
     /// <summary>
