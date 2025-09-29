@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlanetData : ScriptableObject
 {
     public Planet planetType;//행성 타입
-    public Color planetColor;//행성에 적용할 색상
+    public Sprite planetImage;//행성 이미지
 }
 
 [CreateAssetMenu(fileName = "PlanetList", menuName = "Game Data/Planet List")]

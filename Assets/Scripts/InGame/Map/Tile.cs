@@ -125,7 +125,7 @@ public class Tile : MonoBehaviour
 
         if (currentPlanetData != null)
         {
-            _spriteRenderer.color = currentPlanetData.planetColor;
+            _spriteRenderer.sprite = currentPlanetData.planetImage;
             _planetType = currentPlanetData.planetType;
         }
     }
