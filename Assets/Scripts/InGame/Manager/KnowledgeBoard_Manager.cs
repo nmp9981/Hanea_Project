@@ -24,6 +24,7 @@ public enum RewardResourcesType
     Import,
     SingleUse,
     Etc,
+    Score,
     Count
 }
 
