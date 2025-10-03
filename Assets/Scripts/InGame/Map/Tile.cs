@@ -125,7 +125,10 @@ public class Tile : MonoBehaviour
 
         if (currentPlanetData != null)
         {
-            _spriteRenderer.sprite = currentPlanetData.planetImage;
+            if(currentPlanetData.planetType == Planet.None)
+            {
+                _spriteRenderer.sprite = null;
+            }else _spriteRenderer.sprite = currentPlanetData.planetImage;
             _planetType = currentPlanetData.planetType;
         }
     }
