@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -21,6 +22,10 @@ public class PlayerManager : MonoBehaviour
     private string _tileTag = "Tile";
     [SerializeField]
     private HashSet<Tile> _clickTileList = new();
+
+    //UI
+    [SerializeField]
+    private TextMeshProUGUI scoreText;
 
     #region 플레이어 정보
     //플레이어 정보
@@ -54,6 +59,8 @@ public class PlayerManager : MonoBehaviour
     {
         //자원 수입
         resourcesManager.ImportAllResources();
+        //점수 초기화
+        ScoreInit();
     }
 
     private void Update()
@@ -71,6 +78,13 @@ public class PlayerManager : MonoBehaviour
                 SettingClickTile();
             }
         }
+    }
+
+    //점수 초기화
+    void ScoreInit()
+    {
+        _score = 10;
+        scoreText.text = _score.ToString();
     }
 
     #region 타일 클릭 관련 함수 - 연방 관련 함수 포함
@@ -257,6 +271,7 @@ public class PlayerManager : MonoBehaviour
     public void GetScore(int amount)
     {
         _score += amount;
-        Debug.Log(_score);
+        _score = Mathf.Max(0, _score);//음수는 불가
+        scoreText.text = _score.ToString();
     }
 }

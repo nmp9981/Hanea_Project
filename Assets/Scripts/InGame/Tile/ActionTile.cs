@@ -87,6 +87,10 @@ public class ActionTile : MonoBehaviour, TileInterface
                         ResourcesManager.Instance.ImportResourceAmount_UpDown(reward.ResourceName, reward.RewardAmount);
                         break;
                     case RewardResourcesType.SingleUse://자원 획득
+                        if(reward.ResourceName == "Energy")//에너지는 1점 감정
+                        {
+                            PlayerManager.Instance.GetScore(-1);
+                        }
                         ResourcesManager.Instance.GainResource(reward.ResourceName, reward.RewardAmount);
                         break;
                     case RewardResourcesType.Etc://기타 효과
