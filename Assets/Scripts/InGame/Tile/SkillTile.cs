@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class SkillTile : MonoBehaviour, TileInterface
 {
     // 타일 습득 시 호출될 이벤트
@@ -12,7 +13,7 @@ public class SkillTile : MonoBehaviour, TileInterface
     [SerializeField] private bool _isGet = false;
     [SerializeField] private List<RewardResource> _rewardResourceList = new();
     [SerializeField] private Button _button;
-   
+    [SerializeField] private ResearchType _researchTypeArea;
 
     //읽기 전용
     public TileType Type => _type;
@@ -20,7 +21,11 @@ public class SkillTile : MonoBehaviour, TileInterface
     public List<RewardResource> RewardResourcesList => _rewardResourceList;
     public Button Button => GetComponent<Button>();
     
-    void Awake()
+    //타일이 있는 영역
+    public ResearchType ResearchTypeArea { get; set; }
+
+
+    void OnEnable()
     {
         InitTile();
     }

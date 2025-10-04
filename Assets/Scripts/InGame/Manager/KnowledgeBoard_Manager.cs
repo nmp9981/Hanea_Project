@@ -52,6 +52,12 @@ public class KnowledgeBoard_Manager : MonoBehaviour
     [SerializeField]
     List<SerializableList<KnowledgeTile>> knowledgeTileList = new();
 
+    //각 기술타일 등록
+    [SerializeField]
+    List<SkillTile> skillTile_List = new();
+    Transform skillTile_EachArea;
+    Transform skillTile_CommonArea;
+
     //상태 말
     [SerializeField]
     List<GameObject> statePrefabList = new();
@@ -77,6 +83,11 @@ public class KnowledgeBoard_Manager : MonoBehaviour
         InitKnowledgeState();
     }
 
+    private void OnEnable()
+    {
+        SettingSkilltile();
+    }
+
     //싱글톤 설정
     void Set_Sington()
     {
@@ -88,6 +99,64 @@ public class KnowledgeBoard_Manager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    /// <summary>
+    /// 스킬 타일 세팅
+    /// </summary>
+    void SettingSkilltile()
+    {
+        skillTile_EachArea = GameObject.Find("EachArea").GetComponent<Transform>();
+        skillTile_CommonArea = GameObject.Find("CommonArea").GetComponent<Transform>();
+
+        //리스트 순서 랜덤 지정
+        HashSet<int> orderList = new HashSet<int>();
+        while (orderList.Count < 8)
+        {
+            int ran = UnityEngine.Random.Range(0, 8);
+            if (!orderList.Contains(ran))
+            {
+                orderList.Add(ran);
+            }
+        }
+
+        //지정한 순서대로 배치
+        int cnt = 0;
+        foreach(int idx in orderList)
+        {
+            if (cnt < 5)//EachArea 영역
+            {
+                GameObject skillTilePrefab = Instantiate(skillTile_List[idx].gameObject);
+                skillTilePrefab.transform.parent = skillTile_EachArea.transform;
+                switch (idx)
+                {
+                    case 0:
+                        skillTile_List[idx].ResearchTypeArea = ResearchType.Terraforming;
+                        break;
+                    case 1:
+                        skillTile_List[idx].ResearchTypeArea = ResearchType.Navigation;
+                        break;
+                    case 2:
+                        skillTile_List[idx].ResearchTypeArea = ResearchType.AI;
+                        break;
+                    case 3:
+                        skillTile_List[idx].ResearchTypeArea = ResearchType.Economy;
+                        break;
+                    case 4:
+                        skillTile_List[idx].ResearchTypeArea = ResearchType.Science;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else//Common 영역
+            {
+                GameObject skillTilePrefab = Instantiate(skillTile_List[idx].gameObject);
+                skillTilePrefab.transform.parent = skillTile_CommonArea.transform;
+                skillTile_List[idx].ResearchTypeArea = ResearchType.Count;
+            }
+            cnt++;
         }
     }
 
