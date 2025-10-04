@@ -84,7 +84,7 @@ public class SkillTile : MonoBehaviour, TileInterface
                     }
                     break;
                 case RewardResourcesType.Etc://기타 효과
-                    
+                    PowerValueUp_Academy_Institute();
                     break;
                 default:
                     break;
@@ -93,6 +93,12 @@ public class SkillTile : MonoBehaviour, TileInterface
 
         //획득 표시
         ShowGetTile();
+
+        //지식 타일 올리기
+        if(ResearchTypeArea == ResearchType.Count)
+        {
+            KnowledgeBoard_Manager.Instance.ActivateKnowledgeTile(ResearchType.Count);
+        }else KnowledgeBoard_Manager.Instance.ActivateKnowledgeTile(ResearchTypeArea);
 
         //값 변경
         if (_isGet == true)
@@ -109,4 +115,14 @@ public class SkillTile : MonoBehaviour, TileInterface
         _isGet = true;
         _button.interactable = false;
     }
+
+    /// <summary>
+    /// 의회, 아카데미 파워값 증가
+    /// </summary>
+    void PowerValueUp_Academy_Institute()
+    {
+        BuildingManager.Instance.buildingDataList[3].powerValue = 4;
+        BuildingManager.Instance.buildingDataList[4].powerValue = 4;
+    }
+    
 }

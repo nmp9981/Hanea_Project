@@ -277,7 +277,7 @@ public class ActionButton_Set : MonoBehaviour
         if (!resourcesManager.HasEnoughResources("Knowledge", 4)) return;
 
         //어떤 지식타일을 선택할 것인가?
-        knowledgeBoardManager.ActivateKnowledgeTile();
+        knowledgeBoardManager.ActivateKnowledgeTile(ResearchType.Count);
     }
 
     /// <summary>

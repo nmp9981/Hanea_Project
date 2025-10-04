@@ -129,22 +129,22 @@ public class KnowledgeBoard_Manager : MonoBehaviour
             {
                 GameObject skillTilePrefab = Instantiate(skillTile_List[idx].gameObject);
                 skillTilePrefab.transform.parent = skillTile_EachArea.transform;
-                switch (idx)
+                switch (cnt)
                 {
                     case 0:
-                        skillTile_List[idx].ResearchTypeArea = ResearchType.Terraforming;
+                        skillTilePrefab.GetComponent<SkillTile>().ResearchTypeArea = ResearchType.Terraforming;
                         break;
                     case 1:
-                        skillTile_List[idx].ResearchTypeArea = ResearchType.Navigation;
+                        skillTilePrefab.GetComponent<SkillTile>().ResearchTypeArea = ResearchType.Navigation;
                         break;
                     case 2:
-                        skillTile_List[idx].ResearchTypeArea = ResearchType.AI;
+                        skillTilePrefab.GetComponent<SkillTile>().ResearchTypeArea = ResearchType.AI;
                         break;
                     case 3:
-                        skillTile_List[idx].ResearchTypeArea = ResearchType.Economy;
+                        skillTilePrefab.GetComponent<SkillTile>().ResearchTypeArea = ResearchType.Economy;
                         break;
                     case 4:
-                        skillTile_List[idx].ResearchTypeArea = ResearchType.Science;
+                        skillTilePrefab.GetComponent<SkillTile>().ResearchTypeArea = ResearchType.Science;
                         break;
                     default:
                         break;
@@ -154,7 +154,7 @@ public class KnowledgeBoard_Manager : MonoBehaviour
             {
                 GameObject skillTilePrefab = Instantiate(skillTile_List[idx].gameObject);
                 skillTilePrefab.transform.parent = skillTile_CommonArea.transform;
-                skillTile_List[idx].ResearchTypeArea = ResearchType.Count;
+                skillTilePrefab.GetComponent<SkillTile>().ResearchTypeArea = ResearchType.Count;
             }
             cnt++;
         }
@@ -196,7 +196,7 @@ public class KnowledgeBoard_Manager : MonoBehaviour
     /// <summary>
     /// 지식타일 활성화
     /// </summary>
-    public void ActivateKnowledgeTile()
+    public void ActivateKnowledgeTile(ResearchType research)
     {
         // 이전 활성화 타일 초기화
         foreach (var tile in ableKnowledgeTile)
@@ -225,8 +225,20 @@ public class KnowledgeBoard_Manager : MonoBehaviour
 
             if (targetTile != null)
             {
-                targetTile.Button.interactable = true;
-                ableKnowledgeTile.Add(targetTile);
+                //타입이 정해질 경우 해당 타입만 적용
+                if(research == ResearchType.Count)
+                {
+                    targetTile.Button.interactable = true;
+                    ableKnowledgeTile.Add(targetTile);
+                }
+                else
+                {
+                    if(researchType == research)
+                    {
+                        targetTile.Button.interactable = true;
+                        ableKnowledgeTile.Add(targetTile);
+                    }
+                }
             }
         }
     }
