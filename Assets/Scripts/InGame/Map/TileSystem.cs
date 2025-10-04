@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -161,5 +162,20 @@ public static class TileSystem
 
         int sabCost = PlayerManager.Instance.AddOrePrice * sabCount;
         return sabCost;
+    }
+
+    /// <summary>
+    /// 점령 행성 종류 개수 세기
+    /// </summary>
+    /// <returns></returns>
+    public static int CountOccupyPlanet()
+    {
+        int cnt = 0;
+
+        foreach(var planet in PlayerManager.Instance._planetOccupyDic)
+        {
+            if (planet.Value) cnt++;
+        }
+        return cnt;
     }
 }

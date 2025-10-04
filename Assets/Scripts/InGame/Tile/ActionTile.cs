@@ -110,6 +110,8 @@ public class ActionTile : MonoBehaviour, TileInterface
                 case 3://연방 효과 재사용
                     break;
                 case 2://점수
+                    int addScore = 3 + TileSystem.CountOccupyPlanet();
+                    PlayerManager.Instance.GetScore(addScore);
                     break;
                 default:
                     break;

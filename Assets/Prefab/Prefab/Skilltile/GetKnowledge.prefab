@@ -460,7 +460,7 @@ GameObject:
   - component: {fileID: 7559833912578847655}
   - component: {fileID: 2147880636757222231}
   m_Layer: 5
-  m_Name: SkillTile (1) 1
+  m_Name: GetKnowledge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

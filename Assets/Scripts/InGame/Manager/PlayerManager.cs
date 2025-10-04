@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -32,8 +33,11 @@ public class PlayerManager : MonoBehaviour
     private int _score { get; set; }
     private int _distanceLimit = 1;
     private int _addOrePrice = 3;
+    private bool _isGaiaScore = false;
     public int DistanceLimit { get { return _distanceLimit; } set { _distanceLimit = value; } }//사거리
     public int AddOrePrice { get { return _addOrePrice; } set { _addOrePrice = value; } }//추가 삽비용
+    public bool IsGaiaScore { get { return _isGaiaScore; }set { _isGaiaScore = value; } }//가이아 행성 개수
+    public Dictionary<Planet, bool> _planetOccupyDic = new Dictionary<Planet, bool>();//행성 점령 유형
     #endregion
 
     public void OnClickTradeButton()
@@ -61,6 +65,8 @@ public class PlayerManager : MonoBehaviour
         resourcesManager.ImportAllResources();
         //점수 초기화
         ScoreInit();
+        //행성 점령 기록 초기화
+        OccupyInit();
     }
 
     private void Update()
@@ -85,6 +91,17 @@ public class PlayerManager : MonoBehaviour
     {
         _score = 10;
         scoreText.text = _score.ToString();
+    }
+    //점령 기록 초기화
+    void OccupyInit()
+    {
+        Array enumPlanetValues = Enum.GetValues(typeof(Planet));
+
+        foreach (Planet planet in enumPlanetValues)
+        {
+            if (planet == Planet.None || planet == Planet.Count) continue;
+            _planetOccupyDic.Add(planet, false); 
+        }
     }
 
     #region 타일 클릭 관련 함수 - 연방 관련 함수 포함

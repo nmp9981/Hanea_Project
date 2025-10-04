@@ -54,6 +54,8 @@ public class SkillTile : MonoBehaviour, TileInterface
     /// </summary>
     public void GetReward()
     {
+        //ÀÌ¹Ì È¹µæÇÑ°ÍÀº È¹µæ ºÒ°¡ 
+        if (_isGet) return;
         //°¢ À¯Çü¿¡ µû¸¥ º¸»ó È¹µæ
         if (_rewardResourceList.Count == 0) return;
         foreach (var reward in _rewardResourceList)
@@ -64,12 +66,17 @@ public class SkillTile : MonoBehaviour, TileInterface
                     ResourcesManager.Instance.ImportResourceAmount_UpDown(reward.ResourceName, reward.RewardAmount);
                     break;
                 case RewardResourcesType.SingleUse://ÀÚ¿ø È¹µæ
-                    ResourcesManager.Instance.GainResource(reward.ResourceName, reward.RewardAmount);
+                    if(reward.ResourceName == "Knowledge")
+                    {
+                        int addKnowledge = TileSystem.CountOccupyPlanet();
+                        ResourcesManager.Instance.GainResource(reward.ResourceName,  addKnowledge);
+                    }
+                    else ResourcesManager.Instance.GainResource(reward.ResourceName, reward.RewardAmount);
                     break;
                 case RewardResourcesType.Score://Á¡¼ö È¹µæ
                     if(reward.ResourceName == "Gaia")//°¡ÀÌ¾Æ Çà¼º
                     {
-                        PlayerManager.Instance.GetScore(3);
+                        PlayerManager.Instance.IsGaiaScore = true;
                     }
                     else//7Á¡
                     {
@@ -84,10 +91,22 @@ public class SkillTile : MonoBehaviour, TileInterface
             }
         }
 
+        //È¹µæ Ç¥½Ã
+        ShowGetTile();
+
         //°ª º¯°æ
         if (_isGet == true)
         {
             OnChanged?.Invoke();
         }
+    }
+
+    /// <summary>
+    /// Å¸ÀÏ È¹µæ Ç¥½Ã
+    /// </summary>
+    void ShowGetTile()
+    {
+        _isGet = true;
+        _button.interactable = false;
     }
 }

@@ -95,7 +95,7 @@ public class ActionButton_Set : MonoBehaviour
         if (clickTile.InstallBuildingImage.sprite != null) return;
 
         //행성이 존재해야함
-        if (clickTile.PlanetType == Planet.None) return;
+        if (clickTile.PlanetType == Planet.None || clickTile.PlanetType == Planet.Count) return;
         
         //추가 삽비용
         int addSabCost = TileSystem.RequireSabCount(clickTile.PlanetType);
@@ -116,6 +116,18 @@ public class ActionButton_Set : MonoBehaviour
 
         //광석 수입 증가
         resourcesManager.ImportResourceAmount_UpDown("Ore", 1);
+
+        //점수 증가
+        if (PlayerManager.Instance.IsGaiaScore)
+        {
+            PlayerManager.Instance.GetScore(3);
+        }
+
+        //점령행성 종류 추가
+        if (PlayerManager.Instance._planetOccupyDic[clickTile.PlanetType] == false)
+        {
+            PlayerManager.Instance._planetOccupyDic[clickTile.PlanetType] = true;
+        }
     }
 
     /// <summary>
