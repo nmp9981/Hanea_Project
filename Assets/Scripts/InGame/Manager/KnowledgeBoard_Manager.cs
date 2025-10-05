@@ -55,6 +55,8 @@ public class KnowledgeBoard_Manager : MonoBehaviour
     //각 기술타일 등록
     [SerializeField]
     List<SkillTile> skillTile_List = new();
+    //씬에 인스턴스화된 SkillTile 객체들을 저장할 리스트
+    List<SkillTile> _instantiatedSkillTiles = new();
     Transform skillTile_EachArea;
     Transform skillTile_CommonArea;
 
@@ -125,26 +127,29 @@ public class KnowledgeBoard_Manager : MonoBehaviour
         int cnt = 0;
         foreach(int idx in orderList)
         {
+            GameObject skillTilePrefab = Instantiate(skillTile_List[idx].gameObject);
+            SkillTile tileInstance = skillTilePrefab.GetComponent<SkillTile>();
+
             if (cnt < 5)//EachArea 영역
               {
-                GameObject skillTilePrefab = Instantiate(skillTile_List[idx].gameObject);
                 skillTilePrefab.transform.parent = skillTile_EachArea.transform;
+                
                 switch (cnt)
                 {
                     case 0:
-                        skillTilePrefab.GetComponent<SkillTile>().ResearchTypeArea = ResearchType.Terraforming;
+                        tileInstance.ResearchTypeArea = ResearchType.Terraforming;
                         break;
                     case 1:
-                        skillTilePrefab.GetComponent<SkillTile>().ResearchTypeArea = ResearchType.Navigation;
+                        tileInstance.ResearchTypeArea = ResearchType.Navigation;
                         break;
                     case 2:
-                        skillTilePrefab.GetComponent<SkillTile>().ResearchTypeArea = ResearchType.AI;
+                        tileInstance.ResearchTypeArea = ResearchType.AI;
                         break;
                     case 3:
-                        skillTilePrefab.GetComponent<SkillTile>().ResearchTypeArea = ResearchType.Economy;
+                        tileInstance.ResearchTypeArea = ResearchType.Economy;
                         break;
                     case 4:
-                        skillTilePrefab.GetComponent<SkillTile>().ResearchTypeArea = ResearchType.Science;
+                        tileInstance.ResearchTypeArea = ResearchType.Science;
                         break;
                     default:
                         break;
@@ -152,10 +157,13 @@ public class KnowledgeBoard_Manager : MonoBehaviour
             }
             else//Common 영역
             {
-                GameObject skillTilePrefab = Instantiate(skillTile_List[idx].gameObject);
                 skillTilePrefab.transform.parent = skillTile_CommonArea.transform;
-                skillTilePrefab.GetComponent<SkillTile>().ResearchTypeArea = ResearchType.Count;
+                tileInstance.ResearchTypeArea = ResearchType.Count;
             }
+
+            //생성된 인스턴스를 새 리스트에 추가
+            _instantiatedSkillTiles.Add(tileInstance);
+
             cnt++;
         }
     }
@@ -278,11 +286,10 @@ public class KnowledgeBoard_Manager : MonoBehaviour
     /// </summary>
     public void Activate_AllSkillTile()
     {
-        foreach(var tile in skillTile_List)
+        foreach(var tile in _instantiatedSkillTiles)
         {
             if (tile.IsGet) continue;//이미 얻은것 제외
-            tile.Button.interactable = true;
-            Debug.Log("27392");
+            tile.TileActive();
         }
     }
     /// <summary>
@@ -290,10 +297,9 @@ public class KnowledgeBoard_Manager : MonoBehaviour
     /// </summary>
     public void UnActivate_AllSkillTile()
     {
-        foreach (var tile in skillTile_List)
+        foreach (var tile in _instantiatedSkillTiles)
         {
-            Debug.Log("27392");
-            tile.Button.interactable = false;
+            tile.TileUnActive();
         }
     }
 }

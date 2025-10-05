@@ -20,7 +20,25 @@ public class SkillTile : MonoBehaviour, TileInterface
     public TileType Type => _type;
     public bool IsGet => _isGet;
     public List<RewardResource> RewardResourcesList => _rewardResourceList;
-    public Button Button => GetComponent<Button>();
+    public Button Button
+    {
+        // 읽기 (Get): 필드에 값이 없으면(null이면) GetComponent를 호출하여 저장한 후 반환.
+        // 이는 매번 GetComponent를 호출하는 것을 방지합니다.
+        get
+        {
+            if (_button == null)
+            {
+                _button = GetComponent<Button>();
+            }
+            return _button;
+        }
+
+        // 쓰기 (Set): 외부에서 새로운 Button 컴포넌트를 할당할 수 있도록 허용.
+        set
+        {
+            _button = value;
+        }
+    }
     
     //타일이 있는 영역
     public ResearchType ResearchTypeArea { get; set; }
@@ -36,7 +54,6 @@ public class SkillTile : MonoBehaviour, TileInterface
     void OnEnable()
     {
         InitTile();
-        TileActive();
     }
 
     /// <summary>
@@ -44,7 +61,9 @@ public class SkillTile : MonoBehaviour, TileInterface
     /// </summary>
     public void InitTile()
     {
+        _isGet = false;
         _button = this.Button;
+        _button.interactable = false;
         _button.onClick.AddListener(GetReward);
     }
 
@@ -53,8 +72,14 @@ public class SkillTile : MonoBehaviour, TileInterface
     /// </summary>
     public void TileActive()
     {
-        _isGet = false;
-        _button.interactable = false;//버튼 활성화
+        _button.interactable = true;
+    }
+    /// <summary>
+    /// 타일 비활성화
+    /// </summary>
+    public void TileUnActive()
+    {
+        _button.interactable = false;
     }
 
     /// <summary>

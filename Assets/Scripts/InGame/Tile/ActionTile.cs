@@ -106,6 +106,7 @@ public class ActionTile : MonoBehaviour, TileInterface
             switch(_costAmount)
             {
                 case 4://타일 가져오기
+                    KnowledgeBoard_Manager.Instance.Activate_AllSkillTile();
                     break;
                 case 3://연방 효과 재사용
                     break;
