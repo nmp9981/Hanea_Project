@@ -164,6 +164,7 @@ public class ActionButton_Set : MonoBehaviour
                 PayForBuilding(BuildingManager.Instance.buildingDataList[3]);
                 clickTile.ChangeBuildingImageAndPower(Building.Academy);
                 resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
+                KnowledgeBoard_Manager.Instance.Activate_AllSkillTile();//±â¼ú Å¸ÀÏ È¹µæ
                 break;
             default:
                 break;
@@ -236,6 +237,7 @@ public class ActionButton_Set : MonoBehaviour
         resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
         resourcesManager.ImportResourceAmount_UpDown("Money", -3);
         detailInstallBuildingButtonSetObj.SetActive(false);
+        KnowledgeBoard_Manager.Instance.Activate_AllSkillTile();//±â¼ú Å¸ÀÏ È¹µæ
     }
 
     /// <summary>
@@ -296,6 +298,8 @@ public class ActionButton_Set : MonoBehaviour
         {
             PayForBuilding(BuildingManager.Instance.buildingDataList[5]);
         }
+        //¿¬¹æ ÅäÅ« °¡Á®¿À±â
+
     }
 
     #region Pass

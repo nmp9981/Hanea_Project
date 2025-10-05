@@ -126,7 +126,7 @@ public class KnowledgeBoard_Manager : MonoBehaviour
         foreach(int idx in orderList)
         {
             if (cnt < 5)//EachArea 영역
-            {
+              {
                 GameObject skillTilePrefab = Instantiate(skillTile_List[idx].gameObject);
                 skillTilePrefab.transform.parent = skillTile_EachArea.transform;
                 switch (cnt)
@@ -269,6 +269,30 @@ public class KnowledgeBoard_Manager : MonoBehaviour
 
         foreach(var tile in ableKnowledgeTile)
         {
+            tile.Button.interactable = false;
+        }
+    }
+
+    /// <summary>
+    /// 기술 타일 활성화
+    /// </summary>
+    public void Activate_AllSkillTile()
+    {
+        foreach(var tile in skillTile_List)
+        {
+            if (tile.IsGet) continue;//이미 얻은것 제외
+            tile.Button.interactable = true;
+            Debug.Log("27392");
+        }
+    }
+    /// <summary>
+    /// 기술 타일 비활성화
+    /// </summary>
+    public void UnActivate_AllSkillTile()
+    {
+        foreach (var tile in skillTile_List)
+        {
+            Debug.Log("27392");
             tile.Button.interactable = false;
         }
     }

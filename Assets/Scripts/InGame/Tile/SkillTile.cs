@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 
@@ -23,11 +24,19 @@ public class SkillTile : MonoBehaviour, TileInterface
     
     //타일이 있는 영역
     public ResearchType ResearchTypeArea { get; set; }
+    //기술타일 표시 영역
+    [SerializeField]
+    Transform skillTileArea;
 
+    void Awake()
+    {
+        skillTileArea = GameObject.Find("OwnSkillTileArea").GetComponent<Transform>();
+    }
 
     void OnEnable()
     {
         InitTile();
+        TileActive();
     }
 
     /// <summary>
@@ -45,9 +54,8 @@ public class SkillTile : MonoBehaviour, TileInterface
     public void TileActive()
     {
         _isGet = false;
-        _button.interactable = true;//버튼 활성화
+        _button.interactable = false;//버튼 활성화
     }
-
 
     /// <summary>
     /// 보상 : 획득시 한번 적용
@@ -105,6 +113,8 @@ public class SkillTile : MonoBehaviour, TileInterface
         {
             OnChanged?.Invoke();
         }
+        //다시 비활성화
+        KnowledgeBoard_Manager.Instance.UnActivate_AllSkillTile();
     }
 
     /// <summary>
@@ -114,6 +124,9 @@ public class SkillTile : MonoBehaviour, TileInterface
     {
         _isGet = true;
         _button.interactable = false;
+
+        GameObject tileGm = Instantiate(this.gameObject);
+        tileGm.transform.parent = skillTileArea;
     }
 
     /// <summary>
