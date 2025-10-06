@@ -96,6 +96,9 @@ public class ActionButton_Set : MonoBehaviour
 
         //행성이 존재해야함
         if (clickTile.PlanetType == Planet.None || clickTile.PlanetType == Planet.Count) return;
+
+        //광산이 남아있는가?
+        if (BuildingManager.Instance.mineImage_UIStack.Count == 0) return;
         
         //추가 삽비용
         int addSabCost = TileSystem.RequireSabCount(clickTile.PlanetType);
@@ -128,6 +131,11 @@ public class ActionButton_Set : MonoBehaviour
         {
             PlayerManager.Instance._planetOccupyDic[clickTile.PlanetType] = true;
         }
+
+        //플레이어 UI에서 광산 제거
+        BuildingManager.Instance.last_mineImage = BuildingManager.Instance.mineImage_UIStack.Peek();
+        BuildingManager.Instance.last_mineImage.enabled = false;
+        BuildingManager.Instance.mineImage_UIStack.Pop();
     }
 
     /// <summary>
@@ -151,20 +159,41 @@ public class ActionButton_Set : MonoBehaviour
         {
             case Building.Mine://광산 -> 무역 스테이션
                 if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[1])) return;
+
+                //무역 스테이션이 남아있는가?
+                if (BuildingManager.Instance.tradingStation_UIStack.Count == 0) return;
+
                 PayForBuilding(BuildingManager.Instance.buildingDataList[1]);
                 clickTile.ChangeBuildingImageAndPower(Building.TradingStation);
                 resourcesManager.ImportResourceAmount_UpDown("Money", 3);
                 resourcesManager.ImportResourceAmount_UpDown("Ore", -1);
+
+                //플레이어 UI에서 광산 , 무역스테이션 교체
+                BuildingManager.Instance.last_tradingStationImage = BuildingManager.Instance.tradingStation_UIStack.Peek();
+                BuildingManager.Instance.last_tradingStationImage.enabled = false;
+                BuildingManager.Instance.tradingStation_UIStack.Pop();
+                BuildingManager.Instance.mineImage_UIStack.Push(BuildingManager.Instance.last_mineImage);
+                BuildingManager.Instance.mineImage_UIStack.Peek().enabled = true;
                 break;
             case Building.TradingStation://무역 스테이션 -> 행성 의회 or 연구소
                 detailInstallBuildingButtonSetObj.SetActive(true);
                 break;
             case Building.ResearchLab://연구소 -> 아카데미
                 if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[3])) return;
+
+                //아카데미가 남아있는가?
+                if (BuildingManager.Instance.academy_UIStack.Count == 0) return;
+
                 PayForBuilding(BuildingManager.Instance.buildingDataList[3]);
                 clickTile.ChangeBuildingImageAndPower(Building.Academy);
                 resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
                 KnowledgeBoard_Manager.Instance.Activate_AllSkillTile();//기술 타일 획득
+
+                //플레이어 UI에서 연구소, 아카데미 교체
+                BuildingManager.Instance.academy_UIStack.Peek().enabled = false;
+                BuildingManager.Instance.academy_UIStack.Pop();
+                BuildingManager.Instance.researchLab_UIStack.Push(BuildingManager.Instance.researchLabImage);
+                BuildingManager.Instance.researchLab_UIStack.Peek().enabled = true;
                 break;
             default:
                 break;
@@ -231,13 +260,23 @@ public class ActionButton_Set : MonoBehaviour
 
         //비용 지불이 되는가?
         if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[2])) return;
-        
+
+        //연구소가 더 없으면 지을 수 없다
+        if (BuildingManager.Instance.researchLab_UIStack.Count == 0) return;
+
         PayForBuilding(BuildingManager.Instance.buildingDataList[2]);
         clickTile.ChangeBuildingImageAndPower(Building.ResearchLab);
         resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
         resourcesManager.ImportResourceAmount_UpDown("Money", -3);
         detailInstallBuildingButtonSetObj.SetActive(false);
         KnowledgeBoard_Manager.Instance.Activate_AllSkillTile();//기술 타일 획득
+
+        //플레이어 UI에서 무역스테이션, 연구소 교체
+        BuildingManager.Instance.researchLabImage = BuildingManager.Instance.researchLab_UIStack.Peek();
+        BuildingManager.Instance.researchLabImage.enabled = false;
+        BuildingManager.Instance.researchLab_UIStack.Pop();
+        BuildingManager.Instance.tradingStation_UIStack.Push(BuildingManager.Instance.last_tradingStationImage);
+        BuildingManager.Instance.tradingStation_UIStack.Peek().enabled = true;
     }
 
     /// <summary>
@@ -254,11 +293,20 @@ public class ActionButton_Set : MonoBehaviour
         //비용 지불이 되는가?
         if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[4])) return;
 
+        //행성 의회는 1개만 지을 수 있음
+        if (BuildingManager.Instance.institute_UIStack.Count == 0) return;
+
         PayForBuilding(BuildingManager.Instance.buildingDataList[4]);
         clickTile.ChangeBuildingImageAndPower(Building.PlanetaryInstitute);
         resourcesManager.ImportResourceAmount_UpDown("Energy", 5);
         resourcesManager.ImportResourceAmount_UpDown("Money", -3);
         detailInstallBuildingButtonSetObj.SetActive(false);
+
+        //플레이어 UI에서 무역스테이션, 행성 의회 교체
+        BuildingManager.Instance.institute_UIStack.Peek().enabled = false;
+        BuildingManager.Instance.institute_UIStack.Pop();
+        BuildingManager.Instance.tradingStation_UIStack.Push(BuildingManager.Instance.last_tradingStationImage);
+        BuildingManager.Instance.tradingStation_UIStack.Peek().enabled = true;
     }
     /// <summary>
     /// 무역 스테이션 -> 행성 의회

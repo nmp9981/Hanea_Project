@@ -18,19 +18,21 @@ public class BuildingManager : MonoBehaviour
     [SerializeField]
     private List<Image> mineImage_UIList = new();
     public Stack<Image> mineImage_UIStack = new();
+    public Image last_mineImage;
     [SerializeField]
     private List<Image> tradingStation_UIList = new();
     public Stack<Image> tradingStation_UIStack = new();
+    public Image last_tradingStationImage;
     [SerializeField]
     private List<Image> researchLab_UIList = new();
     public Stack<Image> researchLab_UIStack = new();
+    public Image researchLabImage;
     [SerializeField]
     private List<Image> academy_UIList = new();
     public Stack<Image> academy_UIStack = new();
     [SerializeField]
     private List<Image> institute_UIList = new();
     public Stack<Image> institute_UIStack = new();
-
 
     private void Awake()
     {
