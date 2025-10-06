@@ -112,6 +112,23 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
             }
         }
 
+        //레벨 5 예외사항 : 레벨5 도달 시 수입감소
+        if (KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType] == 5)
+        {
+            //경제
+            if(this.TileData.researchType == ResearchType.Economy)
+            {
+                ResourcesManager.Instance.ImportResourceAmount_UpDown("Ore", -2);
+                ResourcesManager.Instance.ImportResourceAmount_UpDown("Money", -4);
+                ResourcesManager.Instance.ImportResourceAmount_UpDown("Energy", -4);
+            }
+            //지식
+            if (this.TileData.researchType == ResearchType.Science)
+            {
+                ResourcesManager.Instance.ImportResourceAmount_UpDown("Knowledge", -4);
+            }
+        }
+
         //값 변경
         if (_isGet==true)
         {
