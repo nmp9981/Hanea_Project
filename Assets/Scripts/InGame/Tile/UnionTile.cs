@@ -20,6 +20,7 @@ public class UnionTile : MonoBehaviour, TileInterface
     public TileType Type => _type;
     public bool IsGet => _isGet;
     public List<RewardResource> RewardResourcesList => _rewardResourceList;
+    public int RestCount { get; set; }
     public Button Button
     {
         // 읽기 (Get): 필드에 값이 없으면(null이면) GetComponent를 호출하여 저장한 후 반환.
@@ -28,7 +29,7 @@ public class UnionTile : MonoBehaviour, TileInterface
         {
             if (_button == null)
             {
-                _button = transform.GetChild(0).GetComponent<Button>();
+                _button = GetComponent<Button>();
             }
             return _button;
         }
@@ -52,6 +53,7 @@ public class UnionTile : MonoBehaviour, TileInterface
     void OnEnable()
     {
         InitTile();
+        TileActive();
     }
 
     /// <summary>
@@ -98,12 +100,7 @@ public class UnionTile : MonoBehaviour, TileInterface
             switch (reward.RewardResourcesType)
             {
                 case RewardResourcesType.SingleUse://자원 획득
-                    if (reward.ResourceName == "Knowledge")
-                    {
-                        int addKnowledge = TileSystem.CountOccupyPlanet();
-                        ResourcesManager.Instance.GainResource(reward.ResourceName, addKnowledge);
-                    }
-                    else ResourcesManager.Instance.GainResource(reward.ResourceName, reward.RewardAmount);
+                    ResourcesManager.Instance.GainResource(reward.ResourceName, reward.RewardAmount);
                     break;
                 case RewardResourcesType.Score://점수 획득
                     PlayerManager.Instance.GetScore(reward.RewardAmount);
@@ -132,6 +129,9 @@ public class UnionTile : MonoBehaviour, TileInterface
     {
         _isGet = true;
         _button.interactable = false;
+
+        _restCount = Mathf.Max(0, _restCount - 1);
+        _restCountText.text = $"X {_restCount}";
 
         GameObject tileGm = Instantiate(this.gameObject);
         tileGm.transform.parent = unionTileArea;
