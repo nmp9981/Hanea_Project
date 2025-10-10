@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 /// <summary>
 /// 연구 타일 타입
@@ -78,6 +77,13 @@ public class KnowledgeBoard_Manager : MonoBehaviour
     //선택한 지식 타일
     [SerializeField]
     public KnowledgeTile _selectKnoeledgeTile;
+
+    //얻은 연방 타일
+    [SerializeField]
+    public List<UnionTile> _getUnionTileList = new();
+    //전체 연방 타일
+    [SerializeField]
+    public List<UnionTile> _unionTileList = new();
     
     private void Awake()
     {
@@ -298,6 +304,48 @@ public class KnowledgeBoard_Manager : MonoBehaviour
     public void UnActivate_AllSkillTile()
     {
         foreach (var tile in _instantiatedSkillTiles)
+        {
+            tile.TileUnActive();
+        }
+    }
+
+    /// <summary>
+    /// 연방타일 활성화
+    /// </summary>
+    public void Activate_AllUnionTile()
+    {
+        foreach(var tile in _getUnionTileList)
+        {
+            tile.TileActive();
+        }
+    }
+    /// <summary>
+    /// 연방타일 활성화
+    /// </summary>
+    public void Activate_AllUnionTile_UI()
+    {
+        foreach (var tile in _unionTileList)
+        {
+            tile.TileActive();
+        }
+    }
+
+    /// <summary>
+    /// 연방타일 비활성화
+    /// </summary>
+    public void UnActivate_AllUnionTile()
+    {
+        foreach (var tile in _getUnionTileList)
+        {
+            tile.TileUnActive();
+        }
+    }
+    /// <summary>
+    /// 연방타일 비활성화
+    /// </summary>
+    public void UnActivate_AllUnionTile_UI()
+    {
+        foreach (var tile in _unionTileList)
         {
             tile.TileUnActive();
         }

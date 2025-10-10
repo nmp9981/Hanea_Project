@@ -109,6 +109,7 @@ public class ActionTile : MonoBehaviour, TileInterface
                     KnowledgeBoard_Manager.Instance.Activate_AllSkillTile();
                     break;
                 case 3://연방 효과 재사용
+                    KnowledgeBoard_Manager.Instance.Activate_AllUnionTile();
                     break;
                 case 2://점수
                     int addScore = 3 + TileSystem.CountOccupyPlanet();

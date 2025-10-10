@@ -53,7 +53,6 @@ public class UnionTile : MonoBehaviour, TileInterface
     void OnEnable()
     {
         InitTile();
-        TileActive();
     }
 
     /// <summary>
@@ -61,13 +60,22 @@ public class UnionTile : MonoBehaviour, TileInterface
     /// </summary>
     public void InitTile()
     {
-        _isGet = false;
         _button = this.Button;
         _button.interactable = false;
         _button.onClick.AddListener(GetReward);
 
-        //개수 표시
-        _restCountText.text = $"X {_restCount}";
+        //플레이어가 획득한 연방영역이 아닐때
+        if(this.transform.parent != unionTileArea)
+        {
+            _isGet = false;
+            //개수 표시
+            _restCountText.text = $"X {_restCount}";
+        }
+        else
+        {
+            _isGet = true;
+            _restCountText.text = string.Empty;
+        }
     }
 
     /// <summary>
@@ -118,8 +126,7 @@ public class UnionTile : MonoBehaviour, TileInterface
         {
             OnChanged?.Invoke();
         }
-        //다시 비활성화
-        
+        KnowledgeBoard_Manager.Instance.UnActivate_AllUnionTile();
     }
 
     /// <summary>
@@ -130,10 +137,14 @@ public class UnionTile : MonoBehaviour, TileInterface
         _isGet = true;
         _button.interactable = false;
 
-        _restCount = Mathf.Max(0, _restCount - 1);
-        _restCountText.text = $"X {_restCount}";
+        if (this.transform.parent != unionTileArea)
+        {
+            _restCount = Mathf.Max(0, _restCount - 1);
+            _restCountText.text = $"X {_restCount}";
 
-        GameObject tileGm = Instantiate(this.gameObject);
-        tileGm.transform.parent = unionTileArea;
+            GameObject tileGm = Instantiate(this.gameObject);
+            tileGm.transform.parent = unionTileArea;
+            KnowledgeBoard_Manager.Instance._getUnionTileList.Add(tileGm.GetComponent<UnionTile>());
+        }
     }
 }

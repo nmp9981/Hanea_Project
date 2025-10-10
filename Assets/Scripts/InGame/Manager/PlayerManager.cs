@@ -206,7 +206,7 @@ public class PlayerManager : MonoBehaviour
                 return false;
             }
             //后青己篮 楷规 阂啊瓷
-            if(tile.PlanetType!=Planet.None && tile.InstallBuilding == Building.None)
+            if (tile.PlanetType!=Planet.None && tile.InstallBuilding == Building.None)
             {
                 Debug.Log("后青己 粮犁");
                 return false;

@@ -347,7 +347,7 @@ public class ActionButton_Set : MonoBehaviour
             PayForBuilding(BuildingManager.Instance.buildingDataList[5]);
         }
         //연방 토큰 가져오기
-
+        KnowledgeBoard_Manager.Instance.Activate_AllUnionTile_UI();
     }
 
     #region Pass
