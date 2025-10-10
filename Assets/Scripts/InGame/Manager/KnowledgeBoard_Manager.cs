@@ -28,6 +28,19 @@ public enum RewardResourcesType
 }
 
 /// <summary>
+/// 연방 토큰 보상 종류
+/// </summary>
+public enum UnionRewardResourcesType
+{
+    Ore,
+    Money,
+    Knowledge,
+    QIC,
+    Score,
+    Count
+}
+
+/// <summary>
 /// 인스펙터 노출을 위한 리스트 정의
 /// </summary>
 /// <typeparam name="T"></typeparam>

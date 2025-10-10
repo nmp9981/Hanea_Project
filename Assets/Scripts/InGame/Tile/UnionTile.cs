@@ -127,6 +127,7 @@ public class UnionTile : MonoBehaviour, TileInterface
             OnChanged?.Invoke();
         }
         KnowledgeBoard_Manager.Instance.UnActivate_AllUnionTile();
+        KnowledgeBoard_Manager.Instance.UnActivate_AllUnionTile_UI();
     }
 
     /// <summary>
