@@ -71,11 +71,6 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            OnClick_Exchange_OreToMoney();
-        }
-
         if (Input.GetMouseButtonDown(0))
         {
             // 마우스 포인터가 UI 위에 있는지 확인
@@ -249,7 +244,14 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     public void OnClick_Exchange_OreToMoney()
     {
-        resourceExchanger.Exchange_AToB("Ore", 1, "Money", 2);
+        resourceExchanger.Exchange_AToB("Ore", 1, "Money", 1);
+    }
+    /// <summary>
+    /// 광석 -> 에너지
+    /// </summary>
+    public void OnClick_Exchange_OreToEnergy()
+    {
+        resourceExchanger.Exchange_AToB("Ore", 1, "Energy", 1);
     }
     /// <summary>
     /// 에너지 -> 돈

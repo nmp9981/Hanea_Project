@@ -65,6 +65,24 @@ public class ActionButton_Set : MonoBehaviour
                 case "PassNO":
                     btn.onClick.AddListener(delegate { Action_Pass_Cancel(); });
                     break;
+                case "ChangeEnergyToQIC":
+                    btn.onClick.AddListener(delegate { PlayerManager.Instance.OnClick_Exchange_EnergyToQuantumIntelligenceCube(); });
+                    break;
+                case "ChangeEnergyToOre":
+                    btn.onClick.AddListener(delegate { PlayerManager.Instance.OnClick_Exchange_EnergyToOre(); });
+                    break;
+                case "ChangeEnergyToKnowledge":
+                    btn.onClick.AddListener(delegate { PlayerManager.Instance.OnClick_Exchange_EnergyToKnowledge(); });
+                    break;
+                case "ChangeEnergyToMoney":
+                    btn.onClick.AddListener(delegate { PlayerManager.Instance.OnClick_Exchange_EnergyToMoney(); });
+                    break;
+                case "ChangeOreToMoney":
+                    btn.onClick.AddListener(delegate { PlayerManager.Instance.OnClick_Exchange_OreToMoney(); });
+                    break;
+                case "ChangeOreToEnergy":
+                    btn.onClick.AddListener(delegate { PlayerManager.Instance.OnClick_Exchange_OreToEnergy(); });
+                    break;
                 default:
                     break;
             }
