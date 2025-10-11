@@ -395,9 +395,14 @@ public class ActionButton_Set : MonoBehaviour
     /// </summary>
     private void Action_Pass_OK()
     {
-        resourcesManager.ImportAllResources();//수입
-        TileManager.Instance.ActivateAllTiles();//타일 활성화
         passUIObj.SetActive(false);
+        GameManager.Instance.AddRoundBonusScore();//라운드 점수 추가
+        if (GameManager.Instance.currentRound != 6)//마지막 라운드가 아닐때만
+        {
+            resourcesManager.ImportAllResources();//수입
+            TileManager.Instance.ActivateAllTiles();//타일 활성화
+        }
+        GameManager.Instance.ShowRoundText();//다음 라운드
     }
     /// <summary>
     /// 패스 취소

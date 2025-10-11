@@ -1,12 +1,20 @@
+using System.Resources;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance = null;
 
+    //라운드
+    public int currentRound = 0;
+    [SerializeField]
+    TextMeshProUGUI roundText;
+
     private void Awake()
     {
         SingletonObjectLoad();
+        ShowRoundText();
     }
 
     /// <summary>
@@ -26,4 +34,80 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 다음 라운드 전환
+    /// </summary>
+    public void ShowRoundText()
+    {
+        if (currentRound == 6)
+        {
+            GameOver();
+            return;
+        }
+
+        currentRound += 1;
+        roundText.text = $"{currentRound}";
+    }
+
+    /// <summary>
+    /// 게임 종료
+    /// </summary>
+    private void GameOver()
+    {
+        int finalScore = CalFinalScore();//최종 점수 계산
+    }
+
+    /// <summary>
+    /// 최종 점수 계산
+    /// </summary>
+    private int CalFinalScore()
+    {
+        int score = 0;
+        //지식 타일 점수
+        score += CalKnowledgeTileScore();
+        //최종 목표 계산
+        //자원 점수 계산
+        score += CalResourcesScore();
+        return score;
+    }
+
+    /// <summary>
+    /// 남은 자원 점수 계산
+    /// </summary>
+    /// <returns></returns>
+    private int CalResourcesScore()
+    {
+        int restResourceCount = 0;
+        foreach(Resource resource in ResourcesManager.Instance.resources)
+        {
+            if(resource.Name == "Money" || resource.Name == "Ore" || resource.Name == "Knowledge")
+            {
+                restResourceCount += resource.CurCount;
+            }
+        }
+        return restResourceCount/3;
+    }
+
+    /// <summary>
+    /// 지식 타일 점수 계산
+    /// </summary>
+    /// <returns></returns>
+    private int CalKnowledgeTileScore()
+    {
+        int knowCount = 0;
+        foreach(var know in KnowledgeBoard_Manager.Instance.playerKnowledgeLevel)
+        {
+            knowCount += Mathf.Max(0, know.Value-2);
+        }
+        return knowCount*4;
+    }
+
+    /// <summary>
+    /// 라운드 보너스 점수 추가
+    /// </summary>
+    public void AddRoundBonusScore()
+    {
+
+        PlayerManager.Instance.GetScore(5);
+    }
 }
