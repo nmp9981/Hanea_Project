@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -97,6 +98,7 @@ public class KnowledgeBoard_Manager : MonoBehaviour
     //전체 연방 타일
     [SerializeField]
     public List<UnionTile> _unionTileList = new();
+
     
     private void Awake()
     {
@@ -339,6 +341,9 @@ public class KnowledgeBoard_Manager : MonoBehaviour
     {
         foreach (var tile in _unionTileList)
         {
+            TextMeshProUGUI restCountText = tile.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>();
+            if (restCountText.text == "X 0") continue;//남아있는 연방토큰이 없는 경우 넘어감
+
             tile.TileActive();
         }
     }
@@ -361,6 +366,22 @@ public class KnowledgeBoard_Manager : MonoBehaviour
         foreach (var tile in _unionTileList)
         {
             tile.TileUnActive();
+        }
+    }
+    /// <summary>
+    /// 남은 연방 타일 개수 변화
+    /// </summary>
+    public void Change_RestUnionTileCount(UnionRewardResourcesType uniontype)
+    {
+        foreach (var tile in _unionTileList)
+        {
+            //고른 타일과 일치
+            if(tile.UnionRewardResourcesType == uniontype)
+            {
+                TextMeshProUGUI restCountText = tile.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>();
+                int curRestCount = int.Parse(restCountText.text.Substring(2))-1;
+                restCountText.text = $"X {curRestCount}";
+            }
         }
     }
 }

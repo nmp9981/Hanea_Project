@@ -13,14 +13,17 @@ public class UnionTile : MonoBehaviour, TileInterface
     [SerializeField] private bool _isGet = false;
     [SerializeField] private List<RewardResource> _rewardResourceList = new();
     [SerializeField] private Button _button;
-    [SerializeField] private TextMeshProUGUI _restCountText;//남은 개수
-    private int _restCount = 2;//처음에는 2개 남음
+    [SerializeField] private UnionRewardResourcesType _unionRewardResourcesType;
     
     //읽기 전용
     public TileType Type => _type;
     public bool IsGet => _isGet;
     public List<RewardResource> RewardResourcesList => _rewardResourceList;
     public int RestCount { get; set; }
+    public UnionRewardResourcesType UnionRewardResourcesType {
+        get { return _unionRewardResourcesType; }
+        set { _unionRewardResourcesType = value; }
+    }
     public Button Button
     {
         // 읽기 (Get): 필드에 값이 없으면(null이면) GetComponent를 호출하여 저장한 후 반환.
@@ -68,13 +71,10 @@ public class UnionTile : MonoBehaviour, TileInterface
         if(this.transform.parent != unionTileArea)
         {
             _isGet = false;
-            //개수 표시
-            _restCountText.text = $"X {_restCount}";
         }
         else
         {
             _isGet = true;
-            _restCountText.text = string.Empty;
         }
     }
 
@@ -140,12 +140,13 @@ public class UnionTile : MonoBehaviour, TileInterface
 
         if (this.transform.parent != unionTileArea)
         {
-            _restCount = Mathf.Max(0, _restCount - 1);
-            _restCountText.text = $"X {_restCount}";
+            KnowledgeBoard_Manager.Instance.Change_RestUnionTileCount(this.UnionRewardResourcesType);
 
             GameObject tileGm = Instantiate(this.gameObject);
             tileGm.transform.parent = unionTileArea;
-            KnowledgeBoard_Manager.Instance._getUnionTileList.Add(tileGm.GetComponent<UnionTile>());
+            UnionTile union = tileGm.GetComponent<UnionTile>();
+            union.UnionRewardResourcesType = this.UnionRewardResourcesType;
+            KnowledgeBoard_Manager.Instance._getUnionTileList.Add(union);
         }
     }
 }
