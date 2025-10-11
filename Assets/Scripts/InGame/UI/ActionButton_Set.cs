@@ -109,10 +109,18 @@ public class ActionButton_Set : MonoBehaviour
         //비용 검사
         if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[0])) return;
         if (resourcesManager.HasEnoughResources("Ore", addSabCost) == false) return;
+        if(clickTile.PlanetType == Planet.Gaia)//가이아 행성은 정보 큐브 1개 추가 필요
+        {
+            if (resourcesManager.HasEnoughResources("Quantum Intelligence Cube", 1) == false) return;
+        }
 
         //비용 지불
         PayForBuilding(BuildingManager.Instance.buildingDataList[0]);
         resourcesManager.ConsumeResource("Ore", addSabCost);
+        if (clickTile.PlanetType == Planet.Gaia)//가이아 행성은 정보 큐브 1개 추가 필요
+        {
+            resourcesManager.ConsumeResource("Quantum Intelligence Cube", 1);
+        }
 
         //광산 설치
         clickTile.ChangeBuildingImageAndPower(Building.Mine);
