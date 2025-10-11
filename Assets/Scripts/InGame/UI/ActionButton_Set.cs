@@ -14,6 +14,8 @@ public class ActionButton_Set : MonoBehaviour
     public GameObject detailInstallBuildingButtonSetObj;
     //패스 UI
     public GameObject passUIObj;
+    //프리 액션 UI
+    public GameObject freeActionUI;
 
     private void Awake()
     {
@@ -44,6 +46,9 @@ public class ActionButton_Set : MonoBehaviour
                     break;
                 case "Research"://연구 행동
                     btn.onClick.AddListener(delegate { Action_Research(); });
+                    break;
+                case "FreeAction"://프리 액션 행동
+                    btn.onClick.AddListener(delegate { Action_Free(); });
                     break;
                 case "ResearchLab":
                     btn.onClick.AddListener(delegate { Action_Upgrade_ResearchLab(); });
@@ -384,4 +389,10 @@ public class ActionButton_Set : MonoBehaviour
         passUIObj.SetActive(false);
     }
     #endregion
+
+    private void Action_Free()
+    {
+        if(freeActionUI.activeSelf) freeActionUI.SetActive(false);
+        else freeActionUI.SetActive(true);
+    }
 }
