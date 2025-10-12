@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public class BuildingManager : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class BuildingManager : MonoBehaviour
 
     [SerializeField]
     private List<Sprite> _buildingSpriteList;
+
+    const string mineText = "Mine";
 
     //건물 데이터
     [SerializeField]
@@ -33,6 +37,9 @@ public class BuildingManager : MonoBehaviour
     [SerializeField]
     private List<Image> institute_UIList = new();
     public Stack<Image> institute_UIStack = new();
+
+    [SerializeField]
+    public Dictionary<Planet, Image> planetInstallMineDic = new();
 
     private void Awake()
     {
@@ -73,6 +80,19 @@ public class BuildingManager : MonoBehaviour
         foreach (var image in institute_UIList)
         {
             institute_UIStack.Push(image);
+        }
+
+        // Enum.GetValues()를 사용하여 Planet enum의 모든 값을 배열로 가져옵니다.
+        Planet[] planets = (Planet[])Enum.GetValues(typeof(Planet));
+
+        // foreach 루프를 사용하여 배열의 각 값을 순서대로 탐색합니다.
+        foreach (Planet p in planets)
+        {
+            if (p == Planet.None || p == Planet.Count) continue;
+
+            Image mineImage = GameObject.Find(p + mineText).GetComponent<Image>();
+            mineImage.enabled = false;
+            planetInstallMineDic.Add(p, mineImage);
         }
     }
     /// <summary>

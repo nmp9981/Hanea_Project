@@ -161,6 +161,7 @@ public class ActionButton_Set : MonoBehaviour
         if (PlayerManager.Instance._planetOccupyDic[clickTile.PlanetType] == false)
         {
             PlayerManager.Instance._planetOccupyDic[clickTile.PlanetType] = true;
+            BuildingManager.Instance.planetInstallMineDic[clickTile.PlanetType].enabled = true;
         }
 
         //플레이어 UI에서 광산 제거

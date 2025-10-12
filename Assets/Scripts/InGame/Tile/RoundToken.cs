@@ -38,7 +38,7 @@ public class RoundToken : MonoBehaviour
         // 2. 원하는 특정 키의 값만 true로 설정
         if (GameManager.Instance.IsRoundEffectDic.ContainsKey(roundEffect))
         {
-            GameManager.Instance.IsRoundEffectDic[roundEffect] = true; // ✅ 루프 없이 특정 값만 설정
+            GameManager.Instance.IsRoundEffectDic[roundEffect] = true; // 루프 없이 특정 값만 설정
         }
     }
 }
