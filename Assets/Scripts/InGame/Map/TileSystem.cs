@@ -136,9 +136,9 @@ public static class TileSystem
     /// </summary>
     /// <param name="planet">행성</param>
     /// <returns></returns>
-    public static int RequireSabCount(Planet planet)
+    public static (int ,int) RequireSabCount(Planet planet)
     {
-        if (planet == Planet.None) return 1000;//설치 불가
+        if (planet == Planet.None) return (1000,100);//설치 불가
 
         int sabCount = 0;
         //모행성과의 관계
@@ -161,7 +161,7 @@ public static class TileSystem
         }
 
         int sabCost = PlayerManager.Instance.AddOrePrice * sabCount;
-        return sabCost;
+        return (sabCost, sabCount);
     }
 
     /// <summary>

@@ -124,7 +124,7 @@ public class ActionButton_Set : MonoBehaviour
         if (BuildingManager.Instance.mineImage_UIStack.Count == 0) return;
         
         //추가 삽비용
-        int addSabCost = TileSystem.RequireSabCount(clickTile.PlanetType);
+        (int addSabCost, int sabCount)= TileSystem.RequireSabCount(clickTile.PlanetType);
 
         //사거리 검사
 
@@ -155,6 +155,25 @@ public class ActionButton_Set : MonoBehaviour
         if (PlayerManager.Instance.IsGaiaScore)
         {
             PlayerManager.Instance.GetScore(3);
+        }
+        //라운드 보너스 점수
+        if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Mine] == true)
+        {
+            PlayerManager.Instance.GetScore(3);
+        }
+        if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Terafoming] == true)
+        {
+            PlayerManager.Instance.GetScore(2*sabCount);
+        }
+        if (GameManager.Instance.IsRoundEffectDic[RoundEffect.GaiaMineI] == true)
+        {
+            if(clickTile.PlanetType == Planet.Gaia)
+                PlayerManager.Instance.GetScore(3);
+        }
+        if (GameManager.Instance.IsRoundEffectDic[RoundEffect.GaiaMineII] == true)
+        {
+            if (clickTile.PlanetType == Planet.Gaia)
+                PlayerManager.Instance.GetScore(4);
         }
 
         //점령행성 종류 추가
@@ -206,6 +225,16 @@ public class ActionButton_Set : MonoBehaviour
                 BuildingManager.Instance.tradingStation_UIStack.Pop();
                 BuildingManager.Instance.mineImage_UIStack.Push(BuildingManager.Instance.last_mineImage);
                 BuildingManager.Instance.mineImage_UIStack.Peek().enabled = true;
+
+                //라운드 보너스 점수
+                if (GameManager.Instance.IsRoundEffectDic[RoundEffect.TradingI] == true)
+                {
+                    PlayerManager.Instance.GetScore(3);
+                }
+                if (GameManager.Instance.IsRoundEffectDic[RoundEffect.TragindII] == true)
+                {
+                    PlayerManager.Instance.GetScore(4);
+                }
                 break;
             case Building.TradingStation://무역 스테이션 -> 행성 의회 or 연구소
                 detailInstallBuildingButtonSetObj.SetActive(true);
@@ -226,6 +255,11 @@ public class ActionButton_Set : MonoBehaviour
                 BuildingManager.Instance.academy_UIStack.Pop();
                 BuildingManager.Instance.researchLab_UIStack.Push(BuildingManager.Instance.researchLabImage);
                 BuildingManager.Instance.researchLab_UIStack.Peek().enabled = true;
+
+                if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Power3] == true)
+                {
+                    PlayerManager.Instance.GetScore(5);
+                }
                 break;
             default:
                 break;
@@ -339,6 +373,11 @@ public class ActionButton_Set : MonoBehaviour
         BuildingManager.Instance.institute_UIStack.Pop();
         BuildingManager.Instance.tradingStation_UIStack.Push(BuildingManager.Instance.last_tradingStationImage);
         BuildingManager.Instance.tradingStation_UIStack.Peek().enabled = true;
+
+        if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Power3] == true)
+        {
+            PlayerManager.Instance.GetScore(5);
+        }
     }
     /// <summary>
     /// 무역 스테이션 -> 행성 의회

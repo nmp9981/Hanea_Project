@@ -128,6 +128,11 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
                 ResourcesManager.Instance.ImportResourceAmount_UpDown("Knowledge", -4);
             }
         }
+        //라운드 보너스
+        if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Knowledge] == true)
+        {
+            PlayerManager.Instance.GetScore(2);
+        }
 
         //값 변경
         if (_isGet==true)

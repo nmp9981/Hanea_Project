@@ -133,13 +133,4 @@ public class GameManager : MonoBehaviour
         }
         return knowCount*4;
     }
-
-    /// <summary>
-    /// 라운드 보너스 점수 추가
-    /// </summary>
-    public void AddRoundBonusScore()
-    {
-
-        PlayerManager.Instance.GetScore(5);
-    }
 }
