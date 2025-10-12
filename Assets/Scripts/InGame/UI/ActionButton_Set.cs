@@ -396,7 +396,6 @@ public class ActionButton_Set : MonoBehaviour
     private void Action_Pass_OK()
     {
         passUIObj.SetActive(false);
-        GameManager.Instance.AddRoundBonusScore();//라운드 점수 추가
         if (GameManager.Instance.currentRound != 6)//마지막 라운드가 아닐때만
         {
             resourcesManager.ImportAllResources();//수입

@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using System.Resources;
 using TMPro;
 using UnityEngine;
@@ -11,9 +13,16 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI roundText;
 
+    [SerializeField]
+    private List<RoundToken> roundTokenList = new();//전체 라운드 토큰
+    private List<RoundToken> activeRoundToken = new();//이번 게임에서 사용하는 라운드 토큰
+
+    public Dictionary<RoundEffect, bool> IsRoundEffectDic = new();//각 라운드 효과 활성화 여부
+
     private void Awake()
     {
         SingletonObjectLoad();
+        RoundTokenSetting();
         ShowRoundText();
     }
 
@@ -35,6 +44,27 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 라운드 토큰 세팅
+    /// </summary>
+    void RoundTokenSetting()
+    {
+        //리스트 순서 랜덤 지정
+        HashSet<int> orderList = TileSystem.OrderNumberList(9, 6);
+
+        //라운드 토큰 세팅
+        Transform roundTokenArea = GameObject.Find("RoundTokenArea").GetComponent<Transform>();
+        foreach (int idx in orderList) { 
+            RoundToken token = roundTokenList[idx];
+            activeRoundToken.Add(token);
+            IsRoundEffectDic.Add(token.RoundEffect,false);
+
+            //라운드 토큰 생성
+            GameObject tokenGM = Instantiate(token.gameObject);
+            tokenGM.GetComponent<Transform>().parent = roundTokenArea;
+        }
+    }
+
+    /// <summary>
     /// 다음 라운드 전환
     /// </summary>
     public void ShowRoundText()
@@ -47,6 +77,8 @@ public class GameManager : MonoBehaviour
 
         currentRound += 1;
         roundText.text = $"{currentRound}";
+        //라운드 토큰 초기화 및 활성화
+        activeRoundToken[currentRound - 1].ActiveRoundToken();
     }
 
     /// <summary>

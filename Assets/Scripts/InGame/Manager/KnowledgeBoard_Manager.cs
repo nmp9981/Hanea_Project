@@ -134,15 +134,7 @@ public class KnowledgeBoard_Manager : MonoBehaviour
         skillTile_CommonArea = GameObject.Find("CommonArea").GetComponent<Transform>();
 
         //리스트 순서 랜덤 지정
-        HashSet<int> orderList = new HashSet<int>();
-        while (orderList.Count < 8)
-        {
-            int ran = UnityEngine.Random.Range(0, 8);
-            if (!orderList.Contains(ran))
-            {
-                orderList.Add(ran);
-            }
-        }
+        HashSet<int> orderList = TileSystem.OrderNumberList(8, 8);
 
         //지정한 순서대로 배치
         int cnt = 0;

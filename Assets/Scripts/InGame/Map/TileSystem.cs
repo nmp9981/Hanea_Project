@@ -178,4 +178,24 @@ public static class TileSystem
         }
         return cnt;
     }
+
+    /// <summary>
+    /// 0~N-1 ·£´ý ¼ýÀÚ Á¤·Ä
+    /// </summary>
+    /// <param name="total">ÃÑ °³¼ö</param>
+    /// <param name="select">»Ì´Â °³¼ö</param>
+    /// <returns></returns>
+    public static HashSet<int> OrderNumberList(int total, int select)
+    {
+        HashSet<int> orderList = new HashSet<int>();
+        while (orderList.Count < select)
+        {
+            int ran = UnityEngine.Random.Range(0, total);
+            if (!orderList.Contains(ran))
+            {
+                orderList.Add(ran);
+            }
+        }
+        return orderList;
+    }
 }
