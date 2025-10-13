@@ -137,6 +137,7 @@ public class GameManager : MonoBehaviour
         foreach(var know in KnowledgeBoard_Manager.Instance.playerKnowledgeLevel)
         {
             knowCount += Mathf.Max(0, know.Value-2);
+            if (know.Value == 5) knowCount += 4;//레벨5는 4점 추가
         }
         return knowCount*4;
     }
