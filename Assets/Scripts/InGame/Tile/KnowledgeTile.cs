@@ -129,9 +129,12 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
             }
         }
         //라운드 보너스
-        if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Knowledge] == true)
+        if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.Knowledge))
         {
-            PlayerManager.Instance.GetScore(2);
+            if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Knowledge] == true)
+            {
+                PlayerManager.Instance.GetScore(2);
+            }
         }
 
         //값 변경

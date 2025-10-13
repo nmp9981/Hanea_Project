@@ -157,23 +157,35 @@ public class ActionButton_Set : MonoBehaviour
             PlayerManager.Instance.GetScore(3);
         }
         //라운드 보너스 점수
-        if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Mine] == true)
+        if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.Mine))
         {
-            PlayerManager.Instance.GetScore(3);
-        }
-        if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Terafoming] == true)
-        {
-            PlayerManager.Instance.GetScore(2*sabCount);
-        }
-        if (GameManager.Instance.IsRoundEffectDic[RoundEffect.GaiaMineI] == true)
-        {
-            if(clickTile.PlanetType == Planet.Gaia)
+            if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Mine] == true)
+            {
                 PlayerManager.Instance.GetScore(3);
+            }
         }
-        if (GameManager.Instance.IsRoundEffectDic[RoundEffect.GaiaMineII] == true)
+        if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.Terafoming))
         {
-            if (clickTile.PlanetType == Planet.Gaia)
-                PlayerManager.Instance.GetScore(4);
+            if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Terafoming] == true)
+            {
+                PlayerManager.Instance.GetScore(2 * sabCount);
+            }
+        }
+        if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.GaiaMineI))
+        {
+            if (GameManager.Instance.IsRoundEffectDic[RoundEffect.GaiaMineI] == true)
+            {
+                if (clickTile.PlanetType == Planet.Gaia)
+                    PlayerManager.Instance.GetScore(3);
+            }
+        }
+        if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.GaiaMineII))
+        {
+            if (GameManager.Instance.IsRoundEffectDic[RoundEffect.GaiaMineII] == true)
+            {
+                if (clickTile.PlanetType == Planet.Gaia)
+                    PlayerManager.Instance.GetScore(4);
+            }
         }
 
         //점령행성 종류 추가
@@ -227,13 +239,19 @@ public class ActionButton_Set : MonoBehaviour
                 BuildingManager.Instance.mineImage_UIStack.Peek().enabled = true;
 
                 //라운드 보너스 점수
-                if (GameManager.Instance.IsRoundEffectDic[RoundEffect.TradingI] == true)
+                if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.TradingI))
                 {
-                    PlayerManager.Instance.GetScore(3);
+                    if (GameManager.Instance.IsRoundEffectDic[RoundEffect.TradingI] == true)
+                    {
+                        PlayerManager.Instance.GetScore(3);
+                    }
                 }
-                if (GameManager.Instance.IsRoundEffectDic[RoundEffect.TragindII] == true)
+                if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.TragindII))
                 {
-                    PlayerManager.Instance.GetScore(4);
+                    if (GameManager.Instance.IsRoundEffectDic[RoundEffect.TragindII] == true)
+                    {
+                        PlayerManager.Instance.GetScore(4);
+                    }
                 }
                 break;
             case Building.TradingStation://무역 스테이션 -> 행성 의회 or 연구소
@@ -256,9 +274,12 @@ public class ActionButton_Set : MonoBehaviour
                 BuildingManager.Instance.researchLab_UIStack.Push(BuildingManager.Instance.researchLabImage);
                 BuildingManager.Instance.researchLab_UIStack.Peek().enabled = true;
 
-                if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Power3] == true)
+                if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.Power3))
                 {
-                    PlayerManager.Instance.GetScore(5);
+                    if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Power3] == true)
+                    {
+                        PlayerManager.Instance.GetScore(5);
+                    }
                 }
                 break;
             default:
@@ -374,9 +395,12 @@ public class ActionButton_Set : MonoBehaviour
         BuildingManager.Instance.tradingStation_UIStack.Push(BuildingManager.Instance.last_tradingStationImage);
         BuildingManager.Instance.tradingStation_UIStack.Peek().enabled = true;
 
-        if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Power3] == true)
+        if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.Power3))
         {
-            PlayerManager.Instance.GetScore(5);
+            if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Power3] == true)
+            {
+                PlayerManager.Instance.GetScore(5);
+            }
         }
     }
     /// <summary>

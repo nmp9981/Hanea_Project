@@ -128,10 +128,14 @@ public class UnionTile : MonoBehaviour, TileInterface
         }
 
         //라운드 보너스
-        if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Union] == true)
+        if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.Union))
         {
-            PlayerManager.Instance.GetScore(5);
+            if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Union] == true)
+            {
+                PlayerManager.Instance.GetScore(5);
+            }
         }
+            
         KnowledgeBoard_Manager.Instance.UnActivate_AllUnionTile();
         KnowledgeBoard_Manager.Instance.UnActivate_AllUnionTile_UI();
     }
