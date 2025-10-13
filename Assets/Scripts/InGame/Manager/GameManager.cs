@@ -1,6 +1,4 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using System.Resources;
 using TMPro;
 using UnityEngine;
 
@@ -22,6 +20,10 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         SingletonObjectLoad();
+    }
+
+    private void Start()
+    {
         RoundTokenSetting();
         ShowRoundText();
     }
@@ -54,13 +56,17 @@ public class GameManager : MonoBehaviour
         //라운드 토큰 세팅
         Transform roundTokenArea = GameObject.Find("RoundTokenArea").GetComponent<Transform>();
         foreach (int idx in orderList) { 
-            RoundToken token = roundTokenList[idx];
-            activeRoundToken.Add(token);
-            IsRoundEffectDic.Add(token.RoundEffect,false);
+            RoundToken token = roundTokenList[idx];//원본 프리팹
 
-            //라운드 토큰 생성
+            //라운드 토큰 생성(복사본)
             GameObject tokenGM = Instantiate(token.gameObject);
             tokenGM.GetComponent<Transform>().parent = roundTokenArea;
+
+            //복사된 객체에서 컴포넌트 가져오기
+            RoundToken instantiatedToken = tokenGM.GetComponent<RoundToken>();
+
+            activeRoundToken.Add(instantiatedToken);
+            IsRoundEffectDic.Add(instantiatedToken.RoundEffect, false);
         }
     }
 
@@ -78,6 +84,7 @@ public class GameManager : MonoBehaviour
         currentRound += 1;
         roundText.text = $"{currentRound}";
         //라운드 토큰 초기화 및 활성화
+        if(currentRound>=2) activeRoundToken[currentRound - 2].button.interactable = false;
         activeRoundToken[currentRound - 1].ActiveRoundToken();
     }
 

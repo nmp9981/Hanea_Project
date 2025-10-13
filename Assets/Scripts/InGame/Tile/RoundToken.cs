@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum RoundEffect
 {
@@ -15,14 +16,25 @@ public enum RoundEffect
     Count
 }
 
+[RequireComponent(typeof(Button))]
 public class RoundToken : MonoBehaviour
 {
     [SerializeField]
     private RoundEffect roundEffect;
+    public Button button;
 
     //읽기 전용
     public RoundEffect RoundEffect => roundEffect;
 
+    private void Awake()
+    {
+        if (button == null)
+        {
+            button = GetComponent<Button>();
+        }
+        button.interactable = false;
+    }
+    
     /// <summary>
     /// 라운드 토큰 활성화
     /// </summary>
@@ -40,5 +52,6 @@ public class RoundToken : MonoBehaviour
         {
             GameManager.Instance.IsRoundEffectDic[roundEffect] = true; // 루프 없이 특정 값만 설정
         }
+        button.interactable = true;
     }
 }
