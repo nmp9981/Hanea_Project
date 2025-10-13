@@ -136,6 +136,10 @@ public class ActionButton_Set : MonoBehaviour
         {
             if (resourcesManager.HasEnoughResources("Quantum Intelligence Cube", 1) == false) return;
         }
+        if (clickTile.PlanetType == Planet.Dimension)//차원 변환 행성은 에너지 4개 추가 필요
+        {
+            if (resourcesManager.HasEnoughResources("Energy", 4) == false) return;
+        }
 
         //비용 지불
         PayForBuilding(BuildingManager.Instance.buildingDataList[0]);
@@ -143,6 +147,10 @@ public class ActionButton_Set : MonoBehaviour
         if (clickTile.PlanetType == Planet.Gaia)//가이아 행성은 정보 큐브 1개 추가 필요
         {
             resourcesManager.ConsumeResource("Quantum Intelligence Cube", 1);
+        }
+        if (clickTile.PlanetType == Planet.Dimension)//차원 변환 행성은 에너지 4개 추가 필요
+        {
+            resourcesManager.ConsumeResource("Energy", 4);
         }
 
         //광산 설치
