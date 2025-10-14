@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private List<RoundToken> roundTokenList = new();//전체 라운드 토큰
     private List<RoundToken> activeRoundToken = new();//이번 게임에서 사용하는 라운드 토큰
+    [SerializeField]
+    private List<GameObject> finalBonusList = new();//전체 보너스 타일
 
     public Dictionary<RoundEffect, bool> IsRoundEffectDic = new();//각 라운드 효과 활성화 여부
 
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         RoundTokenSetting();
+        FinalBonusTileSetting();
         ShowRoundText();
     }
 
@@ -42,6 +45,24 @@ public class GameManager : MonoBehaviour
         {
             if (Instance != this) //instance가 내가 아니라면 이미 instance가 하나 존재하고 있다는 의미
                 Destroy(this.gameObject); //둘 이상 존재하면 안되는 객체이니 방금 AWake된 자신을 삭제
+        }
+    }
+
+    /// <summary>
+    /// 최종 보너스 타일 세팅
+    /// </summary>
+    void FinalBonusTileSetting()
+    {
+        //리스트 순서 랜덤 지정
+        HashSet<int> orderList = TileSystem.OrderNumberList(5, 2);
+
+        foreach (var gm in finalBonusList)
+        {
+            gm.gameObject.SetActive(false);
+        }
+        foreach (int idx in orderList)
+        {
+            finalBonusList[idx].gameObject.SetActive(true);
         }
     }
 
