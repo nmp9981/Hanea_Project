@@ -110,6 +110,10 @@ public class SkillTile : MonoBehaviour, TileInterface
                     if(reward.ResourceName == "Gaia")//가이아 행성
                     {
                         PlayerManager.Instance.IsGaiaScore = true;
+                    }else if (reward.ResourceName == "Lab")//연구소 점수
+                    {
+                        int getScore = reward.RewardAmount;
+                        PlayerManager.Instance.GetScore(getScore);
                     }
                     else//7점
                     {

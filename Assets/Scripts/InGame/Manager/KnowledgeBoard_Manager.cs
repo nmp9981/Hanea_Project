@@ -134,7 +134,7 @@ public class KnowledgeBoard_Manager : MonoBehaviour
         skillTile_CommonArea = GameObject.Find("CommonArea").GetComponent<Transform>();
 
         //리스트 순서 랜덤 지정
-        HashSet<int> orderList = TileSystem.OrderNumberList(8, 8);
+        HashSet<int> orderList = TileSystem.OrderNumberList(9, 9);
 
         //지정한 순서대로 배치
         int cnt = 0;
