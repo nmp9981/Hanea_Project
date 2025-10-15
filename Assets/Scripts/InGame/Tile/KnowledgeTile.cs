@@ -115,6 +115,10 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
         //레벨 5 예외사항 : 레벨5 도달 시 수입감소
         if (KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType] == 5)
         {
+            //테라포밍 : 연방 획득
+
+            //사거리 : 검은 행성 배치
+
             //경제
             if(this.TileData.researchType == ResearchType.Economy)
             {
@@ -167,8 +171,9 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
     /// </summary>
     public void ClickKnowLedgeTile()
     {
-        //지식 4소모
-        ResourcesManager.Instance.ConsumeResource("Knowledge", 4);
+        //지식 4소모 : 연구 버튼을 누를 경우만
+        if(KnowledgeBoard_Manager.Instance.IsPushButton)
+            ResourcesManager.Instance.ConsumeResource("Knowledge", 4);
 
         //연구 트랙 이동
         KnowledgeBoard_Manager.Instance.stateObjDic[this.TileData.researchType].GetComponent<RectTransform>().position 
@@ -184,5 +189,6 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
         PlayerManager.Instance.GetScore(2);
         //다시 원래대로
         KnowledgeBoard_Manager.Instance.UnActivateKnowledgeTile();
+        KnowledgeBoard_Manager.Instance.IsPushButton = false;
     }
 }

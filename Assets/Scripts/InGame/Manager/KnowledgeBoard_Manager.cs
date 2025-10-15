@@ -61,6 +61,10 @@ public class KnowledgeBoard_Manager : MonoBehaviour
     //싱글톤
     public static KnowledgeBoard_Manager Instance { get; private set; }
 
+    //Research 버튼을 눌렀는가?
+    private bool isPushButton;
+    public bool IsPushButton { get { return isPushButton; } set { isPushButton = value; } }
+
     //각 지식타일 등록
     [SerializeField]
     List<SerializableList<KnowledgeTile>> knowledgeTileList = new();
@@ -202,7 +206,10 @@ public class KnowledgeBoard_Manager : MonoBehaviour
                 }
             }
         }
-       
+
+        //연구버튼은 눌리지 않은 상태
+        isPushButton = false;
+
         //처음엔 모두 0
         // Enum.GetValues()를 사용하여 Planet enum의 모든 값을 배열로 가져옵니다.
         ResearchType[] researchs = (ResearchType[])Enum.GetValues(typeof(ResearchType));

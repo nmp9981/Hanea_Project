@@ -434,6 +434,9 @@ public class ActionButton_Set : MonoBehaviour
         //비용 지불이 가능한가?
         if (!resourcesManager.HasEnoughResources("Knowledge", 4)) return;
 
+        //연구행동 표시
+        KnowledgeBoard_Manager.Instance.IsPushButton = true;
+
         //어떤 지식타일을 선택할 것인가?
         knowledgeBoardManager.ActivateKnowledgeTile(ResearchType.Count);
     }
