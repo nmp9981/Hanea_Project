@@ -228,7 +228,9 @@ public class PlayerManager : MonoBehaviour
             if (!tile.isUnion)
             {
                 //빈공간이면 에너지 비용 추가
+                //건물이면 건물 개수 추가
                 if (tile.PlanetType == Planet.None) countSatellite += 1;
+                else GameManager.Instance.finalBonusList[3].CountUP();
                 //연방 표시
                 tile.ShowUnion();
             }

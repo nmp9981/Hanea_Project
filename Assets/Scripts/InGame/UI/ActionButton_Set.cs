@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class ActionButton_Set : MonoBehaviour
@@ -144,13 +142,16 @@ public class ActionButton_Set : MonoBehaviour
         //비용 지불
         PayForBuilding(BuildingManager.Instance.buildingDataList[0]);
         resourcesManager.ConsumeResource("Ore", addSabCost);
+        //가이아, 차원 변환 행성 개수 증가
         if (clickTile.PlanetType == Planet.Gaia)//가이아 행성은 정보 큐브 1개 추가 필요
         {
             resourcesManager.ConsumeResource("Quantum Intelligence Cube", 1);
+            GameManager.Instance.finalBonusList[0].CountUP();
         }
         if (clickTile.PlanetType == Planet.Dimension)//차원 변환 행성은 에너지 4개 추가 필요
         {
             resourcesManager.ConsumeResource("Energy", 4);
+            GameManager.Instance.finalBonusList[0].CountUP();
         }
 
         //광산 설치
@@ -195,12 +196,16 @@ public class ActionButton_Set : MonoBehaviour
                     PlayerManager.Instance.GetScore(4);
             }
         }
+        
+        //최종 점수 증가
+        GameManager.Instance.finalBonusList[4].CountUP();
 
         //점령행성 종류 추가
         if (PlayerManager.Instance._planetOccupyDic[clickTile.PlanetType] == false)
         {
             PlayerManager.Instance._planetOccupyDic[clickTile.PlanetType] = true;
             BuildingManager.Instance.planetInstallMineDic[clickTile.PlanetType].enabled = true;
+            GameManager.Instance.finalBonusList[1].CountUP();
         }
 
         //플레이어 UI에서 광산 제거
@@ -444,10 +449,11 @@ public class ActionButton_Set : MonoBehaviour
         //연방 등록
         //건물있는지 검사하고 없으면 위성을 놓는다.(위성은 개당 에너지 1개)
         int pay = PlayerManager.Instance.EnrollUnion_ReturnCountSatellite();
-        //비용 지불
+        //비용 지불, 위성 개수 증가
         for (int i = 0; i < pay; i++)
         {
             PayForBuilding(BuildingManager.Instance.buildingDataList[5]);
+            GameManager.Instance.finalBonusList[2].CountUP();
         }
         //연방 토큰 가져오기
         KnowledgeBoard_Manager.Instance.Activate_AllUnionTile_UI();

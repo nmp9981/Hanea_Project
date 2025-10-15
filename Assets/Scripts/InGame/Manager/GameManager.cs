@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     private List<RoundToken> roundTokenList = new();//전체 라운드 토큰
     private List<RoundToken> activeRoundToken = new();//이번 게임에서 사용하는 라운드 토큰
     [SerializeField]
-    private List<GameObject> finalBonusList = new();//전체 보너스 타일
+    public List<BonusTrackTile> finalBonusList = new();//전체 보너스 타일
 
     public Dictionary<RoundEffect, bool> IsRoundEffectDic = new();//각 라운드 효과 활성화 여부
 
@@ -56,13 +56,15 @@ public class GameManager : MonoBehaviour
         //리스트 순서 랜덤 지정
         HashSet<int> orderList = TileSystem.OrderNumberList(5, 2);
 
-        foreach (var gm in finalBonusList)
+        foreach (BonusTrackTile gm in finalBonusList)
         {
             gm.gameObject.SetActive(false);
+            gm.IsActive = false;
         }
         foreach (int idx in orderList)
         {
             finalBonusList[idx].gameObject.SetActive(true);
+            finalBonusList[idx].IsActive = true;
         }
     }
 
@@ -115,6 +117,7 @@ public class GameManager : MonoBehaviour
     private void GameOver()
     {
         int finalScore = CalFinalScore();//최종 점수 계산
+        PlayerManager.Instance.GetScore(finalScore);
     }
 
     /// <summary>
@@ -126,6 +129,7 @@ public class GameManager : MonoBehaviour
         //지식 타일 점수
         score += CalKnowledgeTileScore();
         //최종 목표 계산
+        score += CalFinalBonusScore();
         //자원 점수 계산
         score += CalResourcesScore();
         return score;
@@ -161,5 +165,41 @@ public class GameManager : MonoBehaviour
             if (know.Value == 5) knowCount += 4;//레벨5는 4점 추가
         }
         return knowCount*4;
+    }
+
+    /// <summary>
+    /// 최종 보너스 점수
+    /// </summary>
+    /// <returns></returns>
+    private int CalFinalBonusScore()
+    {
+        int addScore = 0;
+        foreach (var bonus in finalBonusList)
+        {
+            if (!bonus.IsActive) continue;//활성화 된것만 적용
+            int finalCount = bonus.CompleteCount;
+
+            switch (bonus.BonusType)
+            {
+                case BonusTrackType.GaiaDiemnsion://개당 3점
+                    addScore = finalCount * 3;
+                    break;
+                case BonusTrackType.PlanetKind://개당 3점
+                    addScore = finalCount * 3;
+                    break;
+                case BonusTrackType.Sattlate://2개당 3점
+                    addScore = (finalCount/2) * 3;
+                    break;
+                case BonusTrackType.UnionBuilding://2개당 3점
+                    addScore = (finalCount/2) * 3;
+                    break;
+                case BonusTrackType.BuildingCount://개당 2점
+                    addScore = finalCount * 2;
+                    break;
+                default:
+                    break;
+            }
+        }
+        return addScore;
     }
 }
