@@ -112,7 +112,7 @@ public class SkillTile : MonoBehaviour, TileInterface
                         PlayerManager.Instance.IsGaiaScore = true;
                     }else if (reward.ResourceName == "Lab")//연구소 점수
                     {
-                        int getScore = reward.RewardAmount;
+                        int getScore = reward.RewardAmount * PlayerManager.Instance._installBuidingCount[Building.ResearchLab];
                         PlayerManager.Instance.GetScore(getScore);
                     }
                     else//7점
