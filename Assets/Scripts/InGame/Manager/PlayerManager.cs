@@ -38,6 +38,7 @@ public class PlayerManager : MonoBehaviour
     public int AddOrePrice { get { return _addOrePrice; } set { _addOrePrice = value; } }//추가 삽비용
     public bool IsGaiaScore { get { return _isGaiaScore; }set { _isGaiaScore = value; } }//가이아 행성 개수
     public Dictionary<Planet, bool> _planetOccupyDic = new Dictionary<Planet, bool>();//행성 점령 유형
+    public Dictionary<Building, int> _installBuidingCount = new Dictionary<Building, int>();//각 건물별 지어진 개수
     #endregion
 
     public void OnClickTradeButton()
@@ -67,6 +68,8 @@ public class PlayerManager : MonoBehaviour
         ScoreInit();
         //행성 점령 기록 초기화
         OccupyInit();
+        //건물 설치 개수 초기화
+        BuildingCountInit();
     }
 
     private void Update()
@@ -96,6 +99,16 @@ public class PlayerManager : MonoBehaviour
         {
             if (planet == Planet.None || planet == Planet.Count) continue;
             _planetOccupyDic.Add(planet, false); 
+        }
+    }
+    //건물 기록 초기화
+    void BuildingCountInit()
+    {
+        Array enumBuildingValues = Enum.GetValues(typeof(Building));
+
+        foreach (Building build in enumBuildingValues) {
+            if (build == Building.None || build == Building.Count || build == Building.Satellite) continue;
+            _installBuidingCount.Add(build,0);
         }
     }
 

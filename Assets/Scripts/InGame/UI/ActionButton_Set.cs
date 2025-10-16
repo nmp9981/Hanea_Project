@@ -156,6 +156,7 @@ public class ActionButton_Set : MonoBehaviour
 
         //광산 설치
         clickTile.ChangeBuildingImageAndPower(Building.Mine);
+        PlayerManager.Instance._installBuidingCount[Building.Mine] += 1;
 
         //광석 수입 증가
         resourcesManager.ImportResourceAmount_UpDown("Ore", 1);
@@ -239,10 +240,13 @@ public class ActionButton_Set : MonoBehaviour
                 //무역 스테이션이 남아있는가?
                 if (BuildingManager.Instance.tradingStation_UIStack.Count == 0) return;
 
+                //광산 설치
                 PayForBuilding(BuildingManager.Instance.buildingDataList[1]);
                 clickTile.ChangeBuildingImageAndPower(Building.TradingStation);
                 resourcesManager.ImportResourceAmount_UpDown("Money", 3);
                 resourcesManager.ImportResourceAmount_UpDown("Ore", -1);
+                PlayerManager.Instance._installBuidingCount[Building.TradingStation] += 1;
+                PlayerManager.Instance._installBuidingCount[Building.Mine] -= 1;
 
                 //플레이어 UI에서 광산 , 무역스테이션 교체
                 BuildingManager.Instance.last_tradingStationImage = BuildingManager.Instance.tradingStation_UIStack.Peek();
@@ -280,6 +284,8 @@ public class ActionButton_Set : MonoBehaviour
                 clickTile.ChangeBuildingImageAndPower(Building.Academy);
                 resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
                 KnowledgeBoard_Manager.Instance.Activate_AllSkillTile();//기술 타일 획득
+                PlayerManager.Instance._installBuidingCount[Building.Academy] += 1;
+                PlayerManager.Instance._installBuidingCount[Building.ResearchLab] -= 1;
 
                 //플레이어 UI에서 연구소, 아카데미 교체
                 BuildingManager.Instance.academy_UIStack.Peek().enabled = false;
@@ -369,6 +375,8 @@ public class ActionButton_Set : MonoBehaviour
         resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
         resourcesManager.ImportResourceAmount_UpDown("Money", -3);
         detailInstallBuildingButtonSetObj.SetActive(false);
+        PlayerManager.Instance._installBuidingCount[Building.ResearchLab] += 1;
+        PlayerManager.Instance._installBuidingCount[Building.TradingStation] -= 1;
         KnowledgeBoard_Manager.Instance.Activate_AllSkillTile();//기술 타일 획득
 
         //플레이어 UI에서 무역스테이션, 연구소 교체
@@ -400,6 +408,8 @@ public class ActionButton_Set : MonoBehaviour
         clickTile.ChangeBuildingImageAndPower(Building.PlanetaryInstitute);
         resourcesManager.ImportResourceAmount_UpDown("Energy", 5);
         resourcesManager.ImportResourceAmount_UpDown("Money", -3);
+        PlayerManager.Instance._installBuidingCount[Building.PlanetaryInstitute] += 1;
+        PlayerManager.Instance._installBuidingCount[Building.TradingStation] -= 1;
         detailInstallBuildingButtonSetObj.SetActive(false);
 
         //플레이어 UI에서 무역스테이션, 행성 의회 교체
