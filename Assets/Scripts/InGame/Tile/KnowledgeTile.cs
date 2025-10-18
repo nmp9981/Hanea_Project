@@ -115,10 +115,12 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
         //레벨 5 예외사항 : 레벨5 도달 시 수입감소
         if (KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType] == 5)
         {
+            PlayerManager.Instance.RestUnionCount -= 1;//연방 토큰 소비
             //테라포밍 : 연방 획득
             if (this.TileData.researchType == ResearchType.Terraforming)
             {
                 KnowledgeBoard_Manager.Instance._lv5_UnionTile.GetReward();
+                PlayerManager.Instance.RestUnionCount += 1;//습득 연방 개수 1 증가
             }
             //사거리 : 검은 행성 배치
             if (this.TileData.researchType == ResearchType.Navigation)
@@ -180,6 +182,12 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
         //지식 4소모 : 연구 버튼을 누를 경우만
         if(KnowledgeBoard_Manager.Instance.IsPushButton)
             ResourcesManager.Instance.ConsumeResource("Knowledge", 4);
+
+        //레벨 5로 가기 위해서는 남은 연방 토큰 1개이상 필요
+        if (KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType] == 4)
+        {
+            if (PlayerManager.Instance.RestUnionCount < 1) return;
+        }
 
         //연구 트랙 이동
         KnowledgeBoard_Manager.Instance.stateObjDic[this.TileData.researchType].GetComponent<RectTransform>().position 

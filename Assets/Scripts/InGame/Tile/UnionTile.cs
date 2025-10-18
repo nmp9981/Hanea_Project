@@ -158,5 +158,6 @@ public class UnionTile : MonoBehaviour, TileInterface
             union.UnionRewardResourcesType = this.UnionRewardResourcesType;
             KnowledgeBoard_Manager.Instance._getUnionTileList.Add(union);
         }
+        PlayerManager.Instance.RestUnionCount += 1;
     }
 }
