@@ -121,6 +121,14 @@ public class Tile : MonoBehaviour
         // 무작위 인덱스에 해당하는 값을 가져와 열거형 타입으로 캐스팅하여 반환합니다.
         Planet ranType = (Planet)enumValues.GetValue(randomIndex);
 
+        //검은 행성 제외
+        if (ranType == Planet.Black)
+        {
+            _spriteRenderer.sprite = null;
+            _planetType = Planet.None;
+            return;
+        }
+
         PlanetData currentPlanetData = _planetList.allPlanets.Find(data => data.planetType == ranType);
 
         if (currentPlanetData != null)
