@@ -102,12 +102,13 @@ public class KnowledgeBoard_Manager : MonoBehaviour
     //전체 연방 타일
     [SerializeField]
     public List<UnionTile> _unionTileList = new();
-
+    public UnionTile _lv5_UnionTile;//레벨5 보상
     
     private void Awake()
     {
         Set_Sington();
         InitKnowledgeState();
+        Set_Lv5UnionTile();
     }
 
     private void OnEnable()
@@ -182,6 +183,23 @@ public class KnowledgeBoard_Manager : MonoBehaviour
             _instantiatedSkillTiles.Add(tileInstance);
 
             cnt++;
+        }
+    }
+
+    /// <summary>
+    /// 레벨5 연방타일 세팅
+    /// </summary>
+    void Set_Lv5UnionTile()
+    {
+        int ranTileNum = UnityEngine.Random.Range(1, 6);
+        Transform KnowledgeTileTrans = GameObject.Find("KnowledgeTileTraffoming5").GetComponent<Transform>();
+        for (int idx=1;idx< _unionTileList.Count+1;idx++)
+        {
+            if (ranTileNum == idx)
+            {
+                KnowledgeTileTrans.GetChild(idx).gameObject.SetActive(true);
+                _lv5_UnionTile = _unionTileList[idx-1];
+            } else KnowledgeTileTrans.GetChild(idx).gameObject.SetActive(false);
         }
     }
 

@@ -91,36 +91,42 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
         }
 
         //각 유형에 따른 보상 획득
-        if (_rewardResourceList.Count == 0) return;
-        foreach(var reward in _rewardResourceList)
+        if (_rewardResourceList.Count != 0)
         {
-            switch (reward.RewardResourcesType)
+            foreach (var reward in _rewardResourceList)
             {
-                case RewardResourcesType.Import://수입 증가
-                    ResourcesManager.Instance.ImportResourceAmount_UpDown(reward.ResourceName, reward.RewardAmount);
-                    break;
-                case RewardResourcesType.SingleUse://자원 획득
-                    ResourcesManager.Instance.GainResource(reward.ResourceName, reward.RewardAmount);
-                    break;
-                case RewardResourcesType.Etc://기타 효과
-
-                    EtcRewardEffect(_tileData.researchType);
-
-                    break;
-                default:
-                    break;
+                switch (reward.RewardResourcesType)
+                {
+                    case RewardResourcesType.Import://수입 증가
+                        ResourcesManager.Instance.ImportResourceAmount_UpDown(reward.ResourceName, reward.RewardAmount);
+                        break;
+                    case RewardResourcesType.SingleUse://자원 획득
+                        ResourcesManager.Instance.GainResource(reward.ResourceName, reward.RewardAmount);
+                        break;
+                    case RewardResourcesType.Etc://기타 효과
+                        EtcRewardEffect(_tileData.researchType);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
-
+        
         //레벨 5 예외사항 : 레벨5 도달 시 수입감소
         if (KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType] == 5)
         {
             //테라포밍 : 연방 획득
-
+            if (this.TileData.researchType == ResearchType.Terraforming)
+            {
+                KnowledgeBoard_Manager.Instance._lv5_UnionTile.GetReward();
+            }
             //사거리 : 검은 행성 배치
-
+            if (this.TileData.researchType == ResearchType.Navigation)
+            {
+                
+            }
             //경제
-            if(this.TileData.researchType == ResearchType.Economy)
+            if (this.TileData.researchType == ResearchType.Economy)
             {
                 ResourcesManager.Instance.ImportResourceAmount_UpDown("Ore", -2);
                 ResourcesManager.Instance.ImportResourceAmount_UpDown("Money", -4);
