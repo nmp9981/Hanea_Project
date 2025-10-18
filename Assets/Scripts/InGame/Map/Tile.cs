@@ -168,4 +168,18 @@ public class Tile : MonoBehaviour
         //빈타일이면 위성 설치
         if (_planetType == Planet.None) ChangeBuildingImageAndPower(Building.Satellite);
     }
+
+    /// <summary>
+    /// 검은 행성 표시
+    /// </summary>
+    public void ShowBlackPlanet()
+    {
+        PlanetData currentPlanetData = _planetList.allPlanets.Find(data => data.planetType == Planet.Black);
+
+        if (currentPlanetData != null)
+        {
+            _spriteRenderer.sprite = currentPlanetData.planetImage;
+            _planetType = currentPlanetData.planetType;
+        }
+    }
 }

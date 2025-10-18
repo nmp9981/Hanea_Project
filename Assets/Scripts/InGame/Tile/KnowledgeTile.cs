@@ -125,7 +125,7 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
             //사거리 : 검은 행성 배치
             if (this.TileData.researchType == ResearchType.Navigation)
             {
-                BlackPlanet.InstallBlackPlanet();
+                BlackPlanet.AbleInstallBlackPlanet();
             }
             //경제
             if (this.TileData.researchType == ResearchType.Economy)
