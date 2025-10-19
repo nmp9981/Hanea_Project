@@ -138,7 +138,8 @@ public class PlayerManager : MonoBehaviour
                 //클릭 표시
                 _clickTile.ShowClickedTile();
                 //검은 행성
-                if (_clickTile.PlanetType == Planet.Black) BlackPlanet.Effect_BlackPlanetTile(_clickTile);
+                if (_clickTile.PlanetType == Planet.None &&
+                    KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[ResearchType.Navigation] == 5) BlackPlanet.Effect_BlackPlanetTile(_clickTile);
             }
             else
             {

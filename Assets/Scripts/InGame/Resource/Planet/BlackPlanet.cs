@@ -26,5 +26,6 @@ public class BlackPlanet
     {
         tile.ShowBlackPlanet();
         tile.ChangeBuildingImageAndPower(Building.Mine);
+        TileSystem.AllHideClickedTile();
     }
 }

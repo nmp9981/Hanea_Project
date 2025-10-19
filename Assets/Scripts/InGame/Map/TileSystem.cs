@@ -196,4 +196,15 @@ public static class TileSystem
         }
         return orderList;
     }
+    /// <summary>
+    /// 전체 타일 클릭표시 숨기기
+    /// </summary>
+    public static void AllHideClickedTile()
+    {
+        GameObject mainBoardObj = GameObject.Find("MainBoard");
+        foreach (Tile tile in mainBoardObj.GetComponentsInChildren<Tile>())
+        {
+            tile.HideClickedTile();
+        }
+    }
 }
