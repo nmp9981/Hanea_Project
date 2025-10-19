@@ -216,6 +216,9 @@ public class ActionButton_Set : MonoBehaviour
         BuildingManager.Instance.last_mineImage = BuildingManager.Instance.mineImage_UIStack.Peek();
         BuildingManager.Instance.last_mineImage.enabled = false;
         BuildingManager.Instance.mineImage_UIStack.Pop();
+
+        //타일 표시 초기화
+        PlayerManager.Instance.AllClear_ClickTile();
     }
 
     /// <summary>

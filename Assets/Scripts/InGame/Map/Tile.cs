@@ -38,6 +38,8 @@ public class Tile : MonoBehaviour
     [SerializeField]
     private GameObject _clickImage;//타일 클릭 이미지
     [SerializeField]
+    private GameObject _distShowImage;//사거리 확인용 이미지
+    [SerializeField]
     private Building _installBuilding = Building.None;//설치한 건물
     [SerializeField]    
     private TilePosition _tilePos;//타일 위치
@@ -62,6 +64,7 @@ public class Tile : MonoBehaviour
     private void OnEnable()
     {
         Change_CubeCoordinateSystem();
+        HideDistanceTile();
     }
 
     /// <summary>
@@ -145,6 +148,7 @@ public class Tile : MonoBehaviour
         TileManager.Instance.allTileList_MainBoard.Add(this);
     }
 
+    #region 타일 표시 관련 로직
     /// <summary>
     /// 클릭한 타일 표시
     /// </summary>
@@ -161,6 +165,21 @@ public class Tile : MonoBehaviour
     public void HideClickedTile()
     {
         _clickImage.SetActive(false);
+    }
+
+    /// <summary>
+    /// 사거리 타일 표시 로직
+    /// </summary>
+    public void ShowDistanceTile()
+    {
+        _distShowImage.SetActive(true);
+    }
+    /// <summary>
+    /// 사거리 타일 표시 숨기기 로직
+    /// </summary>
+    public void HideDistanceTile()
+    {
+        _distShowImage.SetActive(false);
     }
 
     /// <summary>
@@ -186,4 +205,5 @@ public class Tile : MonoBehaviour
             _planetType = currentPlanetData.planetType;
         }
     }
+    #endregion
 }

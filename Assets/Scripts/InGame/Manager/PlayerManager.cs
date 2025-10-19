@@ -137,6 +137,8 @@ public class PlayerManager : MonoBehaviour
                 _clickTileList.Add(_clickTile);
                 //클릭 표시
                 _clickTile.ShowClickedTile();
+                //빈 행성 타일은 사거리 표시
+                TileSystem.ShowNavigaitionDist_ClickTile(_clickTile);
                 //검은 행성
                 if (_clickTile.PlanetType == Planet.None &&
                     KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[ResearchType.Navigation] == 5) BlackPlanet.Effect_BlackPlanetTile(_clickTile);
@@ -155,11 +157,12 @@ public class PlayerManager : MonoBehaviour
     /// <summary>
     /// 클릭한 타일들 초기화(클릭 표시 모두 숨기기)
     /// </summary>
-    private void AllClear_ClickTile()
+    public void AllClear_ClickTile()
     {
-        foreach (var tile in _clickTileList)
+        foreach (var tile in TileManager.Instance.allTileList_MainBoard)
         {
             tile.HideClickedTile();
+            tile.HideDistanceTile();
         }
         _clickTile = null;
         _clickTileList.Clear();

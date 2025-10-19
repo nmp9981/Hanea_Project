@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
@@ -17,6 +16,46 @@ public static class TileSystem
     {
         public Tile tile;
         public bool isVisit;
+    }
+
+    /// <summary>
+    /// 클릭한 행성으로부터의 사거리 표시
+    /// </summary>
+    public static void ShowNavigaitionDist_ClickTile(Tile clickTile)
+    {
+        //빈 행성 타일
+        if (clickTile.PlanetType == Planet.None)
+        {
+            clickTile.HideDistanceTile();
+            return;
+        }
+        if (clickTile.InstallBuilding != Building.None)
+        {
+            clickTile.HideDistanceTile();
+            return;
+        }
+
+        //사거리 이내에 들어가는 빈 행성 타일 표시
+        foreach (var tile in TileManager.Instance.allTileList_MainBoard)
+        {
+            //빈 행성 타일
+            if (tile.InstallBuilding != Building.None) continue;
+            if (tile.PlanetType == Planet.None) continue;
+
+            //사거리 비교
+            int dist = DistTileToTile(tile.TilePos, clickTile.TilePos);
+
+            //사거리내에 있음
+            if (dist <= PlayerManager.Instance.DistanceLimit)
+            {
+                tile.ShowDistanceTile();
+            }
+            else
+            {
+                tile.HideClickedTile();
+                tile.HideDistanceTile();
+            }
+        }
     }
 
     /// <summary>
