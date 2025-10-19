@@ -125,14 +125,16 @@ public class ActionButton_Set : MonoBehaviour
         (int addSabCost, int sabCount)= TileSystem.RequireSabCount(clickTile.PlanetType);
 
         //사거리 검사
-        if(!TileSystem.IsPassInspectNavigaition(clickTile)) return;
-        
+        int nearestDist = TileSystem.NearestNavigaitionDist(clickTile);
+        int addQICCost = TileSystem.AddQIC_Navigaition(nearestDist);
+
         //비용 검사
         if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[0])) return;
         if (resourcesManager.HasEnoughResources("Ore", addSabCost) == false) return;
-        if(clickTile.PlanetType == Planet.Gaia)//가이아 행성은 정보 큐브 1개 추가 필요
+        if (resourcesManager.HasEnoughResources("Quantum Intelligence Cube", addQICCost) == false) return;
+        if (clickTile.PlanetType == Planet.Gaia)//가이아 행성은 정보 큐브 1개 추가 필요, 총 지불은 사거리 비용까지 포함
         {
-            if (resourcesManager.HasEnoughResources("Quantum Intelligence Cube", 1) == false) return;
+            if (resourcesManager.HasEnoughResources("Quantum Intelligence Cube", 1+addQICCost) == false) return;
         }
         if (clickTile.PlanetType == Planet.Dimension)//차원 변환 행성은 에너지 4개 추가 필요
         {
@@ -142,6 +144,7 @@ public class ActionButton_Set : MonoBehaviour
         //비용 지불
         PayForBuilding(BuildingManager.Instance.buildingDataList[0]);
         resourcesManager.ConsumeResource("Ore", addSabCost);
+        resourcesManager.ConsumeResource("Quantum Intelligence Cube", addQICCost);
         //가이아, 차원 변환 행성 개수 증가
         if (clickTile.PlanetType == Planet.Gaia)//가이아 행성은 정보 큐브 1개 추가 필요
         {

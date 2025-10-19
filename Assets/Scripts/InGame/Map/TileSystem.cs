@@ -20,15 +20,15 @@ public static class TileSystem
     }
 
     /// <summary>
-    /// 사거리 검사
+    /// 가장 가까운 사거리 반환
     /// </summary>
-    public static bool IsPassInspectNavigaition(Tile clickTile)
+    public static int NearestNavigaitionDist(Tile clickTile)
     {
         //지어진 건물이 아예 없을 경우 사거리 검사를 하지 않음
-        if (!IsBuidingInBoard()) return true;
+        if (!IsBuidingInBoard()) return 0;
 
         //현재 있는 건물들은 클릭한 타일과 검사
-        List<Tile> installTileList = new List<Tile>();
+        int nearestDist = int.MaxValue;
         foreach(var tile in TileManager.Instance.allTileList_MainBoard)
         {
             if (tile.InstallBuilding == Building.None) continue;
@@ -37,10 +37,24 @@ public static class TileSystem
             int dist = DistTileToTile(tile.TilePos, clickTile.TilePos);
 
             //사거리내에 있음
-            if (dist <= PlayerManager.Instance.DistanceLimit) return true;
+            nearestDist = Mathf.Min(dist, nearestDist);
         }
-        //사거리가 안됨
-        return false;
+        return nearestDist;
+    }
+
+    /// <summary>
+    /// 사거리 추가 정보 큐브 : 거리 2당 1개
+    /// </summary>
+    /// <param name="nearestDist"></param>
+    /// <returns></returns>
+    public static int AddQIC_Navigaition(int nearestDist)
+    {
+        //사거리 내
+        if (nearestDist <= PlayerManager.Instance.DistanceLimit) return 0;
+
+        //거리 2당 1개
+        int addDist = nearestDist-PlayerManager.Instance.DistanceLimit;
+        return (addDist+1)/2;
     }
 
     /// <summary>
