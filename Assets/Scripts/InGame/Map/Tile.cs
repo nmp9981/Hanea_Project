@@ -142,6 +142,7 @@ public class Tile : MonoBehaviour
             }else _spriteRenderer.sprite = currentPlanetData.planetImage;
             _planetType = currentPlanetData.planetType;
         }
+        TileManager.Instance.allTileList_MainBoard.Add(this);
     }
 
     /// <summary>

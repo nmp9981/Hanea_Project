@@ -10,6 +10,11 @@ public class TileManager : MonoBehaviour
     [SerializeField]
     private List<ActionTile> activeTiles = new List<ActionTile>();
 
+    [SerializeField]
+    public GameObject mainBoardObj;
+    [SerializeField]
+    public List<Tile> allTileList_MainBoard = new List<Tile>();
+
     void Awake()
     {
         // ΩÃ±€≈Ê √ ±‚»≠
@@ -22,6 +27,7 @@ public class TileManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        mainBoardObj = GameObject.Find("MainBoard");
     }
 
     /// <summary>

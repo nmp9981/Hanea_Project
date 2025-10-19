@@ -8,8 +8,7 @@ public class BlackPlanet
     /// </summary>
     public static void AbleInstallBlackPlanet()
     {
-        GameObject mainBoardObj = GameObject.Find("MainBoard");
-        foreach(Tile tile in mainBoardObj.GetComponentsInChildren<Tile>())
+        foreach(Tile tile in TileManager.Instance.allTileList_MainBoard)
         {
             //None 타입만 활성화
             if (tile.PlanetType != Planet.None) continue;

@@ -19,6 +19,20 @@ public static class TileSystem
     }
 
     /// <summary>
+    /// 보드내 건물이 지어져 있는가?
+    /// </summary>
+    /// <returns></returns>
+    public static bool IsBuidingInBoard()
+    {
+        int totalCount = 0;
+        foreach(var build in PlayerManager.Instance._installBuidingCount)
+        {
+            totalCount += build.Value;
+        }
+        return totalCount > 0;
+    }
+
+    /// <summary>
     /// 두 타일간 거리
     /// </summary>
     /// <returns></returns>
@@ -201,8 +215,7 @@ public static class TileSystem
     /// </summary>
     public static void AllHideClickedTile()
     {
-        GameObject mainBoardObj = GameObject.Find("MainBoard");
-        foreach (Tile tile in mainBoardObj.GetComponentsInChildren<Tile>())
+        foreach (Tile tile in TileManager.Instance.allTileList_MainBoard)
         {
             tile.HideClickedTile();
         }
