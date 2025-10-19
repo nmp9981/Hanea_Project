@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
@@ -16,6 +17,30 @@ public static class TileSystem
     {
         public Tile tile;
         public bool isVisit;
+    }
+
+    /// <summary>
+    /// 사거리 검사
+    /// </summary>
+    public static bool IsPassInspectNavigaition(Tile clickTile)
+    {
+        //지어진 건물이 아예 없을 경우 사거리 검사를 하지 않음
+        if (!IsBuidingInBoard()) return true;
+
+        //현재 있는 건물들은 클릭한 타일과 검사
+        List<Tile> installTileList = new List<Tile>();
+        foreach(var tile in TileManager.Instance.allTileList_MainBoard)
+        {
+            if (tile.InstallBuilding == Building.None) continue;
+
+            //사거리 비교
+            int dist = DistTileToTile(tile.TilePos, clickTile.TilePos);
+
+            //사거리내에 있음
+            if (dist <= PlayerManager.Instance.DistanceLimit) return true;
+        }
+        //사거리가 안됨
+        return false;
     }
 
     /// <summary>

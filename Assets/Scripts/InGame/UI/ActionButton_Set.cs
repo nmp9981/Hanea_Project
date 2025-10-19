@@ -125,7 +125,7 @@ public class ActionButton_Set : MonoBehaviour
         (int addSabCost, int sabCount)= TileSystem.RequireSabCount(clickTile.PlanetType);
 
         //사거리 검사
-
+        if(!TileSystem.IsPassInspectNavigaition(clickTile)) return;
         
         //비용 검사
         if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[0])) return;
