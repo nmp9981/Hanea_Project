@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BlackPlanet
 {
@@ -26,5 +27,13 @@ public class BlackPlanet
         tile.ShowBlackPlanet();
         tile.ChangeBuildingImageAndPower(Building.Mine);
         TileSystem.AllHideClickedTile();
+
+        //점령행성 종류 추가
+        if (PlayerManager.Instance._planetOccupyDic[Planet.Black] == false)
+        {
+            PlayerManager.Instance._planetOccupyDic[Planet.Black] = true;
+            BuildingManager.Instance.planetInstallMineDic[Planet.Black].enabled = true;
+            GameManager.Instance.finalBonusList[1].CountUP();
+        }
     }
 }

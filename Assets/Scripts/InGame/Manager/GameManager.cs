@@ -51,6 +51,14 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 전체 게임 초기화
+    /// </summary>
+    public void AllGameInit()
+    {
+       
+    }
+
+    /// <summary>
     /// 최종 보너스 타일 세팅
     /// </summary>
     void FinalBonusTileSetting()
@@ -165,7 +173,7 @@ public class GameManager : MonoBehaviour
         foreach(var know in KnowledgeBoard_Manager.Instance.playerKnowledgeLevel)
         {
             knowCount += Mathf.Max(0, know.Value-2);
-            if (know.Value == 5) knowCount += 4;//레벨5는 4점 추가
+            if (know.Value == 5) knowCount += 1;//레벨5는 4점 추가
         }
         return knowCount*4;
     }
