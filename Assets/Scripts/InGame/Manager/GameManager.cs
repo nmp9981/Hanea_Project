@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public int currentRound = 0;
     [SerializeField]
     TextMeshProUGUI roundText;
+    [SerializeField]
+    GameObject gameoverObj;//게임오버 오브젝트
 
     [SerializeField]
     private List<RoundToken> roundTokenList = new();//전체 라운드 토큰
@@ -118,6 +120,7 @@ public class GameManager : MonoBehaviour
     {
         int finalScore = CalFinalScore();//최종 점수 계산
         PlayerManager.Instance.GetScore(finalScore);
+        gameoverObj.SetActive(true);
     }
 
     /// <summary>

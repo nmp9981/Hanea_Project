@@ -316,4 +316,12 @@ public class PlayerManager : MonoBehaviour
         _score = Mathf.Max(0, _score);//음수는 불가
         scoreText.text = _score.ToString();
     }
+    /// <summary>
+    /// 최종 점수
+    /// </summary>
+    /// <returns>최종 점수</returns>
+    public int FinalScore()
+    {
+        return _score;
+    }
 }
