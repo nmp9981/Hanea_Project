@@ -198,9 +198,7 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
 
         //º¸»ó ÀÚ¿ø È¹µæ
         GetReward();
-        
-        //2Á¡ È¹µæ
-        PlayerManager.Instance.GetScore(2);
+       
         //´Ù½Ã ¿ø·¡´ë·Î
         KnowledgeBoard_Manager.Instance.UnActivateKnowledgeTile();
         KnowledgeBoard_Manager.Instance.IsPushButton = false;
