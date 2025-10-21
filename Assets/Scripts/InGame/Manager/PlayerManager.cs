@@ -139,9 +139,15 @@ public class PlayerManager : MonoBehaviour
                 _clickTile.ShowClickedTile();
                 //빈 행성 타일은 사거리 표시
                 TileSystem.ShowNavigaitionDist_ClickTile(_clickTile);
-                //검은 행성
+                //검은 행성(1개만 설치 가능)
                 if (_clickTile.PlanetType == Planet.None &&
-                    KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[ResearchType.Navigation] == 5) BlackPlanet.Effect_BlackPlanetTile(_clickTile);
+                    KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[ResearchType.Navigation] == 5
+                    && _planetOccupyDic[Planet.Black] == false) BlackPlanet.Effect_BlackPlanetTile(_clickTile);
+                //삽기능
+                if (BuildingManager.Instance.sabDecreaseCount != 0)
+                {
+                    TileSystem.Effect_SabMine(_clickTile);
+                }
             }
             else
             {

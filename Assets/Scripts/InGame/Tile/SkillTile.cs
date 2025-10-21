@@ -165,6 +165,12 @@ public class SkillTile : MonoBehaviour, TileInterface
     {
         BuildingManager.Instance.buildingDataList[3].powerValue = 4;
         BuildingManager.Instance.buildingDataList[4].powerValue = 4;
+        //이미 설치되어 있는 건물도 포함
+        foreach(var tile in TileManager.Instance.allTileList_MainBoard)
+        {
+            if (tile.InstallBuilding == Building.PlanetaryInstitute ||
+               tile.InstallBuilding == Building.Academy) tile.TilePowerUP();
+        }
     }
     
 }

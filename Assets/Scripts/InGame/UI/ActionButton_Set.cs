@@ -120,107 +120,10 @@ public class ActionButton_Set : MonoBehaviour
 
         //광산이 남아있는가?
         if (BuildingManager.Instance.mineImage_UIStack.Count == 0) return;
-        
-        //추가 삽비용
-        (int addSabCost, int sabCount)= TileSystem.RequireSabCount(clickTile.PlanetType);
 
-        //사거리 검사
-        int nearestDist = TileSystem.NearestNavigaitionDist(clickTile);
-        int addQICCost = TileSystem.AddQIC_Navigaition(nearestDist);
-
-        //비용 검사
-        if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[0])) return;
-        if (resourcesManager.HasEnoughResources("Ore", addSabCost) == false) return;
-        if (resourcesManager.HasEnoughResources("Quantum Intelligence Cube", addQICCost) == false) return;
-        if (clickTile.PlanetType == Planet.Gaia)//가이아 행성은 정보 큐브 1개 추가 필요, 총 지불은 사거리 비용까지 포함
-        {
-            if (resourcesManager.HasEnoughResources("Quantum Intelligence Cube", 1+addQICCost) == false) return;
-        }
-        if (clickTile.PlanetType == Planet.Dimension)//차원 변환 행성은 에너지 4개 추가 필요
-        {
-            if (resourcesManager.HasEnoughResources("Energy", 4) == false) return;
-        }
-
-        //비용 지불
-        PayForBuilding(BuildingManager.Instance.buildingDataList[0]);
-        resourcesManager.ConsumeResource("Ore", addSabCost);
-        resourcesManager.ConsumeResource("Quantum Intelligence Cube", addQICCost);
-        //가이아, 차원 변환 행성 개수 증가
-        if (clickTile.PlanetType == Planet.Gaia)//가이아 행성은 정보 큐브 1개 추가 필요
-        {
-            resourcesManager.ConsumeResource("Quantum Intelligence Cube", 1);
-            GameManager.Instance.finalBonusList[0].CountUP();
-        }
-        if (clickTile.PlanetType == Planet.Dimension)//차원 변환 행성은 에너지 4개 추가 필요
-        {
-            resourcesManager.ConsumeResource("Energy", 4);
-            GameManager.Instance.finalBonusList[0].CountUP();
-        }
-
-        //광산 설치
-        clickTile.ChangeBuildingImageAndPower(Building.Mine);
-        PlayerManager.Instance._installBuidingCount[Building.Mine] += 1;
-
-        //광석 수입 증가
-        resourcesManager.ImportResourceAmount_UpDown("Ore", 1);
-
-        //점수 증가
-        if (PlayerManager.Instance.IsGaiaScore)
-        {
-            PlayerManager.Instance.GetScore(3);
-        }
-        //라운드 보너스 점수
-        if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.Mine))
-        {
-            if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Mine] == true)
-            {
-                PlayerManager.Instance.GetScore(3);
-            }
-        }
-        if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.Terafoming))
-        {
-            if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Terafoming] == true)
-            {
-                PlayerManager.Instance.GetScore(2 * sabCount);
-            }
-        }
-        if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.GaiaMineI))
-        {
-            if (GameManager.Instance.IsRoundEffectDic[RoundEffect.GaiaMineI] == true)
-            {
-                if (clickTile.PlanetType == Planet.Gaia)
-                    PlayerManager.Instance.GetScore(3);
-            }
-        }
-        if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.GaiaMineII))
-        {
-            if (GameManager.Instance.IsRoundEffectDic[RoundEffect.GaiaMineII] == true)
-            {
-                if (clickTile.PlanetType == Planet.Gaia)
-                    PlayerManager.Instance.GetScore(4);
-            }
-        }
-        
-        //최종 점수 증가
-        GameManager.Instance.finalBonusList[4].CountUP();
-
-        //점령행성 종류 추가
-        if (PlayerManager.Instance._planetOccupyDic[clickTile.PlanetType] == false)
-        {
-            PlayerManager.Instance._planetOccupyDic[clickTile.PlanetType] = true;
-            BuildingManager.Instance.planetInstallMineDic[clickTile.PlanetType].enabled = true;
-            GameManager.Instance.finalBonusList[1].CountUP();
-        }
-
-        //플레이어 UI에서 광산 제거
-        BuildingManager.Instance.last_mineImage = BuildingManager.Instance.mineImage_UIStack.Peek();
-        BuildingManager.Instance.last_mineImage.enabled = false;
-        BuildingManager.Instance.mineImage_UIStack.Pop();
-
-        //타일 표시 초기화
-        PlayerManager.Instance.AllClear_ClickTile();
+        BuildingManager.Instance.InstallMine(clickTile,0);
     }
-
+    
     /// <summary>
     /// 건물 업그레이드
     /// </summary>
@@ -241,13 +144,13 @@ public class ActionButton_Set : MonoBehaviour
         switch (clickTile.InstallBuilding)
         {
             case Building.Mine://광산 -> 무역 스테이션
-                if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[1])) return;
+                if (!BuildingManager.Instance.CanAffordBuilding(BuildingManager.Instance.buildingDataList[1])) return;
 
                 //무역 스테이션이 남아있는가?
                 if (BuildingManager.Instance.tradingStation_UIStack.Count == 0) return;
 
                 //광산 설치
-                PayForBuilding(BuildingManager.Instance.buildingDataList[1]);
+                BuildingManager.Instance.PayForBuilding(BuildingManager.Instance.buildingDataList[1]);
                 clickTile.ChangeBuildingImageAndPower(Building.TradingStation);
                 resourcesManager.ImportResourceAmount_UpDown("Money", 3);
                 resourcesManager.ImportResourceAmount_UpDown("Ore", -1);
@@ -281,12 +184,12 @@ public class ActionButton_Set : MonoBehaviour
                 detailInstallBuildingButtonSetObj.SetActive(true);
                 break;
             case Building.ResearchLab://연구소 -> 아카데미
-                if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[3])) return;
+                if (!BuildingManager.Instance.CanAffordBuilding(BuildingManager.Instance.buildingDataList[3])) return;
 
                 //아카데미가 남아있는가?
                 if (BuildingManager.Instance.academy_UIStack.Count == 0) return;
 
-                PayForBuilding(BuildingManager.Instance.buildingDataList[3]);
+                BuildingManager.Instance.PayForBuilding(BuildingManager.Instance.buildingDataList[3]);
                 clickTile.ChangeBuildingImageAndPower(Building.Academy);
                 resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
                 KnowledgeBoard_Manager.Instance.Activate_AllSkillTile();//기술 타일 획득
@@ -311,53 +214,6 @@ public class ActionButton_Set : MonoBehaviour
                 break;
         }
     }
-    /// <summary>
-    /// 건물 설치 비용 지불 가능 여부 체크
-    /// </summary>
-    /// <param name="buildingData">확인할 건물 데이터</param>
-    /// <returns>비용 지불 가능 여부</returns>
-    private bool CanAffordBuilding(BuildingData buildingData)
-    {
-        if (buildingData == null) return false;
-
-        foreach (var cost in buildingData.costs)
-        {
-            if (resourcesManager.HasEnoughResources(cost.resourceName, cost.amount) == false)
-            {
-                return false;
-            }
-        }
-
-        //광산 추가 비용
-        if (buildingData.type == Building.Mine)
-        {
-            if (resourcesManager.HasEnoughResources("Ore", 0) == false)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /// <summary>
-    /// 건물 설치 비용 지불
-    /// </summary>
-    /// <param name="buildingData">비용을 지불할 건물 데이터</param>
-    private void PayForBuilding(BuildingData buildingData)
-    {
-        if (buildingData == null) return;
-
-        foreach (var cost in buildingData.costs)
-        {
-            resourcesManager.ConsumeResource(cost.resourceName, cost.amount);
-        }
-
-        //광산 추가 비용
-        if (buildingData.type == Building.Mine)
-        {
-            resourcesManager.ConsumeResource("Ore", 0);
-        }
-    }
 
     /// <summary>
     /// 무역 스테이션 -> 연구소
@@ -371,12 +227,12 @@ public class ActionButton_Set : MonoBehaviour
         if (clickTile == null) return;
 
         //비용 지불이 되는가?
-        if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[2])) return;
+        if (!BuildingManager.Instance.CanAffordBuilding(BuildingManager.Instance.buildingDataList[2])) return;
 
         //연구소가 더 없으면 지을 수 없다
         if (BuildingManager.Instance.researchLab_UIStack.Count == 0) return;
 
-        PayForBuilding(BuildingManager.Instance.buildingDataList[2]);
+        BuildingManager.Instance.PayForBuilding(BuildingManager.Instance.buildingDataList[2]);
         clickTile.ChangeBuildingImageAndPower(Building.ResearchLab);
         resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
         resourcesManager.ImportResourceAmount_UpDown("Money", -3);
@@ -405,12 +261,12 @@ public class ActionButton_Set : MonoBehaviour
         if (clickTile == null) return;
 
         //비용 지불이 되는가?
-        if (!CanAffordBuilding(BuildingManager.Instance.buildingDataList[4])) return;
+        if (!BuildingManager.Instance.CanAffordBuilding(BuildingManager.Instance.buildingDataList[4])) return;
 
         //행성 의회는 1개만 지을 수 있음
         if (BuildingManager.Instance.institute_UIStack.Count == 0) return;
 
-        PayForBuilding(BuildingManager.Instance.buildingDataList[4]);
+        BuildingManager.Instance.PayForBuilding(BuildingManager.Instance.buildingDataList[4]);
         clickTile.ChangeBuildingImageAndPower(Building.PlanetaryInstitute);
         resourcesManager.ImportResourceAmount_UpDown("Energy", 5);
         resourcesManager.ImportResourceAmount_UpDown("Money", -3);
@@ -471,7 +327,7 @@ public class ActionButton_Set : MonoBehaviour
         //비용 지불, 위성 개수 증가
         for (int i = 0; i < pay; i++)
         {
-            PayForBuilding(BuildingManager.Instance.buildingDataList[5]);
+            BuildingManager.Instance.PayForBuilding(BuildingManager.Instance.buildingDataList[5]);
             GameManager.Instance.finalBonusList[2].CountUP();
         }
         //연방 토큰 가져오기

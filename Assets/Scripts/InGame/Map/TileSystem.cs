@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public static class TileSystem
 {
@@ -226,7 +227,7 @@ public static class TileSystem
     /// </summary>
     /// <param name="planet">행성</param>
     /// <returns></returns>
-    public static (int ,int) RequireSabCount(Planet planet)
+    public static (int ,int) RequireSabCount(Planet planet, int disCount)
     {
         if (planet == Planet.None) return (1000,100);//설치 불가
 
@@ -236,20 +237,21 @@ public static class TileSystem
         {
             case Planet.Titanum:
             case Planet.Swamp:
-                sabCount = 3;
+                sabCount = 3-disCount;
                 break;
             case Planet.Ice:
             case Planet.Desert:
-                sabCount = 2;
+                sabCount = 2-disCount;
                 break;
             case Planet.Earth:
             case Planet.Volcano:
-                sabCount = 1;
+                sabCount = 1-disCount;
                 break;
             default:
                 break;
         }
 
+        sabCount = Mathf.Max(0, sabCount);
         int sabCost = PlayerManager.Instance.AddOrePrice * sabCount;
         return (sabCost, sabCount);
     }
@@ -297,5 +299,17 @@ public static class TileSystem
         {
             tile.HideClickedTile();
         }
+    }
+    /// <summary>
+    /// 광산 설치 효과
+    /// </summary>
+    /// <param name="tile">설치된 타일</param>
+    public static void Effect_SabMine(Tile tile)
+    {
+        //광산 설치
+        BuildingManager.Instance.InstallMine(tile, BuildingManager.Instance.sabDecreaseCount);
+        //설치 후 초기화
+        AllHideClickedTile();
+        BuildingManager.Instance.sabDecreaseCount = 0;
     }
 }

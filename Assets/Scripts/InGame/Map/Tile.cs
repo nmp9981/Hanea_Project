@@ -111,6 +111,13 @@ public class Tile : MonoBehaviour
         ShowClickedTile();
     }
     /// <summary>
+    /// 파워 4로 증가
+    /// </summary>
+    public void TilePowerUP()
+    {
+        _tilePower = 4;
+    }
+    /// <summary>
     /// 행성 타입에 따라 이미지 색상 변경
     /// </summary>
     private void ApplyPlanetColor()

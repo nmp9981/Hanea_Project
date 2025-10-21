@@ -94,7 +94,7 @@ public class ActionTile : MonoBehaviour, TileInterface
                         ResourcesManager.Instance.GainResource(reward.ResourceName, reward.RewardAmount);
                         break;
                     case RewardResourcesType.Etc://기타 효과
-                                                 //놓을 수 있는곳 표시
+                        Sab_InstallMine(reward.RewardAmount);//놓을 수 있는곳 표시
                         break;
                     default:
                         break;
@@ -144,5 +144,24 @@ public class ActionTile : MonoBehaviour, TileInterface
         //버튼 비활성화 (각 라운드 별로 1회용)
         _button.interactable = false;
         _isGet = true;
+    }
+    /// <summary>
+    /// 삽 - 광산 설치
+    /// </summary>
+    private void Sab_InstallMine(int amount)
+    {
+        //광산이 남아있는가?
+        if (BuildingManager.Instance.mineImage_UIStack.Count == 0) return;
+
+        foreach (Tile tile in TileManager.Instance.allTileList_MainBoard)
+        {
+            //빈 행성 타일만
+            if (tile.PlanetType == Planet.None) continue;
+            if (tile.PlanetType == Planet.Black) continue;
+            if (tile.InstallBuilding != Building.None) continue;
+
+            tile.ShowClickedTile();
+        }
+        BuildingManager.Instance.sabDecreaseCount = amount;//할인 개수
     }
 }
