@@ -321,9 +321,16 @@ public class ActionButton_Set : MonoBehaviour
         //연방 불가
         if (!PlayerManager.Instance.Check_AbleUnion(PlayerManager.Instance.ClickedTileList())) return;
         
+        //연방 비용
+        int pay = PlayerManager.Instance.ReturnCountSatellite();
+
+        //비용 지불 가능한가?
+        if (ResourcesManager.Instance.HasEnoughResources("Energy", pay) == false) return;
+
         //연방 등록
         //건물있는지 검사하고 없으면 위성을 놓는다.(위성은 개당 에너지 1개)
-        int pay = PlayerManager.Instance.EnrollUnion_ReturnCountSatellite();
+        PlayerManager.Instance.EnrollUnion();
+
         //비용 지불, 위성 개수 증가
         for (int i = 0; i < pay; i++)
         {

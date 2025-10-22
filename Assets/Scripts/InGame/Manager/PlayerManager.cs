@@ -244,9 +244,9 @@ public class PlayerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 연방 등록 및 위성 개수 반환
+    /// 위성 개수 반환
     /// </summary>
-    public int EnrollUnion_ReturnCountSatellite()
+    public int ReturnCountSatellite()
     {
         int countSatellite = 0;
         foreach (var tile in _clickTileList)
@@ -255,16 +255,31 @@ public class PlayerManager : MonoBehaviour
             if (!tile.isUnion)
             {
                 //빈공간이면 에너지 비용 추가
-                //건물이면 건물 개수 추가
                 if (tile.PlanetType == Planet.None) countSatellite += 1;
-                else GameManager.Instance.finalBonusList[3].CountUP();
+            }
+        }
+        return countSatellite;
+    }
+
+    /// <summary>
+    /// 연방 등록 및 위성 개수 반환
+    /// </summary>
+    public void EnrollUnion()
+    {
+        foreach (var tile in _clickTileList)
+        {
+            //이미 등록된 타일은 사용할 수 없음
+            if (!tile.isUnion)
+            {
+                //건물이면 건물 개수 추가
+                if (tile.PlanetType != Planet.None) GameManager.Instance.finalBonusList[3].CountUP();
                 //연방 표시
                 tile.ShowUnion();
             }
         }
         //클릭한 타일 초기화
         AllClear_ClickTile();
-        return countSatellite;
+        return;
     }
 
     #region 자원 변환 - Free Action
