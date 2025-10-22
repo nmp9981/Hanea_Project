@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -27,6 +28,8 @@ public class PlayerManager : MonoBehaviour
     //UI
     [SerializeField]
     private TextMeshProUGUI scoreText;
+    [SerializeField]
+    private TextMeshProUGUI _noticeText;
 
     #region 플레이어 정보
     //플레이어 정보
@@ -344,5 +347,18 @@ public class PlayerManager : MonoBehaviour
     public int FinalScore()
     {
         return _score;
+    }
+
+    /// <summary>
+    /// 알림 메세지 보이기
+    /// </summary>
+    /// <param name="message">메세지</param>
+    /// <returns></returns>
+    public IEnumerator ShowMessage(string message)
+    {
+        _noticeText.transform.parent.gameObject.SetActive(true);
+        _noticeText.text = message;
+        yield return new WaitForSecondsRealtime(2.0f);
+        _noticeText.transform.parent.gameObject.SetActive(false);
     }
 }
