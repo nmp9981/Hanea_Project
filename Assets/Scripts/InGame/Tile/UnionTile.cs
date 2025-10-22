@@ -10,7 +10,7 @@ public class UnionTile : MonoBehaviour, TileInterface
 
     //속성 정의
     [SerializeField] private TileType _type;
-    [SerializeField] private bool _isGet = false;
+    [SerializeField] private bool _isGet;
     [SerializeField] private List<RewardResource> _rewardResourceList = new();
     [SerializeField] private Button _button;
     [SerializeField] private UnionRewardResourcesType _unionRewardResourcesType;
@@ -66,6 +66,7 @@ public class UnionTile : MonoBehaviour, TileInterface
         _button = this.Button;
         _button.interactable = false;
         _button.onClick.AddListener(GetReward);
+        RestCount = 2;
 
         //플레이어가 획득한 연방영역이 아닐때
         if(this.transform.parent != unionTileArea)
@@ -98,8 +99,8 @@ public class UnionTile : MonoBehaviour, TileInterface
     /// </summary>
     public void GetReward()
     {
-        //이미 획득한것은 획득 불가 
-        if (_isGet) return;
+        //남는것이 없으면 획득 불가 
+        if (RestCount==0) return;
         //각 유형에 따른 보상 획득
         if (_rewardResourceList.Count == 0) return;
 
@@ -122,7 +123,7 @@ public class UnionTile : MonoBehaviour, TileInterface
         ShowGetTile();
 
         //값 변경
-        if (_isGet == true)
+        if (RestCount<2)
         {
             OnChanged?.Invoke();
         }
@@ -145,7 +146,7 @@ public class UnionTile : MonoBehaviour, TileInterface
     /// </summary>
     void ShowGetTile()
     {
-        _isGet = true;
+        RestCount-=1;
         _button.interactable = false;
 
         if (this.transform.parent != unionTileArea)
