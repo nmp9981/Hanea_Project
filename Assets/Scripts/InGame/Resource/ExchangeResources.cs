@@ -25,7 +25,7 @@ public class ExchangeResources
         Resource fromResource = _allResources.Find(r => r.Name == fromResourceName);
         if (fromResource == null || fromResource.CurCount < fromAmount)
         {
-            Debug.LogError("교환에 필요한 자원이 부족합니다.");
+            PlayerManager.Instance.ShowMessage("교환에 필요한 자원이 부족합니다.");
             return false;
         }
 
@@ -33,7 +33,7 @@ public class ExchangeResources
         Resource toResource = _allResources.Find(r => r.Name == toResourceName);
         if (toResource == null)
         {
-            Debug.LogError("교환할 대상 자원이 존재하지 않습니다.");
+            PlayerManager.Instance.ShowMessage("교환할 대상 자원이 존재하지 않습니다.");
             return false;
         }
 

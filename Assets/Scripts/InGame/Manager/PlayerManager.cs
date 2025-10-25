@@ -209,12 +209,12 @@ public class PlayerManager : MonoBehaviour
         //파워 조건(7이상, 최소 파워)
         if (powerCheck.sumPower < 7)
         {
-            Debug.Log("파워값이 모자릅니다");
+            ShowMessage("파워 값이 모자릅니다.");
             return false;
         }
         if (!powerCheck.isMinPower)
         {
-            Debug.Log("최소 파워값으로 연방 구성해야합니다.");
+            ShowMessage("최소 파워값으로 연방을 구성해야합니다.");
             return false;
         }
         
@@ -227,13 +227,13 @@ public class PlayerManager : MonoBehaviour
             //이미 등록된 타일은 사용할 수 없음
             if (tile.isUnion)
             {
-                Debug.Log("이미 연방에 등록된 타일");
+                ShowMessage("이미 연방에 등록된 타일이 있습니다.");
                 return false;
             }
             //빈행성은 연방 불가능
             if (tile.PlanetType!=Planet.None && tile.InstallBuilding == Building.None)
             {
-                Debug.Log("빈행성 존재");
+                ShowMessage("빈행성이 포함되어 있습니다.");
                 return false;
             }
         }
@@ -350,11 +350,19 @@ public class PlayerManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 알림 메세지 코루틴 호출
+    /// </summary>
+    public void ShowMessage(string message)
+    {
+        StartCoroutine(ShowMessage_Cor(message));
+    }
+
+    /// <summary>
     /// 알림 메세지 보이기
     /// </summary>
     /// <param name="message">메세지</param>
     /// <returns></returns>
-    public IEnumerator ShowMessage(string message)
+    private IEnumerator ShowMessage_Cor(string message)
     {
         _noticeText.transform.parent.gameObject.SetActive(true);
         _noticeText.text = message;

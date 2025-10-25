@@ -96,7 +96,7 @@ public class ActionButton_Set : MonoBehaviour
         Tile clickedTile = PlayerManager.Instance.ClickedTile();
         if (clickedTile == null)
         {
-            Debug.LogWarning("클릭된 타일이 없습니다.");
+            PlayerManager.Instance.ShowMessage("선택된 타일이 없습니다.");
         }
         return clickedTile;
     }
