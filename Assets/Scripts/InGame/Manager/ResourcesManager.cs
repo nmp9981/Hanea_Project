@@ -116,21 +116,6 @@ public class ResourcesManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 초기 자원 설정
-    /// </summary>
-    public void InitResourcesSet()
-    {
-        // 초기 설정 로직 (예: 인스펙터에서 설정된 값 사용)
-        // 또는 특정 자원만 초기화
-        //돈
-        Resource money = resources.Find(r => r.Name == "Money");
-        if (money != null) money.Gain(8);
-        //광석
-        Resource ore = resources.Find(r => r.Name == "Ore");
-        if (ore != null) { ore.Gain(4); }
-    }
-
     //자원 수입
     public void ImportAllResources()
     {
