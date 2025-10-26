@@ -361,6 +361,8 @@ public class KnowledgeBoard_Manager : MonoBehaviour
             TextMeshProUGUI restCountText = tile.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>();
             if (restCountText.text == "X 0") continue;//남아있는 연방토큰이 없는 경우 넘어감
 
+            if (tile.RestCount == 0) continue;
+
             tile.TileActive();
         }
     }

@@ -99,8 +99,6 @@ public class UnionTile : MonoBehaviour, TileInterface
     /// </summary>
     public void GetReward()
     {
-        //남는것이 없으면 획득 불가 
-        if (RestCount==0) return;
         //각 유형에 따른 보상 획득
         if (_rewardResourceList.Count == 0) return;
 
