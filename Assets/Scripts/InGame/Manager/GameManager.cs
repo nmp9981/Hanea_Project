@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<RoundEffect, bool> IsRoundEffectDic = new();//각 라운드 효과 활성화 여부
 
+    const int maxMissionScore = 18;//미션 최대 점수
+
     private void Awake()
     {
         SingletonObjectLoad();
@@ -185,6 +187,7 @@ public class GameManager : MonoBehaviour
     private int CalFinalBonusScore()
     {
         int addScore = 0;
+        int addFinalScore = 0;
         foreach (var bonus in finalBonusList)
         {
             if (!bonus.IsActive) continue;//활성화 된것만 적용
@@ -193,24 +196,25 @@ public class GameManager : MonoBehaviour
             switch (bonus.BonusType)
             {
                 case BonusTrackType.GaiaDiemnsion://개당 3점
-                    addScore = finalCount * 3;
+                    addScore = Mathf.Min(maxMissionScore, finalCount * 3);
                     break;
                 case BonusTrackType.PlanetKind://개당 3점
-                    addScore = finalCount * 3;
+                    addScore = Mathf.Min(maxMissionScore, finalCount * 3);
                     break;
                 case BonusTrackType.Sattlate://2개당 3점
-                    addScore = (finalCount/2) * 3;
+                    addScore = Mathf.Min(maxMissionScore, (finalCount/2) * 3);
                     break;
                 case BonusTrackType.UnionBuilding://2개당 3점
-                    addScore = (finalCount/2) * 3;
+                    addScore = Mathf.Min(maxMissionScore, (finalCount/2) * 3);
                     break;
                 case BonusTrackType.BuildingCount://개당 2점
-                    addScore = finalCount * 2;
+                    addScore = Mathf.Min(maxMissionScore, finalCount * 2);
                     break;
                 default:
                     break;
             }
+            addFinalScore += addScore;
         }
-        return addScore;
+        return addFinalScore;
     }
 }
