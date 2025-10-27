@@ -155,8 +155,9 @@ public class BuildingManager : MonoBehaviour
         clickTile.ChangeBuildingImageAndPower(Building.Mine);
         PlayerManager.Instance._installBuidingCount[Building.Mine] += 1;
 
-        //광석 수입 증가
-        ResourcesManager.Instance.ImportResourceAmount_UpDown("Ore", 1);
+        //광석 수입 증가(빈칸 예외)
+        if (PlayerManager.Instance._installBuidingCount[Building.Mine]!=3)
+            ResourcesManager.Instance.ImportResourceAmount_UpDown("Ore", 1);
 
         //점수 증가
         if (PlayerManager.Instance.IsGaiaScore)

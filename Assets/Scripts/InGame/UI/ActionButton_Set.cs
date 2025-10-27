@@ -152,10 +152,11 @@ public class ActionButton_Set : MonoBehaviour
                 //광산 설치
                 BuildingManager.Instance.PayForBuilding(BuildingManager.Instance.buildingDataList[1]);
                 clickTile.ChangeBuildingImageAndPower(Building.TradingStation);
-                resourcesManager.ImportResourceAmount_UpDown("Money", 3);
-                resourcesManager.ImportResourceAmount_UpDown("Ore", -1);
                 PlayerManager.Instance._installBuidingCount[Building.TradingStation] += 1;
                 PlayerManager.Instance._installBuidingCount[Building.Mine] -= 1;
+                resourcesManager.ImportResourceAmount_UpDown("Money", 3);
+                if (PlayerManager.Instance._installBuidingCount[Building.Mine]!=2)
+                    resourcesManager.ImportResourceAmount_UpDown("Ore", -1);
 
                 //플레이어 UI에서 광산 , 무역스테이션 교체
                 BuildingManager.Instance.last_tradingStationImage = BuildingManager.Instance.tradingStation_UIStack.Peek();
