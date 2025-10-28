@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Resources;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,22 +20,30 @@ public class BuildingManager : MonoBehaviour
 
     //건물 UI
     [SerializeField]
-    private List<Image> mineImage_UIList = new();
+    public List<Image> mineImage_UIList = new();
+    [SerializeField]
     public Stack<Image> mineImage_UIStack = new();
+    [SerializeField]
     public Image last_mineImage;
     [SerializeField]
-    private List<Image> tradingStation_UIList = new();
+    public List<Image> tradingStation_UIList = new();
+    [SerializeField]
     public Stack<Image> tradingStation_UIStack = new();
+    [SerializeField]
     public Image last_tradingStationImage;
     [SerializeField]
-    private List<Image> researchLab_UIList = new();
+    public List<Image> researchLab_UIList = new();
+    [SerializeField]
     public Stack<Image> researchLab_UIStack = new();
+    [SerializeField]
     public Image researchLabImage;
     [SerializeField]
-    private List<Image> academy_UIList = new();
+    public List<Image> academy_UIList = new();
+    [SerializeField]
     public Stack<Image> academy_UIStack = new();
     [SerializeField]
-    private List<Image> institute_UIList = new();
+    public List<Image> institute_UIList = new();
+    [SerializeField]
     public Stack<Image> institute_UIStack = new();
 
     [SerializeField]
@@ -97,14 +104,7 @@ public class BuildingManager : MonoBehaviour
             planetInstallMineDic.Add(p, mineImage);
         }
     }
-    /// <summary>
-    /// 건물 짓기
-    /// 어느 타일에 해당 건물을 짓는다.
-    /// </summary>
-    public void InstallBuiling(Tile tile, Building buildingType)
-    {
 
-    }
     /// <summary>
     /// 건물 스프라이트 리스트 반환
     /// </summary>
@@ -203,14 +203,12 @@ public class BuildingManager : MonoBehaviour
         if (PlayerManager.Instance._planetOccupyDic[clickTile.PlanetType] == false)
         {
             PlayerManager.Instance._planetOccupyDic[clickTile.PlanetType] = true;
-            BuildingManager.Instance.planetInstallMineDic[clickTile.PlanetType].enabled = true;
+            planetInstallMineDic[clickTile.PlanetType].enabled = true;
             GameManager.Instance.finalBonusList[1].CountUP();
         }
 
         //플레이어 UI에서 광산 제거
-        BuildingManager.Instance.last_mineImage = BuildingManager.Instance.mineImage_UIStack.Peek();
-        BuildingManager.Instance.last_mineImage.enabled = false;
-        BuildingManager.Instance.mineImage_UIStack.Pop();
+        mineImage_UIList[PlayerManager.Instance._installBuidingCount[Building.Mine]-1].enabled = false;
 
         //타일 표시 초기화
         PlayerManager.Instance.AllClear_ClickTile();

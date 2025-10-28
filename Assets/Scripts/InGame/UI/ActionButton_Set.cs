@@ -159,11 +159,8 @@ public class ActionButton_Set : MonoBehaviour
                     resourcesManager.ImportResourceAmount_UpDown("Ore", -1);
 
                 //플레이어 UI에서 광산 , 무역스테이션 교체
-                BuildingManager.Instance.last_tradingStationImage = BuildingManager.Instance.tradingStation_UIStack.Peek();
-                BuildingManager.Instance.last_tradingStationImage.enabled = false;
-                BuildingManager.Instance.tradingStation_UIStack.Pop();
-                BuildingManager.Instance.mineImage_UIStack.Push(BuildingManager.Instance.last_mineImage);
-                BuildingManager.Instance.mineImage_UIStack.Peek().enabled = true;
+                BuildingManager.Instance.mineImage_UIList[PlayerManager.Instance._installBuidingCount[Building.Mine]].enabled = true;
+                BuildingManager.Instance.tradingStation_UIList[PlayerManager.Instance._installBuidingCount[Building.TradingStation]-1].enabled = false;
 
                 //라운드 보너스 점수
                 if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.TradingI))
@@ -198,10 +195,8 @@ public class ActionButton_Set : MonoBehaviour
                 PlayerManager.Instance._installBuidingCount[Building.ResearchLab] -= 1;
 
                 //플레이어 UI에서 연구소, 아카데미 교체
-                BuildingManager.Instance.academy_UIStack.Peek().enabled = false;
-                BuildingManager.Instance.academy_UIStack.Pop();
-                BuildingManager.Instance.researchLab_UIStack.Push(BuildingManager.Instance.researchLabImage);
-                BuildingManager.Instance.researchLab_UIStack.Peek().enabled = true;
+                BuildingManager.Instance.researchLab_UIList[PlayerManager.Instance._installBuidingCount[Building.ResearchLab]].enabled = true;
+                BuildingManager.Instance.academy_UIList[PlayerManager.Instance._installBuidingCount[Building.Academy] - 1].enabled = false;
 
                 if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.Power3))
                 {
@@ -243,11 +238,8 @@ public class ActionButton_Set : MonoBehaviour
         KnowledgeBoard_Manager.Instance.Activate_AllSkillTile();//기술 타일 획득
 
         //플레이어 UI에서 무역스테이션, 연구소 교체
-        BuildingManager.Instance.researchLabImage = BuildingManager.Instance.researchLab_UIStack.Peek();
-        BuildingManager.Instance.researchLabImage.enabled = false;
-        BuildingManager.Instance.researchLab_UIStack.Pop();
-        BuildingManager.Instance.tradingStation_UIStack.Push(BuildingManager.Instance.last_tradingStationImage);
-        BuildingManager.Instance.tradingStation_UIStack.Peek().enabled = true;
+        BuildingManager.Instance.tradingStation_UIList[PlayerManager.Instance._installBuidingCount[Building.TradingStation]].enabled = true;
+        BuildingManager.Instance.researchLab_UIList[PlayerManager.Instance._installBuidingCount[Building.ResearchLab] - 1].enabled = false;
     }
 
     /// <summary>
@@ -276,10 +268,8 @@ public class ActionButton_Set : MonoBehaviour
         detailInstallBuildingButtonSetObj.SetActive(false);
 
         //플레이어 UI에서 무역스테이션, 행성 의회 교체
-        BuildingManager.Instance.institute_UIStack.Peek().enabled = false;
-        BuildingManager.Instance.institute_UIStack.Pop();
-        BuildingManager.Instance.tradingStation_UIStack.Push(BuildingManager.Instance.last_tradingStationImage);
-        BuildingManager.Instance.tradingStation_UIStack.Peek().enabled = true;
+        BuildingManager.Instance.tradingStation_UIList[PlayerManager.Instance._installBuidingCount[Building.TradingStation]].enabled = true;
+        BuildingManager.Instance.institute_UIList[PlayerManager.Instance._installBuidingCount[Building.PlanetaryInstitute] - 1].enabled = false;
 
         if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.Power3))
         {
