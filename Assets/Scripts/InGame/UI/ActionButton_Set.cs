@@ -119,7 +119,7 @@ public class ActionButton_Set : MonoBehaviour
         if (clickTile.PlanetType == Planet.None || clickTile.PlanetType == Planet.Count) return;
 
         //광산이 남아있는가?
-        if (BuildingManager.Instance.mineImage_UIStack.Count == 0) return;
+        if (PlayerManager.Instance._installBuidingCount[Building.Mine] == 8) return;
 
         BuildingManager.Instance.InstallMine(clickTile,0);
     }
@@ -147,7 +147,7 @@ public class ActionButton_Set : MonoBehaviour
                 if (!BuildingManager.Instance.CanAffordBuilding(BuildingManager.Instance.buildingDataList[1])) return;
 
                 //무역 스테이션이 남아있는가?
-                if (BuildingManager.Instance.tradingStation_UIStack.Count == 0) return;
+                if (PlayerManager.Instance._installBuidingCount[Building.TradingStation] == 4) return;
 
                 //광산 설치
                 BuildingManager.Instance.PayForBuilding(BuildingManager.Instance.buildingDataList[1]);
@@ -185,7 +185,7 @@ public class ActionButton_Set : MonoBehaviour
                 if (!BuildingManager.Instance.CanAffordBuilding(BuildingManager.Instance.buildingDataList[3])) return;
 
                 //아카데미가 남아있는가?
-                if (BuildingManager.Instance.academy_UIStack.Count == 0) return;
+                if (PlayerManager.Instance._installBuidingCount[Building.Academy] == 2) return;
 
                 BuildingManager.Instance.PayForBuilding(BuildingManager.Instance.buildingDataList[3]);
                 clickTile.ChangeBuildingImageAndPower(Building.Academy);
@@ -226,7 +226,7 @@ public class ActionButton_Set : MonoBehaviour
         if (!BuildingManager.Instance.CanAffordBuilding(BuildingManager.Instance.buildingDataList[2])) return;
 
         //연구소가 더 없으면 지을 수 없다
-        if (BuildingManager.Instance.researchLab_UIStack.Count == 0) return;
+        if (PlayerManager.Instance._installBuidingCount[Building.ResearchLab] == 3) return;
 
         BuildingManager.Instance.PayForBuilding(BuildingManager.Instance.buildingDataList[2]);
         clickTile.ChangeBuildingImageAndPower(Building.ResearchLab);
@@ -257,7 +257,7 @@ public class ActionButton_Set : MonoBehaviour
         if (!BuildingManager.Instance.CanAffordBuilding(BuildingManager.Instance.buildingDataList[4])) return;
 
         //행성 의회는 1개만 지을 수 있음
-        if (BuildingManager.Instance.institute_UIStack.Count == 0) return;
+        if (PlayerManager.Instance._installBuidingCount[Building.PlanetaryInstitute] == 1) return;
 
         BuildingManager.Instance.PayForBuilding(BuildingManager.Instance.buildingDataList[4]);
         clickTile.ChangeBuildingImageAndPower(Building.PlanetaryInstitute);

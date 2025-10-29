@@ -22,29 +22,19 @@ public class BuildingManager : MonoBehaviour
     [SerializeField]
     public List<Image> mineImage_UIList = new();
     [SerializeField]
-    public Stack<Image> mineImage_UIStack = new();
-    [SerializeField]
     public Image last_mineImage;
     [SerializeField]
     public List<Image> tradingStation_UIList = new();
-    [SerializeField]
-    public Stack<Image> tradingStation_UIStack = new();
     [SerializeField]
     public Image last_tradingStationImage;
     [SerializeField]
     public List<Image> researchLab_UIList = new();
     [SerializeField]
-    public Stack<Image> researchLab_UIStack = new();
-    [SerializeField]
     public Image researchLabImage;
     [SerializeField]
     public List<Image> academy_UIList = new();
     [SerializeField]
-    public Stack<Image> academy_UIStack = new();
-    [SerializeField]
     public List<Image> institute_UIList = new();
-    [SerializeField]
-    public Stack<Image> institute_UIStack = new();
 
     [SerializeField]
     public Dictionary<Planet, Image> planetInstallMineDic = new();
@@ -61,7 +51,6 @@ public class BuildingManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
         EnrollBuldingImage();//건물 이미지 등록
     }
    
@@ -70,27 +59,6 @@ public class BuildingManager : MonoBehaviour
     /// </summary>
     private void EnrollBuldingImage()
     {
-        foreach(var image in mineImage_UIList)
-        {
-            mineImage_UIStack.Push(image);
-        }
-        foreach (var image in tradingStation_UIList)
-        {
-            tradingStation_UIStack.Push(image);
-        }
-        foreach (var image in researchLab_UIList)
-        {
-            researchLab_UIStack.Push(image);
-        }
-        foreach (var image in academy_UIList)
-        {
-            academy_UIStack.Push(image);
-        }
-        foreach (var image in institute_UIList)
-        {
-            institute_UIStack.Push(image);
-        }
-
         // Enum.GetValues()를 사용하여 Planet enum의 모든 값을 배열로 가져옵니다.
         Planet[] planets = (Planet[])Enum.GetValues(typeof(Planet));
 
@@ -152,8 +120,10 @@ public class BuildingManager : MonoBehaviour
         }
 
         //광산 설치
+        Debug.Log(PlayerManager.Instance._installBuidingCount[Building.Mine]);
         clickTile.ChangeBuildingImageAndPower(Building.Mine);
         PlayerManager.Instance._installBuidingCount[Building.Mine] += 1;
+        Debug.Log(PlayerManager.Instance._installBuidingCount[Building.Mine]);
 
         //광석 수입 증가(빈칸 예외)
         if (PlayerManager.Instance._installBuidingCount[Building.Mine]!=3)

@@ -151,7 +151,7 @@ public class ActionTile : MonoBehaviour, TileInterface
     private void Sab_InstallMine(int amount)
     {
         //광산이 남아있는가?
-        if (BuildingManager.Instance.mineImage_UIStack.Count == 0) return;
+        if (PlayerManager.Instance._installBuidingCount[Building.Mine] == 8) return;
 
         foreach (Tile tile in TileManager.Instance.allTileList_MainBoard)
         {
