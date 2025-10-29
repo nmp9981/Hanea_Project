@@ -81,6 +81,9 @@ public class ActionButton_Set : MonoBehaviour
                 case "ChangeOreToEnergy":
                     btn.onClick.AddListener(delegate { PlayerManager.Instance.OnClick_Exchange_OreToEnergy(); });
                     break;
+                case "ChangeQICToOre":
+                    btn.onClick.AddListener(delegate { PlayerManager.Instance.OnClick_Exchange_QuantumIntelligenceCubeToOre(); });
+                    break;
                 default:
                     break;
             }
@@ -154,7 +157,7 @@ public class ActionButton_Set : MonoBehaviour
                 clickTile.ChangeBuildingImageAndPower(Building.TradingStation);
                 PlayerManager.Instance._installBuidingCount[Building.TradingStation] += 1;
                 PlayerManager.Instance._installBuidingCount[Building.Mine] -= 1;
-                resourcesManager.ImportResourceAmount_UpDown("Money", 3);
+                resourcesManager.ImportResourceAmount_UpDown("Money", 4);
                 if (PlayerManager.Instance._installBuidingCount[Building.Mine]!=2)
                     resourcesManager.ImportResourceAmount_UpDown("Ore", -1);
 
@@ -231,7 +234,7 @@ public class ActionButton_Set : MonoBehaviour
         BuildingManager.Instance.PayForBuilding(BuildingManager.Instance.buildingDataList[2]);
         clickTile.ChangeBuildingImageAndPower(Building.ResearchLab);
         resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
-        resourcesManager.ImportResourceAmount_UpDown("Money", -3);
+        resourcesManager.ImportResourceAmount_UpDown("Money", -4);
         detailInstallBuildingButtonSetObj.SetActive(false);
         PlayerManager.Instance._installBuidingCount[Building.ResearchLab] += 1;
         PlayerManager.Instance._installBuidingCount[Building.TradingStation] -= 1;
@@ -262,7 +265,7 @@ public class ActionButton_Set : MonoBehaviour
         BuildingManager.Instance.PayForBuilding(BuildingManager.Instance.buildingDataList[4]);
         clickTile.ChangeBuildingImageAndPower(Building.PlanetaryInstitute);
         resourcesManager.ImportResourceAmount_UpDown("Energy", 5);
-        resourcesManager.ImportResourceAmount_UpDown("Money", -3);
+        resourcesManager.ImportResourceAmount_UpDown("Money", -4);
         PlayerManager.Instance._installBuidingCount[Building.PlanetaryInstitute] += 1;
         PlayerManager.Instance._installBuidingCount[Building.TradingStation] -= 1;
         detailInstallBuildingButtonSetObj.SetActive(false);

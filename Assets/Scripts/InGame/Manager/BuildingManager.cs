@@ -120,10 +120,8 @@ public class BuildingManager : MonoBehaviour
         }
 
         //±¤»ê ¼³Ä¡
-        Debug.Log(PlayerManager.Instance._installBuidingCount[Building.Mine]);
         clickTile.ChangeBuildingImageAndPower(Building.Mine);
         PlayerManager.Instance._installBuidingCount[Building.Mine] += 1;
-        Debug.Log(PlayerManager.Instance._installBuidingCount[Building.Mine]);
 
         //±¤¼® ¼öÀÔ Áõ°¡(ºóÄ­ ¿¹¿Ü)
         if (PlayerManager.Instance._installBuidingCount[Building.Mine]!=3)

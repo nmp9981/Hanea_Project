@@ -328,6 +328,13 @@ public class PlayerManager : MonoBehaviour
     {
         resourceExchanger.Exchange_AToB("Energy", 4, "Quantum Intelligence Cube", 1);
     }
+    /// <summary>
+    /// 정보큐브 -> 광석
+    /// </summary>
+    public void OnClick_Exchange_QuantumIntelligenceCubeToOre()
+    {
+        resourceExchanger.Exchange_AToB("Quantum Intelligence Cube", 1,"Ore",1);
+    }
     #endregion
 
     /// <summary>
