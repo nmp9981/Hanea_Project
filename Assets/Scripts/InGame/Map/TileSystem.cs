@@ -137,7 +137,10 @@ public static class TileSystem
             if (tile.TilePower == 0) continue;//빈 타일
 
             if (sumPower >= 7) isMinPower = false;//이미 합 7이상인데도 계산할 건물이 남아있음
-            sumPower += tile.TilePower;
+
+            //의회 보너스 적용(모행성에만)
+            if (tile.PlanetType == Planet.Fire) sumPower += (tile.TilePower + PlayerManager.Instance.AddInstituteBonusPower);
+            else sumPower += tile.TilePower;
         }
         return (sumPower, isMinPower);
     }

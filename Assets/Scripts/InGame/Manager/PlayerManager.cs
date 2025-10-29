@@ -38,10 +38,12 @@ public class PlayerManager : MonoBehaviour
     private int _addOrePrice = 3;
     private bool _isGaiaScore = false;
     private int _restunionCount = 0;
+    private int _addInstituteBonusPower = 0;
     public int DistanceLimit { get { return _distanceLimit; } set { _distanceLimit = value; } }//사거리
     public int AddOrePrice { get { return _addOrePrice; } set { _addOrePrice = value; } }//추가 삽비용
     public bool IsGaiaScore { get { return _isGaiaScore; }set { _isGaiaScore = value; } }//가이아 행성 개수
     public int RestUnionCount { get { return _restunionCount; } set { _restunionCount = value; } }//남은 연방타일 개수
+    public int AddInstituteBonusPower { get { return _addInstituteBonusPower; } set { _addInstituteBonusPower = value; } }//모행성 보너스
     public Dictionary<Planet, bool> _planetOccupyDic = new Dictionary<Planet, bool>();//행성 점령 유형
     public Dictionary<Building, int> _installBuidingCount = new Dictionary<Building, int>();//각 건물별 지어진 개수
     #endregion
@@ -209,12 +211,12 @@ public class PlayerManager : MonoBehaviour
         //파워 조건(7이상, 최소 파워)
         if (powerCheck.sumPower < 7)
         {
-            ShowMessage("파워 값이 모자릅니다.");
+            ShowMessage("현재 파워값 : "+powerCheck.sumPower + ", 파워 값이 모자릅니다.");
             return false;
         }
         if (!powerCheck.isMinPower)
         {
-            ShowMessage("최소 파워값으로 연방을 구성해야합니다.");
+            ShowMessage("현재 파워값 : " + powerCheck.sumPower + ", 최소 파워값으로 연방을 구성해야합니다.");
             return false;
         }
         

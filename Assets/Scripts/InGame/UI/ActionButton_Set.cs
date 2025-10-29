@@ -266,8 +266,10 @@ public class ActionButton_Set : MonoBehaviour
         clickTile.ChangeBuildingImageAndPower(Building.PlanetaryInstitute);
         resourcesManager.ImportResourceAmount_UpDown("Energy", 5);
         resourcesManager.ImportResourceAmount_UpDown("Money", -4);
+
         PlayerManager.Instance._installBuidingCount[Building.PlanetaryInstitute] += 1;
         PlayerManager.Instance._installBuidingCount[Building.TradingStation] -= 1;
+        PlayerManager.Instance.AddInstituteBonusPower = 1;//모행성은 파워1 추가
         detailInstallBuildingButtonSetObj.SetActive(false);
 
         //플레이어 UI에서 무역스테이션, 행성 의회 교체
