@@ -41,6 +41,12 @@ public class BuildingManager : MonoBehaviour
     public Dictionary<Planet, Image> planetInstallMineDic = new();
     public int sabDecreaseCount = 0;
 
+    //정보큐브 획득 버튼
+    [SerializeField]
+    public Button Action_QIC_Get_Button;
+    //오른쪽 아카데미 활성 여부
+    public bool isActiveRightAcademy = false;
+
     private void Awake()
     {
         if (Instance == null)
@@ -54,7 +60,15 @@ public class BuildingManager : MonoBehaviour
         }
         EnrollBuldingImage();//건물 이미지 등록
     }
-   
+    private void Start()
+    {
+        Action_QIC_Get_Button.interactable = false;//처음엔 비활성화
+        Action_QIC_Get_Button.onClick.AddListener(delegate { 
+            ResourcesManager.Instance.GainResource("Quantum Intelligence Cube", 1);
+            Action_QIC_Get_Button.interactable = false;
+        });
+    }
+
     /// <summary>
     /// 건물 이미지 등록
     /// </summary>
@@ -221,6 +235,9 @@ public class BuildingManager : MonoBehaviour
     /// </summary>
     public void Install_LeftAcademy()
     {
+        //설치 여부 검사
+        if (!academy_UIList[0].enabled) return;
+
         Install_AcademyCommon();
 
         //지식 수입 증가
@@ -233,8 +250,14 @@ public class BuildingManager : MonoBehaviour
     /// </summary>
     public void Install_rightAcademy()
     {
-        Install_AcademyCommon();
+        //설치 여부 검사
+        if (!academy_UIList[1].enabled) return;
 
+        Install_AcademyCommon();
+        //오른쪽 아카데미 활성화
+        isActiveRightAcademy = true;
+        //정보큐브 버튼 활성화
+        Action_QIC_Get_Button.interactable = true;
         //이미지 교체
         academy_UIList[1].enabled = false;
     }

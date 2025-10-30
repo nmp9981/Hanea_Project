@@ -203,25 +203,6 @@ public class ActionButton_Set : MonoBehaviour
 
                 //아카데미 UI
                 academyUI.SetActive(true);
-
-                //BuildingManager.Instance.PayForBuilding(BuildingManager.Instance.buildingDataList[3]);
-                //clickTile.ChangeBuildingImageAndPower(Building.Academy);
-                //resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
-                //KnowledgeBoard_Manager.Instance.Activate_AllSkillTile();//기술 타일 획득
-                //PlayerManager.Instance._installBuidingCount[Building.Academy] += 1;
-                //PlayerManager.Instance._installBuidingCount[Building.ResearchLab] -= 1;
-
-                ////플레이어 UI에서 연구소, 아카데미 교체
-                //BuildingManager.Instance.researchLab_UIList[PlayerManager.Instance._installBuidingCount[Building.ResearchLab]].enabled = true;
-                //BuildingManager.Instance.academy_UIList[PlayerManager.Instance._installBuidingCount[Building.Academy] - 1].enabled = false;
-
-                //if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.Power3))
-                //{
-                //    if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Power3] == true)
-                //    {
-                //        PlayerManager.Instance.GetScore(5);
-                //    }
-                //}
                 break;
             default:
                 break;
@@ -378,6 +359,11 @@ public class ActionButton_Set : MonoBehaviour
         {
             resourcesManager.ImportAllResources();//수입
             TileManager.Instance.ActivateAllTiles();//타일 활성화
+            //정보큐브 버튼 활성화
+            if (BuildingManager.Instance.isActiveRightAcademy)
+            {
+                BuildingManager.Instance.Action_QIC_Get_Button.interactable = true;
+            }
         }
         GameManager.Instance.ShowRoundText();//다음 라운드
     }
