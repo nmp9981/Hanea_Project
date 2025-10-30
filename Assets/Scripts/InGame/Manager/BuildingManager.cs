@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Resources;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -81,6 +82,12 @@ public class BuildingManager : MonoBehaviour
         // buildingType에 해당하는 스프라이트 반환
         return _buildingSpriteList[(int)buildingType];
     }
+
+    /// <summary>
+    /// 광산 설치
+    /// </summary>
+    /// <param name="clickTile"></param>
+    /// <param name="disCount"></param>
     public void InstallMine(Tile clickTile, int disCount)
     {
         //추가 삽비용
@@ -180,6 +187,56 @@ public class BuildingManager : MonoBehaviour
 
         //타일 표시 초기화
         PlayerManager.Instance.AllClear_ClickTile();
+    }
+
+    /// <summary>
+    /// 아카데미 설치 공통 로직
+    /// </summary>
+    private void Install_AcademyCommon()
+    {
+        //클릭한 타일 가져오기
+        Tile clickTile = PlayerManager.Instance.ClickedTile();
+
+        //비용 지불
+        PayForBuilding(buildingDataList[3]);
+        clickTile.ChangeBuildingImageAndPower(Building.Academy);
+
+        KnowledgeBoard_Manager.Instance.Activate_AllSkillTile();//기술 타일 획득
+        PlayerManager.Instance._installBuidingCount[Building.Academy] += 1;
+        PlayerManager.Instance._installBuidingCount[Building.ResearchLab] -= 1;
+
+        //플레이어 UI에서 연구소, 아카데미 교체
+        researchLab_UIList[PlayerManager.Instance._installBuidingCount[Building.ResearchLab]].enabled = true;
+        
+        if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.Power3))
+        {
+            if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Power3] == true)
+            {
+                PlayerManager.Instance.GetScore(5);
+            }
+        }
+    }
+    /// <summary>
+    /// 왼쪽 아카데미 건설
+    /// </summary>
+    public void Install_LeftAcademy()
+    {
+        Install_AcademyCommon();
+
+        //지식 수입 증가
+        ResourcesManager.Instance.ImportResourceAmount_UpDown("Knowledge", 1);
+        //이미지 교체
+        academy_UIList[0].enabled = false;
+    }
+    /// <summary>
+    /// 오른쪽 아카데미 건설
+    /// </summary>
+    public void Install_rightAcademy()
+    {
+        Install_AcademyCommon();
+
+        //이미지 교체
+        academy_UIList[1].enabled = false;
     }
 
     /// <summary>

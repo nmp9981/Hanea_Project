@@ -14,6 +14,8 @@ public class ActionButton_Set : MonoBehaviour
     public GameObject passUIObj;
     //프리 액션 UI
     public GameObject freeActionUI;
+    //아카데미 UI
+    public GameObject academyUI;
 
     private void Awake()
     {
@@ -62,6 +64,15 @@ public class ActionButton_Set : MonoBehaviour
                     break;
                 case "PassNO":
                     btn.onClick.AddListener(delegate { Action_Pass_Cancel(); });
+                    break;
+                case "LeftAcademy":
+                    btn.onClick.AddListener(delegate { BuildingManager.Instance.Install_LeftAcademy(); });
+                    break;
+                case "RightAcademy":
+                    btn.onClick.AddListener(delegate { BuildingManager.Instance.Install_rightAcademy(); });
+                    break;
+                case "AcademyCancel":
+                    btn.onClick.AddListener(delegate {Action_Upgrade_Academy_Calcel();});
                     break;
                 case "ChangeEnergyToQIC":
                     btn.onClick.AddListener(delegate { PlayerManager.Instance.OnClick_Exchange_EnergyToQuantumIntelligenceCube(); });
@@ -190,24 +201,27 @@ public class ActionButton_Set : MonoBehaviour
                 //아카데미가 남아있는가?
                 if (PlayerManager.Instance._installBuidingCount[Building.Academy] == 2) return;
 
-                BuildingManager.Instance.PayForBuilding(BuildingManager.Instance.buildingDataList[3]);
-                clickTile.ChangeBuildingImageAndPower(Building.Academy);
-                resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
-                KnowledgeBoard_Manager.Instance.Activate_AllSkillTile();//기술 타일 획득
-                PlayerManager.Instance._installBuidingCount[Building.Academy] += 1;
-                PlayerManager.Instance._installBuidingCount[Building.ResearchLab] -= 1;
+                //아카데미 UI
+                academyUI.SetActive(true);
 
-                //플레이어 UI에서 연구소, 아카데미 교체
-                BuildingManager.Instance.researchLab_UIList[PlayerManager.Instance._installBuidingCount[Building.ResearchLab]].enabled = true;
-                BuildingManager.Instance.academy_UIList[PlayerManager.Instance._installBuidingCount[Building.Academy] - 1].enabled = false;
+                //BuildingManager.Instance.PayForBuilding(BuildingManager.Instance.buildingDataList[3]);
+                //clickTile.ChangeBuildingImageAndPower(Building.Academy);
+                //resourcesManager.ImportResourceAmount_UpDown("Knowledge", 1);
+                //KnowledgeBoard_Manager.Instance.Activate_AllSkillTile();//기술 타일 획득
+                //PlayerManager.Instance._installBuidingCount[Building.Academy] += 1;
+                //PlayerManager.Instance._installBuidingCount[Building.ResearchLab] -= 1;
 
-                if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.Power3))
-                {
-                    if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Power3] == true)
-                    {
-                        PlayerManager.Instance.GetScore(5);
-                    }
-                }
+                ////플레이어 UI에서 연구소, 아카데미 교체
+                //BuildingManager.Instance.researchLab_UIList[PlayerManager.Instance._installBuidingCount[Building.ResearchLab]].enabled = true;
+                //BuildingManager.Instance.academy_UIList[PlayerManager.Instance._installBuidingCount[Building.Academy] - 1].enabled = false;
+
+                //if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.Power3))
+                //{
+                //    if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Power3] == true)
+                //    {
+                //        PlayerManager.Instance.GetScore(5);
+                //    }
+                //}
                 break;
             default:
                 break;
@@ -291,6 +305,14 @@ public class ActionButton_Set : MonoBehaviour
     private void Action_Upgrade_Cancel()
     {
         detailInstallBuildingButtonSetObj.SetActive(false);
+    }
+    /// <summary>
+    /// 무역 스테이션 -> 행성 의회
+    /// </summary>
+    /// <param name="clickTile"></param>
+    private void Action_Upgrade_Academy_Calcel()
+    {
+        academyUI.SetActive(false);
     }
 
     /// <summary>
