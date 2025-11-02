@@ -63,6 +63,9 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
     public Button Button => GetComponent<Button>();
     public TileData TileData => _tileData;
 
+    private const float knowledge_MoveOffsetRate = 0.8f;
+    private const float knowledge_MoveOffset = 30f;
+
     /// <summary>
     /// 타일 초기화
     /// </summary>
@@ -191,8 +194,11 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
 
         //연구 트랙 이동
         KnowledgeBoard_Manager.Instance.stateObjDic[this.TileData.researchType].GetComponent<RectTransform>().position 
-            = this._rectTransform.position+ this.RectTransform.sizeDelta.y * Vector3.up;
-        
+            = (KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType]==4) ?
+            this._rectTransform.position+ this.RectTransform.sizeDelta.y * Vector3.up*knowledge_MoveOffsetRate
+            - Vector3.down*knowledge_MoveOffset:
+            this._rectTransform.position + this.RectTransform.sizeDelta.y * Vector3.up * knowledge_MoveOffsetRate;
+
         //플레이어의 지식 레벨 변화
         KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType] += 1;
 
