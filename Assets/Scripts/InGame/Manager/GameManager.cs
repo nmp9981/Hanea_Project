@@ -53,14 +53,6 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 전체 게임 초기화
-    /// </summary>
-    public void AllGameInit()
-    {
-       
-    }
-
-    /// <summary>
     /// 최종 보너스 타일 세팅
     /// </summary>
     void FinalBonusTileSetting()

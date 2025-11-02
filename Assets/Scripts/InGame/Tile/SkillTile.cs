@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class SkillTile : MonoBehaviour, TileInterface
 {
     // 타일 습득 시 호출될 이벤트

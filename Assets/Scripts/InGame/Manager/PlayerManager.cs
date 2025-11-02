@@ -48,10 +48,6 @@ public class PlayerManager : MonoBehaviour
     public Dictionary<Building, int> _installBuidingCount = new Dictionary<Building, int>();//각 건물별 지어진 개수
     #endregion
 
-    public void OnClickTradeButton()
-    {
-        
-    }
     private void Awake()
     {
         if (Instance == null)
