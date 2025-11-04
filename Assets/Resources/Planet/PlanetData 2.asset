@@ -10,8 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ec88eb117213cf468233beb7d0f357e, type: 3}
-  m_Name: PlanetData
+  m_Name: PlanetData 2
   m_EditorClassIdentifier: 
-  planetType: 0
-  planetColor: {r: 1, g: 0.12919629, b: 0, a: 1}
-  planetImage: {fileID: 21300000, guid: 7c017ffbe9b61f04491148167547a731, type: 3}
+  planetType: 2
+  planetName: Yellow

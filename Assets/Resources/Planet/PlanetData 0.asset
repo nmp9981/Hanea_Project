@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ec88eb117213cf468233beb7d0f357e, type: 3}
-  m_Name: PlanetData 10
+  m_Name: PlanetData 0
   m_EditorClassIdentifier: 
-  planetType: 10
-  planetImage: {fileID: -2413806693520163455, guid: e3145a92a27c1664bb14800a3086119c, type: 3}
+  planetType: 0
+  planetName: Red
