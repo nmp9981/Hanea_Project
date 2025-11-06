@@ -14,6 +14,8 @@ public class BuildingManager : MonoBehaviour
 
     const string mineText = "Mine";
 
+    [SerializeField]
+    public PlanetList _planetList; // 모든 행성 데이터 리스트 참조
     //건물 데이터
     [SerializeField]
     public List<BuildingData> buildingDataList = new();
@@ -157,7 +159,7 @@ public class BuildingManager : MonoBehaviour
         {
             if (GameManager.Instance.IsRoundEffectDic[RoundEffect.Mine] == true)
             {
-                PlayerManager.Instance.GetScore(3);
+                PlayerManager.Instance.GetScore(2);
             }
         }
         if (GameManager.Instance.IsRoundEffectDic.ContainsKey(RoundEffect.Terafoming))

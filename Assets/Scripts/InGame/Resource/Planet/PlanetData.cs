@@ -5,11 +5,12 @@ using UnityEngine;
 public class PlanetData : ScriptableObject
 {
     public Planet planetType;//행성 타입
-    public Sprite planetImage;//행성 이미지
+    public string planetName;//행성 이름
+    //public Sprite planetImage;//행성 이미지
 }
 
 [CreateAssetMenu(fileName = "PlanetList", menuName = "Game Data/Planet List")]
 public class PlanetList : ScriptableObject
 {
-    public List<PlanetData> allPlanets = new();
+    public List<PlanetData> allPlanets = new List<PlanetData>();
 }

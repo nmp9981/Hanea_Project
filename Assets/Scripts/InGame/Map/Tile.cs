@@ -30,8 +30,6 @@ public struct TilePosition
 public class Tile : MonoBehaviour
 {
     [SerializeField]
-    private PlanetList _planetList; // 모든 행성 데이터 리스트 참조
-    [SerializeField]
     private Planet _planetType;//행성 타입
     [SerializeField]
     private SpriteRenderer _installBuildingImage;//설치한 건물 이미지
@@ -56,7 +54,8 @@ public class Tile : MonoBehaviour
     public int TilePower => _tilePower;
     public bool isUnion => _isUnion;
 
-    private void Awake()
+    
+    private void Start()
     {
         ApplyPlanetColor();
     }
@@ -142,16 +141,37 @@ public class Tile : MonoBehaviour
             return;
         }
 
-        PlanetData currentPlanetData = _planetList.allPlanets.Find(data => data.planetType == ranType);
+        _spriteRenderer.sprite = PlanerManager.Instance._planetSpriteDic[ranType];
+        _planetType = ranType;
 
-        if (currentPlanetData != null)
-        {
-            if(currentPlanetData.planetType == Planet.None)
-            {
-                _spriteRenderer.sprite = null;
-            }else _spriteRenderer.sprite = currentPlanetData.planetImage;
-            _planetType = currentPlanetData.planetType;
-        }
+//#if UNITY_EDITOR
+//        PlanetData currentPlanetData = BuildingManager.Instance._planetList.allPlanets.Find(data => data.planetType == ranType);
+
+//        if (currentPlanetData != null && currentPlanetData.planetType != Planet.None)
+//        {
+//            // 1. Resources 폴더 내의 경로를 사용하여 스프라이트 로드
+//            // 예를 들어, Resources/Planets/Mars.png 이면 경로는 "Planets/Mars"
+//            string spritePath = "PlanetImage/"+currentPlanetData.planetName;
+
+//            Sprite loadedSprite = Resources.Load<Sprite>(spritePath);
+
+//            if (loadedSprite != null)
+//            {
+//                _spriteRenderer.sprite = loadedSprite;
+//            }
+//            else
+//            {
+//                // 로드 실패 시 디버깅을 위한 로그를 남겨 정확한 경로를 확인
+//                Debug.LogError("Error: Failed to load sprite for " + currentPlanetData.planetType + " at path: " + spritePath);
+//                _spriteRenderer.sprite = null;
+//            }
+//            _planetType = currentPlanetData.planetType;
+//        }
+//#else
+//        PlanerManager.Instance.EnrollPlanetDic(enumValues);
+//        _spriteRenderer.sprite = PlanerManager.Instance._planetDic[ranType];
+//        _planetType = ranType;
+//#endif
         TileManager.Instance.allTileList_MainBoard.Add(this);
     }
 
@@ -204,13 +224,19 @@ public class Tile : MonoBehaviour
     /// </summary>
     public void ShowBlackPlanet()
     {
-        PlanetData currentPlanetData = _planetList.allPlanets.Find(data => data.planetType == Planet.Black);
+        _spriteRenderer.sprite = PlanerManager.Instance._planetSpriteDic[Planet.Black];
+        _planetType = Planet.Black;
 
-        if (currentPlanetData != null)
-        {
-            _spriteRenderer.sprite = currentPlanetData.planetImage;
-            _planetType = currentPlanetData.planetType;
-        }
+        //PlanetData currentPlanetData = BuildingManager.Instance._planetList.allPlanets.Find(data => data.planetType == Planet.Black);
+
+        //if (currentPlanetData != null)
+        //{
+        //    string spritePath = "PlanetImage/" + currentPlanetData.planetName;
+        //    Sprite loadedSprite = Resources.Load<Sprite>(spritePath);
+
+        //    _spriteRenderer.sprite = loadedSprite;
+        //    _planetType = currentPlanetData.planetType;
+        //}
     }
     #endregion
 }
