@@ -193,12 +193,18 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
         }
 
         //연구 트랙 이동
+#if UNITY_EDITOR
         KnowledgeBoard_Manager.Instance.stateObjDic[this.TileData.researchType].GetComponent<RectTransform>().position 
             = (KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType]==4) ?
             this._rectTransform.position+ this.RectTransform.sizeDelta.y * Vector3.up*knowledge_MoveOffsetRate
-            - Vector3.down*knowledge_MoveOffset:
+            + Vector3.down*knowledge_MoveOffset:
             this._rectTransform.position + this.RectTransform.sizeDelta.y * Vector3.up * knowledge_MoveOffsetRate;
-
+#else
+            KnowledgeBoard_Manager.Instance.stateObjDic[this.TileData.researchType].GetComponent<RectTransform>().position 
+            = (KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType]==4) ?
+            this._rectTransform.position+ this.RectTransform.sizeDelta.y * Vector3.up*knowledge_MoveOffsetRate *0.5f:
+            this._rectTransform.position + this.RectTransform.sizeDelta.y * Vector3.up * knowledge_MoveOffsetRate*0.8f;
+#endif
         //플레이어의 지식 레벨 변화
         KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType] += 1;
 
