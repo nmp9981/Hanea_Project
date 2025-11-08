@@ -199,6 +199,12 @@ public class KnowledgeTile : MonoBehaviour, TileInterface
             this._rectTransform.position+ this.RectTransform.sizeDelta.y * Vector3.up*knowledge_MoveOffsetRate
             + Vector3.down*knowledge_MoveOffset:
             this._rectTransform.position + this.RectTransform.sizeDelta.y * Vector3.up * knowledge_MoveOffsetRate;
+#elif UNITY_ANDROID
+            KnowledgeBoard_Manager.Instance.stateObjDic[this.TileData.researchType].GetComponent<RectTransform>().position 
+            = (KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType]==4) ?
+            this._rectTransform.position+ this.RectTransform.sizeDelta.y * Vector3.up*knowledge_MoveOffsetRate
+            + Vector3.down*knowledge_MoveOffset:
+            this._rectTransform.position + this.RectTransform.sizeDelta.y * Vector3.up * knowledge_MoveOffsetRate;
 #else
             KnowledgeBoard_Manager.Instance.stateObjDic[this.TileData.researchType].GetComponent<RectTransform>().position 
             = (KnowledgeBoard_Manager.Instance.playerKnowledgeLevel[this.TileData.researchType]==4) ?
